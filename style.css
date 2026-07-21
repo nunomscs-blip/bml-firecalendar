@@ -1,0 +1,44 @@
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f2f2f2;
+}
+
+header{
+    background:#d32f2f;
+    color:white;
+    text-align:center;
+    padding:16px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+#app{
+    min-height:calc(100vh - 72px);
+    padding:20px;
+}
+
+#btnNovo{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+
+    width:60px;
+    height:60px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#d32f2f;
+    color:white;
+
+    font-size:34px;
+    cursor:pointer;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.3);
+}
+
