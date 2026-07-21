@@ -42,3 +42,16 @@ header{
     box-shadow:0 4px 10px rgba(0,0,0,.3);
 }
 
+#diasSemana{
+
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+
+    margin-top:20px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+}
+
