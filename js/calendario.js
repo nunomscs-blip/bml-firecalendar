@@ -51,11 +51,19 @@ function mostrarCalendario() {
 
     const diasMes = document.getElementById("diasMes");
 
+    const data = new Date(
+    calendarioAtual.ano,
+    calendarioAtual.mes - 1,
+    1
+    );
+
+    console.log(data.getDay());
+
     for(let i = 1; i <= 31; i++){
 
-    diasMes.innerHTML += `
-        <div class="dia">${i}</div>
-    `;
+        diasMes.innerHTML += `
+            <div class="dia">${i}</div>
+        `;
 
     }
 
