@@ -10,9 +10,15 @@ mostrarCalendario();
 // =======================================================
 
 const btnNovo = document.getElementById("btnNovo");
-
 btnNovo.addEventListener("click", novoEvento);
 
+// -------------------------------------------------------
+// Botão mês seguinte
+// -------------------------------------------------------
+
+const btnSeguinte = document.getElementById("btnSeguinte");
+
+btnSeguinte.addEventListener("click", mesSeguinte);
 
 // =======================================================
 // FUNÇÃO: novoEvento()
@@ -22,6 +28,26 @@ btnNovo.addEventListener("click", novoEvento);
 function novoEvento(){
 
     alert("Novo Evento");
+
+}
+
+// =======================================================
+// AVANÇA PARA O MÊS SEGUINTE
+// =======================================================
+
+function mesSeguinte(){
+
+    // ---------------------------------------------------
+    // Avança um mês.
+    // ---------------------------------------------------
+
+    calendarioAtual.mes++;
+
+    // ---------------------------------------------------
+    // Atualiza o calendário.
+    // ---------------------------------------------------
+
+    mostrarCalendario();
 
 }
 
