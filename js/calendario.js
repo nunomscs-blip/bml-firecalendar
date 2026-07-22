@@ -32,8 +32,7 @@ function mostrarCalendario() {
 
     calendario.innerHTML = `
     
-        <h2>Agosto 2026</h2>
-
+       <h2>${obterNomeMes(calendarioAtual.mes)} ${calendarioAtual.ano}</h2>
         <div id="diasSemana">
 
             <div>Seg</div>
@@ -46,7 +45,19 @@ function mostrarCalendario() {
 
         </div>
 
+        <div id="diasMes"></div>
+
     `;
+
+    const diasMes = document.getElementById("diasMes");
+
+    for(let i = 1; i <= 31; i++){
+
+    diasMes.innerHTML += `
+        <div class="dia">${i}</div>
+    `;
+
+    }
 
 }
 
