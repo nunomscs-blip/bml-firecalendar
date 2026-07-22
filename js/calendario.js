@@ -1,6 +1,6 @@
 const calendarioAtual = {
 
-    mes: 8,
+    mes: 2,
     ano: 2026
 
 };
@@ -57,6 +57,14 @@ function mostrarCalendario() {
     1
     );
 
+    const diasNoMes = new Date(
+    calendarioAtual.ano,
+    calendarioAtual.mes,
+    0
+    ).getDate();
+
+    console.log(diasNoMes);
+
     console.log(data.getDay());
 
     let posicao = data.getDay() - 1;
@@ -65,7 +73,7 @@ function mostrarCalendario() {
     posicao = 6;
     }
 
-    for (let i = 0; i < posicao; i++) {
+    for (let i = 1; i <= 31; i++) {
 
     diasMes.innerHTML += `
         <div class="dia vazio"></div>
