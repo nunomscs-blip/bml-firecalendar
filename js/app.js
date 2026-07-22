@@ -43,6 +43,18 @@ function mesSeguinte(){
     calendarioAtual.mes++;
 
     // ---------------------------------------------------
+    // Se passou de dezembro,
+    // volta para janeiro e avança o ano.
+    // ---------------------------------------------------
+
+    if (calendarioAtual.mes > 12){
+
+        calendarioAtual.mes = 1;
+        calendarioAtual.ano++;
+
+    }
+
+    // ---------------------------------------------------
     // Atualiza o calendário.
     // ---------------------------------------------------
 
