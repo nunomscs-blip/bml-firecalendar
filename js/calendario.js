@@ -115,11 +115,19 @@ function mostrarCalendario(){
 
     for(let i = 1; i <= diasNoMes; i++){
 
-        diasMes.innerHTML += `
-            <div class="dia" data-dia="${i}">
-                ${i}
-            </div>
-        `;
+    let classe = "dia";
+
+    if(i === calendarioAtual.diaSelecionado){
+
+        classe += " selecionado";
+
+    }
+
+    diasMes.innerHTML += `
+        <div class="${classe}" data-dia="${i}">
+            ${i}
+        </div>
+    `;
 
     }
 
@@ -177,12 +185,9 @@ function inicializarCalendario(){
 
 function selecionarDia(event){
 
-    const dia = Number(event.currentTarget.dataset.dia);
+    calendarioAtual.diaSelecionado = Number(event.currentTarget.dataset.dia);
 
-    calendarioAtual.diaSelecionado = dia;
-
-    console.clear();
-
-    console.log("Dia selecionado:", calendarioAtual.diaSelecionado);
+    mostrarCalendario();
 
 }
+
