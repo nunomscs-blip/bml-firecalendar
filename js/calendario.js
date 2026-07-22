@@ -6,7 +6,7 @@
 const calendarioAtual = {
 
     mes: 8,
-    ano: 2026
+    ano: 2026,
     diaSelecionado: null
 
 };
