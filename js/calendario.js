@@ -59,6 +59,20 @@ function mostrarCalendario() {
 
     console.log(data.getDay());
 
+    let posicao = data.getDay() - 1;
+
+    if (posicao < 0) {
+    posicao = 6;
+    }
+
+    for (let i = 0; i < posicao; i++) {
+
+    diasMes.innerHTML += `
+        <div class="dia vazio"></div>
+    `;
+
+    }
+   
     for(let i = 1; i <= 31; i++){
 
         diasMes.innerHTML += `

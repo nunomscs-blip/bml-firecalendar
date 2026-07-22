@@ -77,3 +77,9 @@ header{
 
 }
 
+.vazio{
+
+    background: transparent;
+    border: none;
+
+}
