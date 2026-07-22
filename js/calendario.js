@@ -193,13 +193,13 @@ function inicializarCalendario(){
     // Botão mês anterior.
     // ---------------------------------------------------
 
-    const btnAnterior = document.getElementById("btnAnterior");
+    // const btnAnterior = document.getElementById("btnAnterior");
 
-    if(btnAnterior){
+    // if(btnAnterior){
 
-        btnAnterior.addEventListener("click", mesAnterior);
+    //    btnAnterior.addEventListener("click", mesAnterior);
 
-    }
+    //}
 
     // ---------------------------------------------------
     // Botão mês seguinte.
