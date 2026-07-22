@@ -55,3 +55,25 @@ header{
 
 }
 
+#diasMes{
+
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+    margin-top:10px;
+
+}
+
+.dia{
+
+    border:1px solid #cfcfcf;
+    background:white;
+
+    height:80px;
+
+    padding:6px;
+
+    border-radius:6px;
+
+}
+

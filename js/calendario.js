@@ -1,3 +1,31 @@
+const calendarioAtual = {
+
+    mes: 8,
+    ano: 2026
+
+};
+
+function obterNomeMes(mes){
+
+    const meses = [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro"
+    ];
+
+    return meses[mes - 1];
+
+}
+
 function mostrarCalendario() {
 
     const calendario = document.getElementById("calendario");

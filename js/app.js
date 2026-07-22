@@ -10,8 +10,12 @@ function novoEvento(){
 
 }
 
-for(let i = 1; i <= 5; i++){
+for(let i = 1; i <= 31; i++){
 
-    console.log(i);
+    diasMes.innerHTML += `
+        <div class="dia">${i}</div>
+    `;
 
 }
+
+console.log(obterNomeMes(8));
