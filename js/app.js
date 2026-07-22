@@ -16,9 +16,8 @@ btnNovo.addEventListener("click", novoEvento);
 // Botão mês seguinte
 // -------------------------------------------------------
 
-const btnSeguinte = document.getElementById("btnSeguinte");
 
-btnSeguinte.addEventListener("click", mesSeguinte);
+
 
 // =======================================================
 // FUNÇÃO: novoEvento()
