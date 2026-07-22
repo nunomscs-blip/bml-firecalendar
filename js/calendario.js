@@ -88,11 +88,11 @@ function mostrarCalendario() {
 
         </section>
 
-<!-- =======================================================
+    <!-- =======================================================
      GRELHA DOS DIAS
-======================================================= -->
+    ======================================================= -->
 
-<section id="diasMes"></section>
+    <section id="diasMes"></section>
 
     `;
 
@@ -174,4 +174,44 @@ function mostrarCalendario() {
 
     }
 
+    // ---------------------------------------------------
+    // Liga os eventos do calendário.
+    // ---------------------------------------------------
+
+    inicializarCalendario();
+
 }
+
+// =======================================================
+// INICIALIZA O CALENDÁRIO
+// Liga todos os eventos do calendário.
+// =======================================================
+
+function inicializarCalendario(){
+
+    // ---------------------------------------------------
+    // Botão mês anterior.
+    // ---------------------------------------------------
+
+    const btnAnterior = document.getElementById("btnAnterior");
+
+    if(btnAnterior){
+
+        btnAnterior.addEventListener("click", mesAnterior);
+
+    }
+
+    // ---------------------------------------------------
+    // Botão mês seguinte.
+    // ---------------------------------------------------
+
+    const btnSeguinte = document.getElementById("btnSeguinte");
+
+    if(btnSeguinte){
+
+        btnSeguinte.addEventListener("click", mesSeguinte);
+
+    }
+
+}
+
