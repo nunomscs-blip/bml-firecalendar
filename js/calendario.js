@@ -41,43 +41,25 @@ function obterNomeMes(mes){
 
 // =======================================================
 // DESENHA O CALENDÁRIO
-// Constrói todo o calendário do mês selecionado.
 // =======================================================
 
-function mostrarCalendario() {
-
-    // ---------------------------------------------------
-    // Obtém o contentor principal do calendário.
-    // ---------------------------------------------------
+function mostrarCalendario(){
 
     const calendario = document.getElementById("calendario");
 
-
-    // ---------------------------------------------------
-    // Cria o HTML base do calendário.
-    // ---------------------------------------------------
-
     calendario.innerHTML = `
 
-    <!-- =======================================================
-         CABEÇALHO DO CALENDÁRIO
-    ======================================================== -->
+        <section id="tituloCalendario">
 
-    <section id="tituloCalendario">
+            <button id="btnAnterior">◀</button>
 
-        <button id="btnAnterior">◀</button>
+            <h2>${obterNomeMes(calendarioAtual.mes)} ${calendarioAtual.ano}</h2>
 
-        <h2>${obterNomeMes(calendarioAtual.mes)} ${calendarioAtual.ano}</h2>
+            <button id="btnSeguinte">▶</button>
 
-        <button id="btnSeguinte">▶</button>
+        </section>
 
-    </section>
-
-    <!-- =======================================================
-         DIAS DA SEMANA
-    ======================================================== -->
-
-    <section id="diasSemana">
+        <section id="diasSemana">
 
             <div>Seg</div>
             <div>Ter</div>
@@ -89,26 +71,11 @@ function mostrarCalendario() {
 
         </section>
 
-    <!-- =======================================================
-     GRELHA DOS DIAS
-    ======================================================= -->
-
-    <section id="diasMes"></section>
+        <section id="diasMes"></section>
 
     `;
 
-
-    // ---------------------------------------------------
-    // Obtém a zona onde serão desenhados os dias.
-    // ---------------------------------------------------
-
     const diasMes = document.getElementById("diasMes");
-
-
-    // ---------------------------------------------------
-    // Primeiro dia do mês.
-    // Exemplo: 01/02/2026.
-    // ---------------------------------------------------
 
     const data = new Date(
 
@@ -118,12 +85,6 @@ function mostrarCalendario() {
 
     );
 
-
-    // ---------------------------------------------------
-    // Número de dias do mês.
-    // O JavaScript calcula automaticamente 28,29,30 ou 31.
-    // ---------------------------------------------------
-
     const diasNoMes = new Date(
 
         calendarioAtual.ano,
@@ -132,29 +93,17 @@ function mostrarCalendario() {
 
     ).getDate();
 
-
-    // ---------------------------------------------------
-    // Descobre em que dia da semana começa o mês.
-    // Domingo = 0
-    // Segunda = 1
-    // ...
-    // Sábado = 6
-    // ---------------------------------------------------
-
     let posicao = data.getDay() - 1;
 
-    if (posicao < 0) {
+    if(posicao < 0){
 
         posicao = 6;
 
     }
 
+    // Espaços vazios antes do dia 1
 
-    // ---------------------------------------------------
-    // Desenha os espaços vazios antes do dia 1.
-    // ---------------------------------------------------
-
-    for (let i = 0; i < posicao; i++) {
+    for(let i = 0; i < posicao; i++){
 
         diasMes.innerHTML += `
             <div class="dia vazio"></div>
@@ -162,49 +111,40 @@ function mostrarCalendario() {
 
     }
 
+    // Dias do mês
 
-    // ---------------------------------------------------
-    // Desenha todos os dias do mês.
-    // ---------------------------------------------------
-
-    for (let i = 1; i <= diasNoMes; i++) {
+    for(let i = 1; i <= diasNoMes; i++){
 
         diasMes.innerHTML += `
-            <div class="dia">${i}</div>
+            <div class="dia" data-dia="${i}">
+                ${i}
+            </div>
         `;
 
     }
-
-    // ---------------------------------------------------
-    // Liga os eventos do calendário.
-    // ---------------------------------------------------
 
     inicializarCalendario();
 
 }
 
+
 // =======================================================
 // INICIALIZA O CALENDÁRIO
-// Liga todos os eventos do calendário.
 // =======================================================
 
 function inicializarCalendario(){
 
-    // ---------------------------------------------------
-    // Botão mês anterior.
-    // ---------------------------------------------------
+    // Botão anterior
 
-     const btnAnterior = document.getElementById("btnAnterior");
+    const btnAnterior = document.getElementById("btnAnterior");
 
-     if(btnAnterior){
+    if(btnAnterior){
 
         btnAnterior.addEventListener("click", mesAnterior);
 
     }
 
-    // ---------------------------------------------------
-    // Botão mês seguinte.
-    // ---------------------------------------------------
+    // Botão seguinte
 
     const btnSeguinte = document.getElementById("btnSeguinte");
 
@@ -214,5 +154,35 @@ function inicializarCalendario(){
 
     }
 
+    // Clique nos dias
+
+    const dias = document.querySelectorAll(".dia");
+
+    dias.forEach(function(dia){
+
+        if(!dia.classList.contains("vazio")){
+
+            dia.addEventListener("click", selecionarDia);
+
+        }
+
+    });
+
 }
 
+
+// =======================================================
+// SELECIONA UM DIA
+// =======================================================
+
+function selecionarDia(event){
+
+    const dia = Number(event.currentTarget.dataset.dia);
+
+    calendarioAtual.diaSelecionado = dia;
+
+    console.clear();
+
+    console.log("Dia selecionado:", calendarioAtual.diaSelecionado);
+
+}
