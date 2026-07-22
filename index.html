@@ -2,18 +2,41 @@
 <html lang="pt">
 
 <head>
+
+    <!-- =======================================================
+         CONFIGURAÇÃO DA PÁGINA
+    ======================================================== -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>BML FireCalendar</title>
 
+
+    <!-- =======================================================
+         FOLHAS DE ESTILO (CSS)
+    ======================================================== -->
+
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
+    <!-- =======================================================
+         CABEÇALHO
+    ======================================================== -->
+
     <header>
+
         <h1>BML FireCalendar</h1>
+
     </header>
+
+
+    <!-- =======================================================
+         ÁREA PRINCIPAL DA APLICAÇÃO
+    ======================================================== -->
 
     <main id="app">
 
@@ -21,13 +44,28 @@
 
     </main>
 
+
+    <!-- =======================================================
+         BOTÃO NOVO EVENTO
+    ======================================================== -->
+
     <button id="btnNovo">+</button>
 
+
+    <!-- =======================================================
+         SCRIPTS
+         Ordem importante:
+         1 - Configuração
+         2 - Funções de datas
+         3 - Calendário
+         4 - Aplicação
+    ======================================================== -->
+
+    <script src="js/config.js"></script>
+    <script src="js/datas.js"></script>
     <script src="js/calendario.js"></script>
-     <script src="js/app.js"></script>
+    <script src="js/app.js"></script>
 
 </body>
-
-
 
 </html>
