@@ -58,9 +58,25 @@ function mostrarCalendario() {
 
     calendario.innerHTML = `
 
+    <!-- =======================================================
+         CABEÇALHO DO CALENDÁRIO
+    ======================================================== -->
+
+    <section id="tituloCalendario">
+
+        <button id="btnAnterior">◀</button>
+
         <h2>${obterNomeMes(calendarioAtual.mes)} ${calendarioAtual.ano}</h2>
 
-        <div id="diasSemana">
+        <button id="btnSeguinte">▶</button>
+
+    </section>
+
+    <!-- =======================================================
+         DIAS DA SEMANA
+    ======================================================== -->
+
+    <section id="diasSemana">
 
             <div>Seg</div>
             <div>Ter</div>
@@ -70,9 +86,13 @@ function mostrarCalendario() {
             <div>Sáb</div>
             <div>Dom</div>
 
-        </div>
+        </section>
 
-        <div id="diasMes"></div>
+<!-- =======================================================
+     GRELHA DOS DIAS
+======================================================= -->
+
+<section id="diasMes"></section>
 
     `;
 
