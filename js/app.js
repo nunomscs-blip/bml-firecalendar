@@ -69,8 +69,6 @@ function mesSeguinte(){
 
     mostrarCalendario();
 
-    atualizarBotaoHoje();
-
 }
 
 // =======================================================
@@ -135,7 +133,7 @@ function mesAnterior(){
     mostrarCalendario();
 
     atualizarBotaoHoje();
-    
+
 
 }
 
@@ -212,3 +210,10 @@ function irParaHoje(){
 
 }
 
+/* ======================================================
+   ARRANQUE DA APLICAÇÃO
+====================================================== */
+
+mostrarCalendario();
+
+atualizarBotaoHoje();
