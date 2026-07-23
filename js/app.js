@@ -101,8 +101,6 @@ function mesAnterior(){
 
     mostrarCalendario();
 
-    atualizarBotaoHoje();
-
 }
 
     // =======================================================
@@ -131,8 +129,6 @@ function mesAnterior(){
         .classList.add("oculto");
 
     mostrarCalendario();
-
-    atualizarBotaoHoje();
 
 
 }
@@ -173,9 +169,6 @@ const btnHoje = document.getElementById("btnHoje");
 
 btnHoje.addEventListener("click", irParaHoje);
 
-atualizarBotaoHoje();
-
-
 function atualizarBotaoHoje(){
 
     const hoje = new Date();
@@ -206,8 +199,6 @@ function irParaHoje(){
 
     mostrarCalendario();
 
-    atualizarBotaoHoje();
-
 }
 
 /* ======================================================
@@ -216,4 +207,3 @@ function irParaHoje(){
 
 mostrarCalendario();
 
-atualizarBotaoHoje();

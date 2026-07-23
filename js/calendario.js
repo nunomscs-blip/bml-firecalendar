@@ -137,7 +137,13 @@ function mostrarCalendario(){
 
     }
 
-    inicializarCalendario();
+        inicializarCalendario();
+
+        if (typeof atualizarBotaoHoje === "function"){
+
+        atualizarBotaoHoje();
+
+        }
 
 }
 
