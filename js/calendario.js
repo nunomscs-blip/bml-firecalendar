@@ -139,12 +139,6 @@ function mostrarCalendario(){
 
         inicializarCalendario();
 
-        if (typeof atualizarBotaoHoje === "function"){
-
-        atualizarBotaoHoje();
-
-        }
-
 }
 
 

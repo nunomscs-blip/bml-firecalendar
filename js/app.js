@@ -2,7 +2,7 @@
 // INICIALIZAÇÃO DA APLICAÇÃO
 // =======================================================
 
-mostrarCalendario();
+
 
 
 // =======================================================
@@ -207,3 +207,43 @@ function irParaHoje(){
 
 mostrarCalendario();
 
+/* ======================================================
+   INICIALIZAÇÃO DA APLICAÇÃO
+====================================================== */
+
+function atualizarTitulo(){
+
+    document.getElementById("tituloApp").textContent = APP.nome;
+
+}
+
+
+function atualizarRodape(){
+
+    document.getElementById("rodape").textContent =
+        `${APP.nome} • ${APP.ambiente} • ${APP.versao}`;
+
+}
+
+
+function atualizarInterface(){
+
+    atualizarTitulo();
+
+    atualizarRodape();
+
+    mostrarCalendario();
+
+    atualizarBotaoHoje();
+
+}
+
+
+function iniciarAplicacao(){
+
+    atualizarInterface();
+
+}
+
+
+iniciarAplicacao();
