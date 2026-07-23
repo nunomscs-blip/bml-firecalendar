@@ -123,9 +123,21 @@ function mostrarCalendario(){
 
     let classe = "dia";
 
+    const hoje = new Date();
+
+    if(
+    i === hoje.getDate() &&
+    calendarioAtual.mes === (hoje.getMonth() + 1) &&
+    calendarioAtual.ano === hoje.getFullYear()
+    ){
+
+    classe += " hoje";
+
+    }
+
     if(estado.diasSelecionados.includes(i)){
 
-        classe += " selecionado";
+    classe += " selecionado";
 
     }
 
