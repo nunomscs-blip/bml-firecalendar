@@ -4,10 +4,15 @@
 // =======================================================
 
 const calendarioAtual = {
-
     mes: 8,
-    ano: 2026,
-    diaSelecionado: null
+    ano: 2026
+};
+
+const estado = {
+
+    modo: "visualizacao",
+
+    diasSelecionados: []
 
 };
 
@@ -117,7 +122,7 @@ function mostrarCalendario(){
 
     let classe = "dia";
 
-    if(i === calendarioAtual.diaSelecionado){
+    if(estado.diasSelecionados.includes(i)){
 
         classe += " selecionado";
 
@@ -182,12 +187,29 @@ function inicializarCalendario(){
 // =======================================================
 // SELECIONA UM DIA
 // =======================================================
-
 function selecionarDia(event){
 
-    calendarioAtual.diaSelecionado = Number(event.currentTarget.dataset.dia);
+    if (estado.modo !== "edicao"){
+        return;
+    }
+
+    const dia = Number(event.currentTarget.dataset.dia);
+
+    const indice = estado.diasSelecionados.indexOf(dia);
+
+    if (indice === -1){
+
+        estado.diasSelecionados.push(dia);
+
+    }else{
+
+        estado.diasSelecionados.splice(indice, 1);
+
+    }
 
     mostrarCalendario();
 
 }
+
+
 
