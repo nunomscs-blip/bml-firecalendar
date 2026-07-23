@@ -131,3 +131,22 @@ function cancelarEvento(){
     mostrarCalendario();
 
 }
+
+/* ======================================================
+   CONFIGURAÇÃO
+====================================================== */
+
+const btnConfiguracao =
+    document.getElementById("btnConfiguracao");
+
+btnConfiguracao.addEventListener(
+    "click",
+    abrirConfiguracao
+);
+
+function abrirConfiguracao(){
+
+    alert("Configuração");
+
+}
+
