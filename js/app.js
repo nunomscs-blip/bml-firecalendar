@@ -26,9 +26,14 @@ btnNovo.addEventListener("click", novoEvento);
 
 function novoEvento(){
 
-    alert("Novo Evento");
+    estado.modo = "edicao";
+
+    estado.diasSelecionados = [];
+
+    mostrarCalendario();
 
 }
+
 
 // =======================================================
 // AVANÇA PARA O MÊS SEGUINTE
