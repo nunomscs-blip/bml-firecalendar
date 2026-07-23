@@ -30,6 +30,10 @@ function novoEvento(){
 
     estado.diasSelecionados = [];
 
+    document
+        .getElementById("modalEvento")
+        .classList.remove("oculto");
+
     mostrarCalendario();
 
 }
@@ -105,3 +109,25 @@ function mesAnterior(){
 // =======================================================
 
 console.log(obterNomeMes(8));
+
+const btnCancelarEvento =
+    document.getElementById("btnCancelarEvento");
+
+    btnCancelarEvento.addEventListener(
+    "click",
+    cancelarEvento
+);
+
+function cancelarEvento(){
+
+    estado.modo = "visualizacao";
+
+    estado.diasSelecionados = [];
+
+    document
+        .getElementById("modalEvento")
+        .classList.add("oculto");
+
+    mostrarCalendario();
+
+}
