@@ -275,3 +275,45 @@ header{
 
 }
 
+/* ======================================================
+   CABEÇALHO
+====================================================== */
+
+#cabecalho{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 20px;
+
+}
+
+#btnConfiguracao{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:transparent;
+
+    font-size:26px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+#btnConfiguracao:hover{
+
+    transform:rotate(20deg);
+
+}
+
