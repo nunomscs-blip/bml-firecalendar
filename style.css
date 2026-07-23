@@ -346,3 +346,44 @@ body{
     user-select:none;
 
 }
+
+/* =======================================================
+   AÇÕES DO CABEÇALHO
+======================================================= */
+
+#acoesCabecalho{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+#btnHoje{
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:8px;
+
+    background:white;
+
+    color:#d32f2f;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+#btnHoje:hover{
+
+    background:#eeeeee;
+
+}
+
