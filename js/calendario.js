@@ -139,13 +139,21 @@ function mostrarCalendario(){
 
     }
 
+    const existeEvento = EVENTOS.some(evento =>
+    evento.dias.includes(i)
+    );
+
+    const marcador = existeEvento
+    ? '<div class="marcadorEvento"></div>'
+    : "";
+
     diasMes.innerHTML += `
         <div class="${classe}" data-dia="${i}">
-            ${i}
+        ${i}
+        ${marcador}
         </div>
-    `;
 
-    }
+        }
 
         inicializarCalendario();
 
