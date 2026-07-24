@@ -139,7 +139,7 @@ function mostrarCalendario(){
 
     }
 
-    const existeEvento = EVENTOS.some(evento =>
+    const eventosDia = EVENTOS.filter(evento =>
 
     evento.ano === calendarioAtual.ano &&
     evento.mes === calendarioAtual.mes &&
@@ -147,9 +147,13 @@ function mostrarCalendario(){
 
     );
 
-    const marcador = existeEvento
-    ? '<div class="marcadorEvento"></div>'
-    : "";
+    let marcador = "";
+
+    if(eventosDia.length > 0){
+
+    marcador = '<div class="marcadorEvento"></div>';
+
+    }
 
     diasMes.innerHTML += `
         <div class="${classe}" data-dia="${i}">
