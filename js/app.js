@@ -281,6 +281,24 @@ function mesAnterior(){
 }
 
 /* ======================================================
+   GUARDAR EVENTO
+====================================================== */
+
+const btnGuardarEvento =
+    document.getElementById("btnGuardarEvento");
+
+btnGuardarEvento.addEventListener(
+    "click",
+    guardarEvento
+);
+
+function guardarEvento(){
+
+    console.log("Guardar evento");
+
+}
+
+/* ======================================================
    CONFIGURAÇÃO
 ====================================================== */
 
@@ -371,13 +389,6 @@ function irParaHoje(){
 /* ======================================================
    INICIALIZAÇÃO DA APLICAÇÃO
 ====================================================== */
-
-function atualizarTitulo(){
-
-    document.getElementById("tituloApp").textContent = APP.nome;
-
-}
-
 
 function atualizarRodape(){
 
