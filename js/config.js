@@ -33,3 +33,21 @@ const TIPOS_EVENTO = [
 
 let EVENTOS = [];
 
+// =======================================================
+// TÍTULOS DA APLICAÇÃO
+// =======================================================
+
+const TITULOS = {
+
+    visualizacao : APP.nome,
+
+    selecaoDias : "Escolher dias",
+
+    novoEvento : "Novo Evento",
+
+    editarEvento : "Editar Evento",
+
+    configuracao : "Configuração"
+
+};
+
