@@ -26,22 +26,59 @@ btnNovo.addEventListener("click", novoEvento);
 
 function novoEvento(){
 
-    estado.modo = "edicao";
+    estado.modo = "selecaoDias";
 
     estado.diasSelecionados = [];
 
-    document
-        .getElementById("modalEvento")
-        .classList.remove("oculto");
+    atualizarCabecalho();
 
-        
-        atualizarDiasSelecionados();
+    atualizarBotaoFlutuante();
 
-        mostrarCalendario();
-    
+    mostrarCalendario();
 
 }
 
+
+/* ======================================================
+   ATUALIZA CABEÇALHO
+====================================================== */
+
+function atualizarCabecalho(){
+
+    const titulo = document.getElementById("tituloApp");
+
+    if(estado.modo === "selecaoDias"){
+
+        titulo.textContent = "Escolher dias";
+
+    }else{
+
+        titulo.textContent = APP.nome;
+
+    }
+
+}
+
+
+/* ======================================================
+   BOTÃO FLUTUANTE
+====================================================== */
+
+function atualizarBotaoFlutuante(){
+
+    const btn = document.getElementById("btnNovo");
+
+    if(estado.modo === "selecaoDias"){
+
+        btn.textContent = "✓";
+
+    }else{
+
+        btn.textContent = "+";
+
+    }
+
+}
 
 // =======================================================
 // AVANÇA PARA O MÊS SEGUINTE
@@ -252,7 +289,7 @@ function atualizarRodape(){
 
 function atualizarInterface(){
 
-    atualizarTitulo();
+    atualizarCabecalho();
 
     atualizarRodape();
 
