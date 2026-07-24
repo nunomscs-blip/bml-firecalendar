@@ -296,18 +296,22 @@ function guardarEvento(){
 
     const evento = {
 
-        id: crypto.randomUUID(),
+    id: crypto.randomUUID(),
 
-        tipo: document.getElementById("tipoEvento").value,
+    tipo: document.getElementById("tipoEvento").value,
 
-        turno: document.getElementById("turnoEvento").value,
+    turno: document.getElementById("turnoEvento").value,
 
-        dias: [...estado.diasSelecionados],
+    ano: calendarioAtual.ano,
 
-        observacoes:
-            document.getElementById("observacoesEvento").value.trim()
+    mes: calendarioAtual.mes,
 
-    };
+    dias: [...estado.diasSelecionados],
+
+    observacoes:
+        document.getElementById("observacoesEvento").value.trim()
+
+};
 
     adicionarEvento(evento);
 

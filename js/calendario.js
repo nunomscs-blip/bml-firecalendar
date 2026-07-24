@@ -140,7 +140,11 @@ function mostrarCalendario(){
     }
 
     const existeEvento = EVENTOS.some(evento =>
+
+    evento.ano === calendarioAtual.ano &&
+    evento.mes === calendarioAtual.mes &&
     evento.dias.includes(i)
+
     );
 
     const marcador = existeEvento
@@ -154,7 +158,7 @@ function mostrarCalendario(){
         </div>
         `;
     }
-    
+
         inicializarCalendario();
 
 }
