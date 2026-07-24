@@ -10,13 +10,64 @@
 // =======================================================
 
 const btnNovo = document.getElementById("btnNovo");
-btnNovo.addEventListener("click", novoEvento);
+btnNovo.addEventListener("click", acaoBotaoFlutuante);
 
 // -------------------------------------------------------
 // Botão mês seguinte
 // -------------------------------------------------------
 
 
+
+/* ======================================================
+   BOTÃO FLUTUANTE
+====================================================== */
+
+function acaoBotaoFlutuante(){
+
+    switch(estado.modo){
+
+        case "visualizacao":
+
+            novoEvento();
+            break;
+
+        case "selecaoDias":
+
+            confirmarDias();
+            break;
+
+    }
+
+}
+
+
+/* ======================================================
+   CONFIRMAR DIAS
+====================================================== */
+
+function confirmarDias(){
+
+    if(estado.diasSelecionados.length === 0){
+
+        alert("Seleciona pelo menos um dia.");
+
+        return;
+
+    }
+
+    estado.modo = "edicao";
+
+    atualizarCabecalho();
+
+    atualizarBotaoFlutuante();
+
+    atualizarDiasSelecionados();
+
+    document
+        .getElementById("modalEvento")
+        .classList.remove("oculto");
+
+}
 
 
 // =======================================================
