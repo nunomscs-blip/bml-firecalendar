@@ -15,17 +15,37 @@ const DATABASE = {
 
 function carregarEventos() {
 
-    // Carrega os eventos do localStorage
+    const dados = localStorage.getItem(DATABASE.EVENTOS);
+
+    if (!dados) {
+
+        EVENTOS = [];
+
+        return;
+
+    }
+
+    EVENTOS = JSON.parse(dados);
 
 }
 
 function guardarEventos() {
 
-    // Guarda os eventos no localStorage
+    localStorage.setItem(
+
+        DATABASE.EVENTOS,
+
+        JSON.stringify(EVENTOS)
+
+    );
 
 }
 
-function adicionarEvento() {
+function adicionarEvento(evento) {
+
+    EVENTOS.push(evento);
+
+    guardarEventos();
 
 }
 
@@ -34,6 +54,36 @@ function editarEvento() {
 }
 
 function eliminarEvento() {
+
+}
+
+function testarBaseDados() {
+
+    EVENTOS = [];
+
+    EVENTOS.push({
+
+        id: 1,
+
+        tipo: "SAÚDE",
+
+        data: "2026-08-01"
+
+    });
+
+    guardarEventos();
+
+    carregarEventos();
+
+    console.log(EVENTOS);
+
+}
+
+function editarEvento(id, evento) {
+
+}
+
+function eliminarEvento(id) {
 
 }
 
