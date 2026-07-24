@@ -16,8 +16,6 @@ const estado = {
 
 };
 
-const eventos = [];
-
 // =======================================================
 // OBTÉM O NOME DO MÊS
 // Recebe um número (1-12) e devolve o nome do mês.

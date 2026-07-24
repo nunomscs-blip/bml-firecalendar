@@ -369,12 +369,6 @@ function irParaHoje(){
 }
 
 /* ======================================================
-   ARRANQUE DA APLICAÇÃO
-====================================================== */
-
-mostrarCalendario();
-
-/* ======================================================
    INICIALIZAÇÃO DA APLICAÇÃO
 ====================================================== */
 
@@ -405,15 +399,18 @@ function atualizarInterface(){
 
 }
 
+function iniciarAplicacao() {
 
-function iniciarAplicacao(){
+    carregarEventos();
 
     atualizarInterface();
 
+    mostrarCalendario();
+
 }
 
-
 iniciarAplicacao();
+
 
 /* ======================================================
    ATUALIZA TEXTO DOS DIAS SELECIONADOS

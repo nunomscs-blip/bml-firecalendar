@@ -49,14 +49,6 @@ function adicionarEvento(evento) {
 
 }
 
-function editarEvento() {
-
-}
-
-function eliminarEvento() {
-
-}
-
 function testarBaseDados() {
 
     EVENTOS = [];
