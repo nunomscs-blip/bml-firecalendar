@@ -119,15 +119,22 @@ function atualizarBotaoFlutuante(){
 
     const btn = document.getElementById("btnNovo");
 
-    if(estado.modo === "selecaoDias"){
-
-        btn.textContent = "✓";
-
-    }else{
+    if(estado.modo === "visualizacao"){
 
         btn.textContent = "+";
+        btn.disabled = false;
+        btn.classList.remove("desativado");
 
+        return;
     }
+
+    btn.textContent = "✓";
+
+    const ativo = estado.diasSelecionados.length > 0;
+
+    btn.disabled = !ativo;
+
+    btn.classList.toggle("desativado", !ativo);
 
 }
 

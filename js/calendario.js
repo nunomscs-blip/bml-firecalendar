@@ -202,8 +202,8 @@ function inicializarCalendario(){
 // =======================================================
 function selecionarDia(event){
 
-    if (estado.modo !== "edicao"){
-        return;
+    if (estado.modo !== "selecaoDias"){
+    return;
     }
 
     const dia = Number(event.currentTarget.dataset.dia);
@@ -221,10 +221,11 @@ function selecionarDia(event){
     }
 
     atualizarDiasSelecionados();
-    
-    mostrarCalendario();
 
-}
+    atualizarBotaoFlutuante();
+
+    mostrarCalendario();
+    }
 
 
 
