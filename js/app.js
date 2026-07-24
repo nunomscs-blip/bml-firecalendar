@@ -309,7 +309,29 @@ function guardarEvento(){
 
     };
 
-    console.log(evento);
+    adicionarEvento(evento);
+
+        // Fecha o modal
+        document
+            .getElementById("modalEvento")
+            .classList.add("oculto");
+
+        // Volta ao modo normal
+        estado.modo = MODOS.VISUALIZACAO;
+
+        // Limpa a seleção
+        estado.diasSelecionados = [];
+
+        // Limpa observações
+        document.getElementById("observacoesEvento").value = "";
+
+        // Atualiza a interface
+        atualizarInterface();
+
+        // Volta a desenhar o calendário
+        mostrarCalendario();
+
+        console.log(EVENTOS);
 
 }
 
