@@ -153,7 +153,8 @@ function mostrarCalendario(){
         ${marcador}
         </div>
         `;
-
+    }
+    
         inicializarCalendario();
 
 }
