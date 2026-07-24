@@ -13,7 +13,7 @@ function acaoBotaoFlutuante(){
 
     switch(estado.modo){
 
-        case "visualizacao":
+        case MODOS.VISUALIZACAO:
 
             novoEvento();
             break;
@@ -90,7 +90,7 @@ function atualizarCabecalho(){
 
     switch(estado.modo){
 
-        case "visualizacao":
+        case MODOS.VISUALIZACAO:
 
             titulo.textContent = TITULOS.visualizacao;
 

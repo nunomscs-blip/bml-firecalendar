@@ -202,7 +202,7 @@ function inicializarCalendario(){
 // =======================================================
 function selecionarDia(event){
 
-    if (estado.modo !== "selecaoDias"){
+    if (estado.modo !== MODOS.SELECAO_DIAS){
     return;
     }
 
