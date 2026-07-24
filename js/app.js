@@ -294,7 +294,22 @@ btnGuardarEvento.addEventListener(
 
 function guardarEvento(){
 
-    console.log("Guardar evento");
+    const evento = {
+
+        id: crypto.randomUUID(),
+
+        tipo: document.getElementById("tipoEvento").value,
+
+        turno: document.getElementById("turnoEvento").value,
+
+        dias: [...estado.diasSelecionados],
+
+        observacoes:
+            document.getElementById("observacoesEvento").value.trim()
+
+    };
+
+    console.log(evento);
 
 }
 
