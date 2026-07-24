@@ -149,8 +149,8 @@ function mostrarCalendario(){
 
     diasMes.innerHTML += `
         <div class="${classe}" data-dia="${i}">
-        ${i}
-        ${marcador}
+             ${i}
+             ${marcador}
         </div>
 
         }
