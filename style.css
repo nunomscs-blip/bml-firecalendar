@@ -419,3 +419,47 @@ body{
 
 }
 
+/* =======================================================
+   CONFIGURAÇÃO
+======================================================= */
+
+.menuConfiguracao{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    margin-top:20px;
+
+}
+
+.menuConfiguracao button{
+
+    padding:14px;
+
+    border:1px solid #d0d0d0;
+
+    border-radius:8px;
+
+    background:white;
+
+    text-align:left;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.menuConfiguracao button:hover{
+
+    background:#f5f5f5;
+
+    border-color:#d32f2f;
+
+}
+

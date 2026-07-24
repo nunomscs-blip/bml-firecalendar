@@ -147,9 +147,29 @@ btnConfiguracao.addEventListener(
 
 function abrirConfiguracao(){
 
-    alert("Configuração");
+    document
+        .getElementById("modalConfiguracao")
+        .classList.remove("oculto");
 
 }
+
+const btnFecharConfiguracao =
+    document.getElementById("btnFecharConfiguracao");
+
+btnFecharConfiguracao.addEventListener(
+    "click",
+    fecharConfiguracao
+);
+
+function fecharConfiguracao(){
+
+    document
+        .getElementById("modalConfiguracao")
+        .classList.add("oculto");
+
+}
+
+
 
 /* ======================================================
    DADOS DA APLICAÇÃO
