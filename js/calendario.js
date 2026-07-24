@@ -208,7 +208,7 @@ function inicializarCalendario(){
 function selecionarDia(event){
 
     if (estado.modo !== MODOS.SELECAO_DIAS){
-    return;
+        return;
     }
 
     const dia = Number(event.currentTarget.dataset.dia);
@@ -230,7 +230,8 @@ function selecionarDia(event){
     atualizarBotaoFlutuante();
 
     mostrarCalendario();
-    }
+
+}
 
 
 
