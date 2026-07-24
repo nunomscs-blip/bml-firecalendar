@@ -79,3 +79,11 @@ function eliminarEvento(id) {
 
 }
 
+function limparBaseDados(){
+
+    localStorage.removeItem(DATABASE.EVENTOS);
+
+    EVENTOS = [];
+
+}
+
