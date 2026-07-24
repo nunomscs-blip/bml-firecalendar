@@ -41,18 +41,13 @@ function confirmarDias(){
     if(estado.diasSelecionados.length === 0){
 
         alert("Seleciona pelo menos um dia.");
-
         return;
 
     }
 
-    estado.modo = "edicao";
+    estado.modo = "novoEvento";
 
-    atualizarCabecalho();
-
-    atualizarBotaoFlutuante();
-
-    atualizarDiasSelecionados();
+    atualizarInterface();
 
     document
         .getElementById("modalEvento")
@@ -119,6 +114,16 @@ function atualizarCabecalho(){
 
             break;
 
+        case "novoEvento":
+
+            titulo.textContent = TITULOS.novoEvento;
+
+            btnCancelar.classList.add("oculto");
+            btnHoje.classList.add("oculto");
+            btnConfiguracao.classList.add("oculto");
+
+            break;
+
     }
 
 }
@@ -149,14 +154,25 @@ function atualizarBotaoFlutuante(){
 
     const btn = document.getElementById("btnNovo");
 
+    if(estado.modo === "novoEvento"){
+
+    btn.classList.add("oculto");
+
+    return;
+
+    }
+    
     if(estado.modo === "visualizacao"){
 
         btn.textContent = "+";
         btn.disabled = false;
-        btn.classList.remove("desativado");
+        btn.classList.remove("oculto");
 
         return;
     }
+
+    
+}
 
     btn.textContent = "✓";
 
@@ -254,8 +270,10 @@ function mesAnterior(){
     estado.diasSelecionados = [];
 
     document
-        .getElementById("modalEvento")
-        .classList.add("oculto");
+    .getElementById("modalEvento")
+    .classList.add("oculto");
+
+    atualizarInterface();
 
     mostrarCalendario();
 
