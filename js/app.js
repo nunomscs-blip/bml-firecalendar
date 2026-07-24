@@ -1,22 +1,9 @@
 // =======================================================
-// INICIALIZAÇÃO DA APLICAÇÃO
-// =======================================================
-
-
-
-
-// =======================================================
 // BOTÃO NOVO EVENTO
 // =======================================================
 
 const btnNovo = document.getElementById("btnNovo");
 btnNovo.addEventListener("click", acaoBotaoFlutuante);
-
-// -------------------------------------------------------
-// Botão mês seguinte
-// -------------------------------------------------------
-
-
 
 /* ======================================================
    BOTÃO FLUTUANTE
@@ -39,6 +26,10 @@ function acaoBotaoFlutuante(){
     }
 
 }
+
+document
+    .getElementById("btnCancelar")
+    .addEventListener("click", cancelarSelecaoDias);
 
 
 /* ======================================================
@@ -98,15 +89,54 @@ function atualizarCabecalho(){
 
     const titulo = document.getElementById("tituloApp");
 
-    if(estado.modo === "selecaoDias"){
+    const btnCancelar = document.getElementById("btnCancelar");
+    const btnHoje = document.getElementById("btnHoje");
+    const btnConfiguracao = document.getElementById("btnConfiguracao");
 
-        titulo.textContent = "Escolher dias";
+    switch(estado.modo){
 
-    }else{
+        case "visualizacao":
 
-        titulo.textContent = APP.nome;
+            titulo.textContent = TITULOS.visualizacao;
+
+            btnCancelar.classList.add("oculto");
+            btnHoje.classList.remove("oculto");
+            btnConfiguracao.classList.remove("oculto");
+
+            break;
+
+
+        case "selecaoDias":
+
+            titulo.textContent =
+                estado.diasSelecionados.length > 0
+                ? `${TITULOS.selecaoDias} (${estado.diasSelecionados.length})`
+                : TITULOS.selecaoDias;
+
+            btnCancelar.classList.remove("oculto");
+            btnHoje.classList.add("oculto");
+            btnConfiguracao.classList.add("oculto");
+
+            break;
 
     }
+
+}
+
+
+/* ======================================================
+   CANCELAR SELEÇÃO DE DIAS
+====================================================== */
+
+function cancelarSelecaoDias(){
+
+    estado.modo = "visualizacao";
+
+    estado.diasSelecionados = [];
+
+    atualizarInterface();
+
+    mostrarCalendario();
 
 }
 
@@ -349,9 +379,9 @@ function atualizarInterface(){
 
     atualizarCabecalho();
 
-    atualizarRodape();
+    atualizarBotaoFlutuante();
 
-    mostrarCalendario();
+    atualizarRodape();
 
     atualizarBotaoHoje();
 
