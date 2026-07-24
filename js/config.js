@@ -51,3 +51,21 @@ const TITULOS = {
 
 };
 
+// =======================================================
+// MODOS DA APLICAÇÃO
+// =======================================================
+
+const MODOS = {
+
+    VISUALIZACAO : "visualizacao",
+
+    SELECAO_DIAS : "selecaoDias",
+
+    NOVO_EVENTO : "novoEvento",
+
+    EDITAR_EVENTO : "editarEvento",
+
+    CONFIGURACAO : "configuracao"
+
+};
+

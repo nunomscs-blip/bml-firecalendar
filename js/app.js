@@ -18,7 +18,7 @@ function acaoBotaoFlutuante(){
             novoEvento();
             break;
 
-        case "selecaoDias":
+        case MODOS.SELECAO_DIAS:
 
             confirmarDias();
             break;
@@ -45,7 +45,7 @@ function confirmarDias(){
 
     }
 
-    estado.modo = "novoEvento";
+    estado.modo = MODOS.NOVO_EVENTO;
 
     atualizarInterface();
 
@@ -63,7 +63,7 @@ function confirmarDias(){
 
 function novoEvento(){
 
-    estado.modo = "selecaoDias";
+    estado.modo = MODOS.SELECAO_DIAS;
 
     estado.diasSelecionados = [];
 
@@ -101,7 +101,7 @@ function atualizarCabecalho(){
             break;
 
 
-        case "selecaoDias":
+        case MODOS.SELECAO_DIAS:
 
             titulo.textContent =
                 estado.diasSelecionados.length > 0
@@ -135,7 +135,7 @@ function atualizarCabecalho(){
 
 function cancelarSelecaoDias(){
 
-    estado.modo = "visualizacao";
+    estado.modo = MODOS.VISUALIZACAO;
 
     estado.diasSelecionados = [];
 
@@ -162,7 +162,7 @@ function atualizarBotaoFlutuante(){
 
     }
     
-    if(estado.modo === "visualizacao"){
+    if(estado.modo === MODOS.VISUALIZACAO){
 
         btn.textContent = "+";
         btn.disabled = false;
@@ -265,7 +265,7 @@ function mesAnterior(){
 
     function cancelarEvento(){
 
-    estado.modo = "visualizacao";
+    estado.modo = MODOS.VISUALIZACAO;
 
     estado.diasSelecionados = [];
 

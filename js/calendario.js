@@ -10,7 +10,7 @@ const calendarioAtual = {
 
 const estado = {
 
-    modo: "visualizacao",
+    modo: MODOS.VISUALIZACAO,
 
     diasSelecionados: []
 
