@@ -114,7 +114,7 @@ function atualizarCabecalho(){
 
             break;
 
-        case "novoEvento":
+        case MODOS.NOVO_EVENTO:
 
             titulo.textContent = TITULOS.novoEvento;
 
@@ -154,7 +154,7 @@ function atualizarBotaoFlutuante(){
 
     const btn = document.getElementById("btnNovo");
 
-    if(estado.modo === "novoEvento"){
+    if (estado.modo === MODOS.NOVO_EVENTO){
 
     btn.classList.add("oculto");
 
