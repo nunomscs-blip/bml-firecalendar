@@ -251,6 +251,8 @@ body{
 
     padding:6px;
 
+    position: relative;
+
 }
 
 
@@ -541,6 +543,24 @@ body{
     border-radius:8px;
 
     background:#fafafa;
+
+}
+
+.marcadorEvento{
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:#1976d2;
+
+    position:absolute;
+
+    top:4px;
+
+    right:4px;
 
 }
 
