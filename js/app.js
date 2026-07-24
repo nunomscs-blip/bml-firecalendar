@@ -34,7 +34,11 @@ function novoEvento(){
         .getElementById("modalEvento")
         .classList.remove("oculto");
 
-    mostrarCalendario();
+        
+        atualizarDiasSelecionados();
+
+        mostrarCalendario();
+    
 
 }
 
@@ -267,3 +271,28 @@ function iniciarAplicacao(){
 
 
 iniciarAplicacao();
+
+/* ======================================================
+   ATUALIZA TEXTO DOS DIAS SELECIONADOS
+====================================================== */
+
+function atualizarDiasSelecionados(){
+
+    const caixa =
+        document.getElementById("diasSelecionadosTexto");
+
+    if(estado.diasSelecionados.length === 0){
+
+        caixa.textContent =
+            "Clique nos dias do calendário.";
+
+        return;
+
+    }
+
+    caixa.textContent =
+        estado.diasSelecionados
+            .sort((a,b)=>a-b)
+            .join(", ");
+
+}

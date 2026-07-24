@@ -463,3 +463,56 @@ body{
 
 }
 
+/* =======================================================
+   FORMULÁRIO
+======================================================= */
+
+.campo{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    margin-top:15px;
+
+}
+
+.campo label{
+
+    font-weight:bold;
+
+}
+
+.campo select,
+.campo textarea{
+
+    width:100%;
+
+    padding:10px;
+
+    border:1px solid #cfcfcf;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+    font-family:inherit;
+
+}
+
+#diasSelecionadosTexto{
+
+    min-height:40px;
+
+    padding:10px;
+
+    border:1px dashed #bbbbbb;
+
+    border-radius:8px;
+
+    background:#fafafa;
+
+}
+

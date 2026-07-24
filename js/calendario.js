@@ -220,6 +220,8 @@ function selecionarDia(event){
 
     }
 
+    atualizarDiasSelecionados();
+    
     mostrarCalendario();
 
 }
