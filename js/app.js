@@ -263,7 +263,28 @@ function mesAnterior(){
     cancelarEvento
     );
 
-    function cancelarEvento(){
+/* ======================================================
+   MODAL EVENTOS DO DIA
+====================================================== */
+
+const modalEventos =
+    document.getElementById("modalEventos");
+
+const tituloModalEventos =
+    document.getElementById("tituloModalEventos");
+
+const listaEventosDia =
+    document.getElementById("listaEventosDia");
+
+const btnFecharEventos =
+    document.getElementById("btnFecharEventos");
+
+btnFecharEventos.addEventListener(
+    "click",
+    fecharModalEventos
+);
+
+function cancelarEvento(){
 
     estado.modo = MODOS.VISUALIZACAO;
 

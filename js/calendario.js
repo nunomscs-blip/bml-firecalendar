@@ -298,7 +298,7 @@ function abrirEventosDia(dia){
 
     );
 
-    console.log(eventosDia);
+    abrirModalEventos();
 
 }
 
