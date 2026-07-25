@@ -147,13 +147,7 @@ function mostrarCalendario(){
 
     );
 
-    let marcador = "";
-
-    if(eventosDia.length > 0){
-
-    marcador = '<div class="marcadorEvento"></div>';
-
-    }
+    const marcador = criarMarcadoresDia(i);
 
     diasMes.innerHTML += `
         <div class="${classe}" data-dia="${i}">
@@ -167,6 +161,29 @@ function mostrarCalendario(){
 
 }
 
+/* ======================================================
+   CRIA MARCADORES DO DIA
+====================================================== */
+
+function criarMarcadoresDia(dia){
+
+    const eventosDia = EVENTOS.filter(evento =>
+
+        evento.ano === calendarioAtual.ano &&
+        evento.mes === calendarioAtual.mes &&
+        evento.dias.includes(dia)
+
+    );
+
+    if(eventosDia.length === 0){
+
+        return "";
+
+    }
+
+    return '<div class="marcadorEvento"></div>';
+
+}
 
 // =======================================================
 // INICIALIZA O CALENDÁRIO
