@@ -119,25 +119,7 @@ function mostrarCalendario(){
 
     for(let i = 1; i <= diasNoMes; i++){
 
-    let classe = "dia";
-
-    const hoje = new Date();
-
-    if(
-    i === hoje.getDate() &&
-    calendarioAtual.mes === (hoje.getMonth() + 1) &&
-    calendarioAtual.ano === hoje.getFullYear()
-    ){
-
-    classe += " hoje";
-
-    }
-
-    if(estado.diasSelecionados.includes(i)){
-
-    classe += " selecionado";
-
-    }
+    const classe = obterClasseDia(i);
 
     const eventosDia = EVENTOS.filter(evento =>
 
@@ -158,6 +140,36 @@ function mostrarCalendario(){
     }
 
         inicializarCalendario();
+
+}
+
+/* ======================================================
+   OBTÉM A CLASSE DO DIA
+====================================================== */
+
+function obterClasseDia(dia){
+
+    let classe = "dia";
+
+    const hoje = new Date();
+
+    if(
+        dia === hoje.getDate() &&
+        calendarioAtual.mes === (hoje.getMonth() + 1) &&
+        calendarioAtual.ano === hoje.getFullYear()
+    ){
+
+        classe += " hoje";
+
+    }
+
+    if(estado.diasSelecionados.includes(dia)){
+
+        classe += " selecionado";
+
+    }
+
+    return classe;
 
 }
 

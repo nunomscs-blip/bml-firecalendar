@@ -1,22 +1,22 @@
 # BML FireCalendar
 
-Calendário desenvolvido em JavaScript puro para gestão de escalas, eventos e equipas de emergência.
+Aplicação Web desenvolvida em JavaScript puro para gestão pessoal de serviços de bombeiros.
+
+O objetivo é disponibilizar um calendário simples, rápido e intuitivo onde cada utilizador possa registar os seus serviços e receber alertas.
 
 ---
 
 # Objetivo
 
-Criar uma aplicação leve, rápida, intuitiva e totalmente configurável para gestão de:
+Desenvolver uma aplicação leve e de fácil utilização que permita:
 
-- Escalas
-- Equipas ECIN
-- Equipas de Saúde
-- Formação
-- Férias
-- Manutenções
-- Outros eventos
+- Marcar serviços no calendário;
+- Editar e eliminar serviços;
+- Identificar visualmente os diferentes tipos de serviço;
+- Receber alertas antes dos serviços;
+- Guardar todos os dados localmente no navegador (Local Storage).
 
-O projeto está a ser desenvolvido sem frameworks, privilegiando a aprendizagem, a organização do código e o controlo total sobre toda a aplicação.
+Cada utilizador possui a sua própria informação, não existindo contas nem sincronização entre dispositivos.
 
 ---
 
@@ -25,6 +25,7 @@ O projeto está a ser desenvolvido sem frameworks, privilegiando a aprendizagem,
 - HTML5
 - CSS3
 - JavaScript (Vanilla)
+- Local Storage
 - Git
 - GitHub
 - GitHub Pages
@@ -44,6 +45,7 @@ BML FireCalendar/
 │   ├── app.js
 │   ├── calendario.js
 │   ├── config.js
+│   ├── database.js
 │   └── datas.js
 │
 └── assets/
@@ -58,94 +60,61 @@ BML FireCalendar/
 | config.js | Configurações globais da aplicação |
 | datas.js | Funções relacionadas com datas |
 | calendario.js | Construção e gestão do calendário |
+| database.js | Persistência dos dados em Local Storage |
 | app.js | Inicialização da aplicação e gestão da interface |
 
 ---
 
-# Arquitetura da Aplicação
+# Funcionalidades
 
-A aplicação divide-se em dois módulos independentes.
+## Implementadas
 
-## Calendário
+- ✔ Calendário mensal
+- ✔ Navegação entre meses
+- ✔ Semana iniciada à segunda-feira
+- ✔ Cálculo automático dos dias do mês
+- ✔ Compatível com anos bissextos
+- ✔ Seleção múltipla de dias
+- ✔ Criação de serviços
+- ✔ Persistência em Local Storage
 
-Responsável apenas por:
+## Em desenvolvimento
 
-- Mostrar o calendário
-- Navegar entre meses
-- Mostrar eventos
-- Criar, editar e remover eventos
-
-O calendário **não conhece os tipos de evento**.
-
----
-
-## Configuração
-
-Responsável pela gestão da aplicação.
-
-Inicialmente incluirá:
-
-- Tipos de Evento
-- Turnos
-
-Posteriormente poderá incluir:
-
-- Equipas
-- Pessoas
-- Locais
-- Viaturas
-- Categorias
-- Outras configurações
+- Edição de serviços
+- Eliminação de serviços
+- Alertas de serviço
+- Melhorias na interface
 
 ---
 
 # Filosofia do Projeto
 
-A aplicação será totalmente configurável.
+O FireCalendar foi concebido para fazer apenas uma tarefa, mas fazê-la bem.
 
-Nenhum tipo de evento será fixo no código.
+A aplicação pretende ser:
 
-Exemplo:
+- Simples;
+- Rápida;
+- Leve;
+- Fácil de utilizar;
+- Fácil de manter.
 
-Hoje:
-
-- ECIN
-- Saúde
-- Formação
-
-Amanhã poderá existir:
-
-- Busca Aquática
-- Prevenção
-- Cerimónia
-- Patrulha
-
-Sem necessidade de alterar o código da aplicação.
+Sempre que possível serão evitadas funcionalidades que aumentem a complexidade sem acrescentar valor ao objetivo principal da aplicação.
 
 ---
 
-# Estado do Projeto
+# Armazenamento
 
-## Implementado
+Todos os dados são guardados no navegador através de Local Storage.
 
-- ✔ Estrutura base
-- ✔ Calendário mensal
-- ✔ Navegação entre meses
-- ✔ Nome do mês
-- ✔ Cálculo automático dos dias do mês
-- ✔ Compatível com anos bissextos
-- ✔ Semana iniciada à segunda-feira
-- ✔ Seleção múltipla de dias
-- ✔ Modal de eventos
-- ✔ Estrutura para Configuração
+Isso permite:
 
-## Em desenvolvimento
+- funcionamento offline;
+- utilização sem registo ou autenticação;
+- privacidade dos dados;
+- independência entre utilizadores.
 
-- Biblioteca de Tipos de Evento
-- Gestão de Eventos
-- Persistência de dados
-- Filtros
-- Estatísticas
+Cada utilizador gere apenas os seus próprios serviços.
 
 ---
 
@@ -153,13 +122,11 @@ Sem necessidade de alterar o código da aplicação.
 
 ## Linguagem
 
-Todo o código, comentários e documentação serão escritos em português.
-
----
+Todo o código, comentários e documentação são escritos em português.
 
 ## Organização
 
-Cada ficheiro deverá possuir secções identificadas por comentários.
+Cada ficheiro encontra-se dividido em secções identificadas por comentários.
 
 Exemplo:
 
@@ -171,12 +138,12 @@ Exemplo:
 
 ---
 
-## Objetivo Final
+# Objetivo Final
 
-Desenvolver uma aplicação simples, modular, escalável e de fácil manutenção, permitindo acrescentar novas funcionalidades sem necessidade de reestruturar o projeto.
+Disponibilizar uma aplicação simples, estável e intuitiva para gestão pessoal de serviços de bombeiros, permitindo consultar rapidamente os serviços futuros e receber alertas antes de cada serviço.
 
 ---
 
 # Licença
 
-Projeto pessoal para fins de aprendizagem e desenvolvimento.
+Projeto pessoal desenvolvido para aprendizagem e utilização própria.
