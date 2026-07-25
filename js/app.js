@@ -365,6 +365,22 @@ adicionarEvento(evento);
 }
 
 /* ======================================================
+   MODAL EVENTOS DO DIA
+====================================================== */
+
+function abrirModalEventos(){
+
+    modalEventos.classList.remove("oculto");
+
+}
+
+function fecharModalEventos(){
+
+    modalEventos.classList.add("oculto");
+
+}
+
+/* ======================================================
    CONFIGURAÇÃO
 ====================================================== */
 
