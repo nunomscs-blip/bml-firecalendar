@@ -269,6 +269,22 @@ function selecionarDia(event){
 
     }
 
+    if (estado.modo === MODOS.VISUALIZACAO){
+
+    const dia = Number(event.currentTarget.dataset.dia);
+
+    const eventosDia = EVENTOS.filter(evento =>
+
+        evento.ano === calendarioAtual.ano &&
+        evento.mes === calendarioAtual.mes &&
+        evento.dia === dia
+
+    );
+
+    console.log(eventosDia);
+
+}
+
 }
 
 
