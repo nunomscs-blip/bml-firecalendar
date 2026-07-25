@@ -314,9 +314,11 @@ function iniciarLongPress(event){
 
     }
 
+    const elemento = event.currentTarget;
+
     temporizadorLongPress = setTimeout(() => {
 
-        executarLongPress(event);
+        executarLongPress(elemento);
 
     }, TEMPO_LONG_PRESS);
 
@@ -330,9 +332,9 @@ function cancelarLongPress(){
 
 }
 
-function executarLongPress(event){
+function executarLongPress(elemento){
 
-    const dia = Number(event.currentTarget.dataset.dia);
+    const dia = Number(elemento.dataset.dia);
 
     const eventosDia = EVENTOS.filter(evento =>
 
