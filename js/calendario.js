@@ -245,29 +245,29 @@ function inicializarCalendario(){
 // =======================================================
 function selecionarDia(event){
 
-    if (estado.modo !== MODOS.SELECAO_DIAS){
-        return;
+    if (estado.modo === MODOS.SELECAO_DIAS){
+
+        const dia = Number(event.currentTarget.dataset.dia);
+
+        const indice = estado.diasSelecionados.indexOf(dia);
+
+        if (indice === -1){
+
+            estado.diasSelecionados.push(dia);
+
+        }else{
+
+            estado.diasSelecionados.splice(indice, 1);
+
+        }
+
+        atualizarDiasSelecionados();
+
+        atualizarBotaoFlutuante();
+
+        mostrarCalendario();
+
     }
-
-    const dia = Number(event.currentTarget.dataset.dia);
-
-    const indice = estado.diasSelecionados.indexOf(dia);
-
-    if (indice === -1){
-
-        estado.diasSelecionados.push(dia);
-
-    }else{
-
-        estado.diasSelecionados.splice(indice, 1);
-
-    }
-
-    atualizarDiasSelecionados();
-
-    atualizarBotaoFlutuante();
-
-    mostrarCalendario();
 
 }
 
