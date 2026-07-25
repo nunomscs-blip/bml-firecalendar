@@ -281,9 +281,17 @@ function selecionarDia(event){
 
     );
 
-    console.log(eventosDia);
+    if(eventosDia.length === 0){
 
-}
+    alert("Criar novo evento");
+
+    }else{
+
+    alert(`Existem ${eventosDia.length} evento(s)`);
+
+    }
+
+    }
 
 }
 
