@@ -16,6 +16,10 @@ const estado = {
 
 };
 
+let temporizadorLongPress = null;
+
+const TEMPO_LONG_PRESS = 600;
+
 // =======================================================
 // OBTÉM O NOME DO MÊS
 // Recebe um número (1-12) e devolve o nome do mês.
@@ -233,6 +237,15 @@ function inicializarCalendario(){
 
             dia.addEventListener("click", selecionarDia);
 
+            dia.addEventListener("mousedown", iniciarLongPress);
+            dia.addEventListener("mouseup", cancelarLongPress);
+            dia.addEventListener("mouseleave", cancelarLongPress);
+
+            dia.addEventListener("touchstart", iniciarLongPress);
+            dia.addEventListener("touchend", cancelarLongPress);
+            dia.addEventListener("touchcancel", cancelarLongPress);
+
+
         }
 
     });
@@ -269,7 +282,55 @@ function selecionarDia(event){
 
     }
 
-    if (estado.modo === MODOS.VISUALIZACAO){
+    }
+
+/* ======================================================
+   ABRIR EVENTOS DO DIA
+====================================================== */
+
+function abrirEventosDia(dia){
+
+    const eventosDia = EVENTOS.filter(evento =>
+
+        evento.ano === calendarioAtual.ano &&
+        evento.mes === calendarioAtual.mes &&
+        evento.dia === dia
+
+    );
+
+    console.log(eventosDia);
+
+}
+
+// =======================================================
+// LONG PRESS
+// =======================================================
+
+function iniciarLongPress(event){
+
+    if(estado.modo !== MODOS.VISUALIZACAO){
+
+        return;
+
+    }
+
+    temporizadorLongPress = setTimeout(() => {
+
+        executarLongPress(event);
+
+    }, TEMPO_LONG_PRESS);
+
+}
+
+function cancelarLongPress(){
+
+    clearTimeout(temporizadorLongPress);
+
+    temporizadorLongPress = null;
+
+}
+
+function executarLongPress(event){
 
     const dia = Number(event.currentTarget.dataset.dia);
 
@@ -283,17 +344,10 @@ function selecionarDia(event){
 
     if(eventosDia.length === 0){
 
-    alert("Criar novo evento");
-
-    }else{
-
-    alert(`Existem ${eventosDia.length} evento(s)`);
+        return;
 
     }
 
-    }
+    abrirEventosDia(dia);
 
 }
-
-
-
