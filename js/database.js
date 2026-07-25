@@ -85,5 +85,9 @@ function limparBaseDados(){
 
     EVENTOS = [];
 
+    atualizarInterface();
+
+    mostrarCalendario();
+
 }
 
