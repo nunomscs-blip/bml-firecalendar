@@ -294,26 +294,11 @@ btnGuardarEvento.addEventListener(
 
 function guardarEvento(){
 
-    const evento = {
+   for (const dia of estado.diasSelecionados) {
 
-    id: crypto.randomUUID(),
+    console.log(dia);
 
-    tipo: document.getElementById("tipoEvento").value,
-
-    turno: document.getElementById("turnoEvento").value,
-
-    ano: calendarioAtual.ano,
-
-    mes: calendarioAtual.mes,
-
-    dias: [...estado.diasSelecionados],
-
-    observacoes:
-        document.getElementById("observacoesEvento").value.trim()
-
-};
-
-    adicionarEvento(evento);
+    }
 
         // Fecha o modal
         document
