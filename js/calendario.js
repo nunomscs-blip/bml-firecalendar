@@ -194,21 +194,19 @@ function criarMarcadoresDia(dia){
     const eventosDia = EVENTOS.filter(evento => {
 
         console.log(
-            "Evento:",
-            evento.ano,
-            evento.mes,
-            evento.dia,
-            "| Calendário:",
-            calendarioAtual.ano,
-            calendarioAtual.mes,
-            dia
-        );
+    typeof evento.ano,
+    typeof evento.mes,
+    typeof evento.dia,
+    typeof calendarioAtual.ano,
+    typeof calendarioAtual.mes,
+    typeof dia
+);
 
-        return (
-            evento.ano === calendarioAtual.ano &&
-            evento.mes === calendarioAtual.mes &&
-            evento.dia === dia
-        );
+return (
+    evento.ano === calendarioAtual.ano &&
+    evento.mes === calendarioAtual.mes &&
+    evento.dia === dia
+);
 
     });
 
