@@ -559,7 +559,7 @@ body{
 .eventoDia{
     background: linear-gradient(
         to bottom,
-        var(--cor-evento) 50%,
+        #1976d2 50%,
         #ffffff 50%
     );
 }
@@ -568,12 +568,12 @@ body{
     background: linear-gradient(
         to bottom,
         #ffffff 50%,
-        var(--cor-evento) 50%
+        #1976d2 50%
     );
 }
 
 .eventoDiaNoite{
-    background: var(--cor-evento);
+    background:#1976d2;
 }
 
 /* ======================================================
