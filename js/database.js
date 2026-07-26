@@ -43,7 +43,11 @@ function guardarEventos() {
 
 function adicionarEvento(evento) {
 
+    console.log("Evento recebido:", evento);
+
     EVENTOS.push(evento);
+
+    console.log("EVENTOS:", EVENTOS);
 
     guardarEventos();
 
