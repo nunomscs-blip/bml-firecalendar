@@ -710,6 +710,37 @@ function fecharConfiguracao(){
 
 }
 
+const btnTiposEvento =
+    document.getElementById("btnTiposEvento");
+
+btnTiposEvento.addEventListener(
+    "click",
+    abrirTiposEvento
+);
+
+const btnFecharTiposEvento =
+    document.getElementById("btnFecharTiposEvento");
+
+btnFecharTiposEvento.addEventListener(
+    "click",
+    fecharTiposEvento
+);
+
+function abrirTiposEvento(){
+
+    document
+        .getElementById("modalTiposEvento")
+        .classList.remove("oculto");
+
+}
+
+function fecharTiposEvento(){
+
+    document
+        .getElementById("modalTiposEvento")
+        .classList.add("oculto");
+
+}
 
 
 /* ======================================================
