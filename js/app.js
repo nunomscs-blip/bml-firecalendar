@@ -291,11 +291,14 @@ function abrirModalEvento(){
     fecharModalEventos();
 
     const modal = document.getElementById("modalEvento");
+    const btnGuardar = document.getElementById("btnGuardarEvento");
+
 
     if(estado.modal.modo === "editar"){
 
         document.getElementById("tituloModal").textContent =
             "Editar Evento";
+        btnGuardar.textContent = "Atualizar";
 
         document.getElementById("tipoEvento").value =
             estado.modal.evento.tipo;
@@ -310,6 +313,7 @@ function abrirModalEvento(){
 
         document.getElementById("tituloModal").textContent =
             "Novo Evento";
+        btnGuardar.textContent = "Guardar";
 
         document.getElementById("tipoEvento").selectedIndex = 0;
 
@@ -492,10 +496,6 @@ function atualizarListaEventos(eventos){
     }
 
     for(const evento of eventos){
-
-        console.log(evento);
-        console.log(evento.turno);
-        console.log(TURNOS);
 
         const turno = Object.values(TURNOS).find(
 
