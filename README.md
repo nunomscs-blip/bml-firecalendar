@@ -2,21 +2,22 @@
 
 Aplicação Web desenvolvida em JavaScript puro para gestão pessoal de serviços de bombeiros.
 
-O objetivo é disponibilizar um calendário simples, rápido e intuitivo onde cada utilizador possa registar os seus serviços e receber alertas.
+O objetivo é disponibilizar um calendário simples, rápido e intuitivo onde cada utilizador possa registar os seus serviços e receber alertas automáticos antes de cada serviço.
 
 ---
 
 # Objetivo
 
-Desenvolver uma aplicação leve e de fácil utilização que permita:
+Desenvolver uma aplicação leve, intuitiva e de fácil utilização que permita:
 
-- Marcar serviços no calendário;
+- Registar serviços no calendário;
 - Editar e eliminar serviços;
 - Identificar visualmente os diferentes tipos de serviço;
-- Receber alertas antes dos serviços;
-- Guardar todos os dados localmente no navegador (Local Storage).
+- Receber alertas automáticos antes dos serviços;
+- Guardar todos os dados localmente no navegador;
+- Funcionar totalmente offline.
 
-Cada utilizador possui a sua própria informação, não existindo contas nem sincronização entre dispositivos.
+Cada utilizador possui apenas a sua própria informação, não existindo contas, sincronização entre dispositivos ou armazenamento em servidores.
 
 ---
 
@@ -65,85 +66,192 @@ BML FireCalendar/
 
 ---
 
+# Arquitetura Funcional
+
+O FireCalendar foi concebido com uma arquitetura simples, modular e orientada para regras.
+
+Cada componente possui uma única responsabilidade, reduzindo a complexidade da aplicação e facilitando a sua manutenção.
+
+---
+
+## Eventos
+
+O evento é a unidade principal da aplicação.
+
+Cada evento representa um serviço previamente agendado.
+
+Cada evento contém apenas:
+
+- Tipo de Evento;
+- Data;
+- Turno;
+- Observações.
+
+O evento não guarda:
+
+- Alarmes;
+- Notificações;
+- Horários calculados.
+
+Toda a informação derivada é obtida automaticamente através das configurações da aplicação.
+
+---
+
+## Tipos de Evento
+
+Os Tipos de Evento caracterizam o serviço registado.
+
+A versão inicial inclui:
+
+- 🚑 Saúde
+- 🚒 ECIN
+- 🚑 SBA
+- 🎓 Formação
+- 📚 Instrução
+- 🏢 Serviço
+
+Cada tipo poderá definir:
+
+- Nome;
+- Ícone;
+- Cor;
+- Utilização de turnos.
+
+---
+
+## Turnos
+
+Os turnos são configuráveis.
+
+Cada turno define:
+
+- Nome;
+- Hora de início;
+- Hora de fim.
+
+Os eventos apenas referenciam o turno utilizado.
+
+Sempre que um turno é alterado, todos os eventos associados passam automaticamente a utilizar a nova configuração.
+
+---
+
+## Sistema de Alarmes
+
+O sistema de alarmes é global e baseado exclusivamente em regras.
+
+Os alarmes não pertencem aos eventos.
+
+Cada evento criado gera automaticamente os alertas definidos na configuração da aplicação.
+
+As regras poderão definir uma ou várias antecedências relativamente ao início do evento.
+
+Exemplos:
+
+- 48 horas antes;
+- 24 horas antes;
+- 12 horas antes;
+- 2 horas antes.
+
+Sempre que um evento é criado, editado ou eliminado, os alertas são recalculados automaticamente.
+
+Sempre que a configuração dos alarmes é alterada, todos os eventos passam imediatamente a utilizar as novas regras.
+
+O utilizador nunca necessita de configurar alarmes individualmente para cada evento.
+
+---
+
+## Configuração
+
+A área de Configuração será composta apenas por três módulos:
+
+- 📁 Tipos de Evento
+- 🕒 Turnos
+- 🔔 Alarmes
+
+Cada módulo possui uma responsabilidade específica:
+
+### Tipos de Evento
+
+Caracterizam cada serviço.
+
+### Turnos
+
+Definem os horários dos serviços.
+
+### Alarmes
+
+Definem quando deverão ser emitidas as notificações.
+
+---
+
 # Funcionalidades
 
 ## Implementadas
 
-- ✔ Calendário mensal
-- ✔ Navegação entre meses
-- ✔ Semana iniciada à segunda-feira
-- ✔ Cálculo automático dos dias do mês
-- ✔ Compatível com anos bissextos
-- ✔ Seleção múltipla de dias
-- ✔ Criação de serviços
-- ✔ Persistência em Local Storage
+- Calendário mensal
+- Navegação entre meses
+- Semana iniciada à segunda-feira
+- Seleção múltipla de dias
+- Criação de eventos
+- Edição de eventos
+- Eliminação de eventos
+- Persistência em Local Storage
 
-## Em desenvolvimento
+## Planeadas
 
-- Edição de serviços
-- Eliminação de serviços
-- Alertas de serviço
+- Configuração dos Tipos de Evento
+- Configuração dos Turnos
+- Configuração dos Alarmes
+- Sistema automático de notificações
 - Melhorias na interface
-
----
-
-# Filosofia do Projeto
-
-O FireCalendar foi concebido para fazer apenas uma tarefa, mas fazê-la bem.
-
-A aplicação pretende ser:
-
-- Simples;
-- Rápida;
-- Leve;
-- Fácil de utilizar;
-- Fácil de manter.
-
-Sempre que possível serão evitadas funcionalidades que aumentem a complexidade sem acrescentar valor ao objetivo principal da aplicação.
+- Otimização para dispositivos móveis
+- Progressive Web App (PWA)
 
 ---
 
 # Armazenamento
 
-Todos os dados são guardados no navegador através de Local Storage.
+Todos os dados são guardados localmente através de Local Storage.
 
-Isso permite:
+Isto permite:
 
-- funcionamento offline;
-- utilização sem registo ou autenticação;
-- privacidade dos dados;
-- independência entre utilizadores.
-
-Cada utilizador gere apenas os seus próprios serviços.
+- Funcionamento offline;
+- Privacidade dos dados;
+- Utilização sem registo;
+- Independência entre utilizadores.
 
 ---
 
-# Convenções
+# Filosofia do Projeto
 
-## Linguagem
+O FireCalendar pretende fazer apenas uma tarefa, mas fazê-la bem.
 
-Todo o código, comentários e documentação são escritos em português.
+Os princípios de desenvolvimento são:
 
-## Organização
+- Simplicidade;
+- Rapidez;
+- Estabilidade;
+- Modularidade;
+- Automatização;
+- Facilidade de manutenção.
 
-Cada ficheiro encontra-se dividido em secções identificadas por comentários.
+Sempre que possível:
 
-Exemplo:
-
-```javascript
-/* ======================================================
-   CALENDÁRIO
-====================================================== */
-```
+- Os dados são armazenados apenas uma vez;
+- A informação derivada é calculada automaticamente;
+- As regras ficam centralizadas na Configuração;
+- Os eventos permanecem simples;
+- O utilizador não necessita de repetir configurações.
 
 ---
 
 # Objetivo Final
 
-Disponibilizar uma aplicação simples, estável e intuitiva para gestão pessoal de serviços de bombeiros, permitindo consultar rapidamente os serviços futuros e receber alertas antes de cada serviço.
+Disponibilizar uma aplicação simples, estável e intuitiva que permita gerir serviços de bombeiros e garantir que nenhum serviço seja esquecido através de um sistema automático de alertas configuráveis.
 
 ---
 
 # Licença
 
-Projeto pessoal desenvolvido para aprendizagem e utilização própria.
+Projeto pessoal desenvolvido para aprendizagem, utilização própria e evolução contínua.
+
