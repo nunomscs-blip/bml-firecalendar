@@ -571,6 +571,28 @@ function atualizarListaEventos(eventos){
 
     });
 
+    const botoesEliminar = document.querySelectorAll(".btnEliminar");
+
+    botoesEliminar.forEach(botao => {
+
+    botao.addEventListener("click", function(event){
+
+        const id = event.currentTarget.dataset.id;
+
+        const evento = EVENTOS.find(e => e.id === id);
+
+        if(!evento){
+
+            return;
+
+        }
+
+        abrirModalEliminar(evento);
+
+        });
+
+    });
+
 }
 
 function editarEventoModal(event){

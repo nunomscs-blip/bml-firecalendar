@@ -340,7 +340,32 @@ function fecharModalEliminar(){
 
 }
 
+function fecharModalEliminar(){
 
+    document.getElementById("modalEliminar")
+        .classList.add("oculto");
+
+    estado.modalEliminar.evento = null;
+
+}
+
+/* ======================================================
+   EVENTOS DO MODAL ELIMINAR
+====================================================== */
+
+document
+    .getElementById("chkConfirmarEliminar")
+    .addEventListener("change", function () {
+
+        document
+            .getElementById("btnConfirmarEliminar")
+            .disabled = !this.checked;
+
+    });
+
+document
+    .getElementById("btnCancelarEliminar")
+    .addEventListener("click", fecharModalEliminar);
 
 // =======================================================
 // LONG PRESS
