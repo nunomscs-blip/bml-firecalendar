@@ -391,6 +391,8 @@ function guardarEvento(){
 
 function guardarNovoEvento(){
 
+    console.log("Calendário atual:", calendarioAtual);
+
     for (const dia of estado.diasSelecionados){
 
         const evento = {
@@ -411,6 +413,8 @@ function guardarNovoEvento(){
                 document.getElementById("observacoesEvento").value.trim()
 
         };
+
+        console.log("Vai gravar:", evento);
 
         adicionarEvento(evento);
 
