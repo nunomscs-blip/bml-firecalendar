@@ -3,7 +3,6 @@
 
 <head>
 
-
     <!-- =======================================================
          CONFIGURAÇÃO DA PÁGINA
     ======================================================== -->
@@ -12,7 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>BML FireCalendar</title>
-
 
     <!-- =======================================================
          FOLHAS DE ESTILO (CSS)
@@ -25,38 +23,37 @@
 <body>
 
     <!-- =======================================================
-     CABEÇALHO
-     ======================================================== -->
+         CABEÇALHO
+    ======================================================== -->
 
-<header id="cabecalho">
+    <header id="cabecalho">
 
-    <div id="ladoEsquerdo">
+        <div id="ladoEsquerdo">
 
-        <button id="btnCancelar" class="btnCabecalho oculto">
-            ✕
-        </button>
+            <button id="btnCancelar" class="btnCabecalho oculto">
+                ✕
+            </button>
 
-        <h1 id="tituloApp"></h1>
+            <h1 id="tituloApp"></h1>
 
-    </div>
+        </div>
 
-    <div id="acoesCabecalho">
+        <div id="acoesCabecalho">
 
-        <button id="btnHoje" class="oculto">
-            Hoje
-        </button>
+            <button id="btnHoje" class="oculto">
+                Hoje
+            </button>
 
-        <button id="btnConfiguracao" class="btnCabecalho">
-            ⚙
-        </button>
+            <button id="btnConfiguracao" class="btnCabecalho">
+                ⚙
+            </button>
 
-    </div>
+        </div>
 
-</header>
-
+    </header>
 
     <!-- =======================================================
-         ÁREA PRINCIPAL DA APLICAÇÃO
+         ÁREA PRINCIPAL
     ======================================================== -->
 
     <main id="app">
@@ -66,11 +63,10 @@
     </main>
 
     <!-- =======================================================
-     RODAPÉ
-     ======================================================== -->
+         RODAPÉ
+    ======================================================== -->
 
-     <footer id="rodape"></footer>
-
+    <footer id="rodape"></footer>
 
     <!-- =======================================================
          BOTÃO NOVO EVENTO
@@ -78,235 +74,228 @@
 
     <button id="btnNovo">+</button>
 
+    <!-- =======================================================
+         MODAL EVENTO
+    ======================================================== -->
+
+    <div id="modalEvento" class="modal oculto">
+
+        <div class="modalConteudo">
+
+            <h2 id="tituloModal">Novo Evento</h2>
+
+            <div class="campo">
+
+                <label for="tipoEvento">Tipo</label>
+
+                <select id="tipoEvento"></select>
+
+            </div>
+
+            <div class="campo">
+
+                <label for="turnoEvento">Turno</label>
+
+                <select id="turnoEvento">
+
+                    <option value="D">Dia (07:00 - 19:00)</option>
+                    <option value="N">Noite (19:00 - 07:00)</option>
+
+                </select>
+
+            </div>
+
+            <div class="campo">
+
+                <label>Dias selecionados</label>
+
+                <div id="diasSelecionadosTexto">
+                    Nenhum dia selecionado.
+                </div>
+
+            </div>
+
+            <div class="campo">
+
+                <label for="observacoesEvento">
+                    Observações
+                </label>
+
+                <textarea
+                    id="observacoesEvento"
+                    rows="4"
+                    placeholder="Opcional"></textarea>
+
+            </div>
+
+            <div class="botoesModal">
+
+                <button id="btnCancelarEvento">
+                    Cancelar
+                </button>
+
+                <button id="btnGuardarEvento">
+                    Guardar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =======================================================
+         MODAL EVENTOS DO DIA
+    ======================================================== -->
+
+    <div id="modalEventos" class="modal oculto">
+
+        <div class="modalConteudo">
+
+            <h2 id="tituloModalEventos">
+                Eventos do dia
+            </h2>
+
+            <div id="listaEventosDia"></div>
+
+            <div class="botoesModal">
+
+                <button id="btnFecharEventos">
+                    Fechar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =======================================================
+         MODAL CONFIGURAÇÃO
+    ======================================================== -->
+
+    <div id="modalConfiguracao" class="modal oculto">
+
+        <div class="modalConteudo">
+
+            <h2>Configuração</h2>
+
+            <div class="menuConfiguracao">
+
+                <button id="btnTiposEvento">
+                    📁 Tipos de Evento
+                </button>
+
+                <button id="btnTurnos">
+                    🕒 Turnos
+                </button>
+
+                <button id="btnAlarmes">
+                    🔔 Alarmes
+                </button>
+
+            </div>
+
+            <div class="botoesModal">
+
+                <button id="btnFecharConfiguracao">
+                    Fechar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =======================================================
+         MODAL TIPOS DE EVENTO
+    ======================================================== -->
+
+    <div id="modalTiposEvento" class="modal oculto">
+
+        <div class="modalConteudo">
+
+            <h2>Tipos de Evento</h2>
+
+            <div id="listaTiposEvento"></div>
+
+            <div class="botoesModal">
+
+                <button id="btnFecharTiposEvento">
+                    Fechar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =======================================================
+         MODAL ELIMINAR EVENTO
+    ======================================================== -->
+
+    <div id="modalEliminar" class="modal oculto">
+
+        <div class="modalConteudo">
+
+            <h2>Eliminar Evento</h2>
+
+            <p class="textoAlerta">
+                Ao continuar, o evento será eliminado definitivamente do sistema.
+            </p>
+
+            <p class="textoAlerta">
+                Esta ação não pode ser anulada.
+            </p>
+
+            <label class="confirmacaoEliminar">
+
+                <input
+                    type="checkbox"
+                    id="chkConfirmarEliminar">
+
+                Confirmo que pretendo eliminar definitivamente este evento.
+
+            </label>
+
+            <div class="botoesModal">
+
+                <button id="btnCancelarEliminar">
+                    Cancelar
+                </button>
+
+                <button
+                    id="btnConfirmarEliminar"
+                    class="botaoPerigo"
+                    disabled>
+
+                    Eliminar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =======================================================
+         TOAST
+    ======================================================== -->
+
+    <div id="toast" class="toast oculto"></div>
 
     <!-- =======================================================
          SCRIPTS
          Ordem importante:
          1 - Configuração
-         2 - Funções de datas
+         2 - Datas
          3 - Calendário
-         4 - Aplicação
+         4 - Base de Dados
+         5 - Aplicação
     ======================================================== -->
-
-    <!-- =======================================================
-     MODAL DE EVENTO
-======================================================== -->
-
-     <div id="modalEvento" class="modal oculto">
-
-          <div class="modalConteudo">
-
-               <h2 id="tituloModal">Novo Evento</h2>
-
-                <div class="campo">
-
-                    <label for="tipoEvento">Tipo</label>
-
-                    <select id="tipoEvento"></select>
-
-                </div>
-
-                <div class="campo">
-
-    <label for="turnoEvento">Turno</label>
-
-    <select id="turnoEvento">
-
-        <option value="D">Dia (07:00 - 19:00)</option>
-
-        <option value="N">Noite (19:00 - 07:00)</option>
-
-    </select>
-
-            </div>
-
-<div class="campo">
-
-    <label>Dias selecionados</label>
-
-    <div id="diasSelecionadosTexto">
-
-        Nenhum dia selecionado.
-
-    </div>
-
-</div>
-
-<div class="campo">
-
-    <label for="observacoesEvento">
-
-        Observações
-
-    </label>
-
-    <textarea
-        id="observacoesEvento"
-        rows="4"
-        placeholder="Opcional"></textarea>
-
-    </div>
-
-               <div class="botoesModal">
-
-                    <button id="btnCancelarEvento">
-                    Cancelar
-                    </button>
-
-                    <button id="btnGuardarEvento">
-                    Guardar
-                    </button>
-
-               </div>
-
-          </div>
-
-     </div>
-
-<!-- ======================================================
-     MODAL - EVENTOS DO DIA
-====================================================== -->
-
-<div id="modalEventos" class="modal oculto">
-
-    <div class="modalConteudo">
-
-        <h2 id="tituloModalEventos">Eventos do dia</h2>
-
-        <div id="listaEventosDia"></div>
-
-        <div class="botoesModal">
-
-            <button id="btnFecharEventos">
-                Fechar
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- =======================================================
-     MODAL CONFIGURAÇÃO
-======================================================= -->
-
-<div id="modalConfiguracao" class="modal oculto">
-
-    <div class="modalConteudo">
-
-        <h2>Configuração</h2>
-
-        <div class="menuConfiguracao">
-
-    <button id="btnTiposEvento">
-        📁 Tipos de Evento
-    </button>
-
-    <button id="btnTurnos">
-        🕒 Turnos
-    </button>
-
-    <button id="btnAlarmes">
-        🔔 Alarmes
-    </button>
-
-</div>
-
-<!-- =======================================================
-     MODAL TIPOS DE EVENTO
-======================================================= -->
-
-<div id="modalTiposEvento" class="modal oculto">
-
-    <div class="modalConteudo">
-
-        <h2>Tipos de Evento</h2>
-
-        <div id="listaTiposEvento"></div>
-
-        <div class="botoesModal">
-
-            <button id="btnFecharTiposEvento">
-                Fechar
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-        <div class="botoesModal">
-
-            <button id="btnFecharConfiguracao">
-
-                Fechar
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ==========================
-     MODAL ELIMINAR EVENTO
-========================== -->
-
-<div id="modalEliminar" class="modal oculto">
-
-    <div class="modalConteudo">
-
-        <h2>Eliminar Evento</h2>
-
-        <p class="textoAlerta">
-            Ao continuar, o evento será eliminado definitivamente do sistema.
-        </p>
-
-        <p class="textoAlerta">
-            Esta ação não pode ser anulada.
-        </p>
-
-        <label class="confirmacaoEliminar">
-
-            <input
-                type="checkbox"
-                id="chkConfirmarEliminar">
-
-            Confirmo que pretendo eliminar definitivamente este evento.
-
-        </label>
-
-        <div class="botoesModal">
-
-            <button id="btnCancelarEliminar">
-
-                Cancelar
-
-            </button>
-
-            <button
-                id="btnConfirmarEliminar"
-                class="botaoPerigo"
-                disabled>
-
-                Eliminar
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ==========================
-     TOAST
-========================== -->
-
-<div id="toast" class="toast oculto"></div>
 
     <script src="js/config.js"></script>
     <script src="js/datas.js"></script>
