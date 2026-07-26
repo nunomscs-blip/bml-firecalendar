@@ -147,9 +147,12 @@ function mostrarCalendario(){
         </div>
     `;
 
-        inicializarCalendario();
+        
 
 }
+
+inicializarCalendario();
+
 
 /* ======================================================
    OBTÉM A CLASSE DO DIA
