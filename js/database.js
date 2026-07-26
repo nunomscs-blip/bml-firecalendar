@@ -71,7 +71,23 @@ function testarBaseDados() {
 
 }
 
-function editarEvento(id, evento) {
+function editarEvento(id, eventoAtualizado){
+
+    const indice = EVENTOS.findIndex(
+
+        evento => evento.id === id
+
+    );
+
+    if(indice === -1){
+
+        return;
+
+    }
+
+    EVENTOS[indice] = eventoAtualizado;
+
+    guardarEventos();
 
 }
 

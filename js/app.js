@@ -401,7 +401,34 @@ function guardarNovoEvento(){
 
 function guardarEdicao(){
 
-    console.log("Editar");
+    const evento = {
+
+        id: estado.modal.evento.id,
+
+        tipo: document.getElementById("tipoEvento").value,
+
+        turno: document.getElementById("turnoEvento").value,
+
+        ano: estado.modal.evento.ano,
+
+        mes: estado.modal.evento.mes,
+
+        dia: estado.modal.evento.dia,
+
+        observacoes:
+            document.getElementById("observacoesEvento").value.trim()
+
+    };
+
+    editarEvento(
+
+        evento.id,
+
+        evento
+
+    );
+
+    finalizarEdicao();
 
 }
 
