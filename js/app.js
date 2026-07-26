@@ -622,6 +622,35 @@ function editarEventoModal(event){
 
 }
 
+function confirmarEliminar(){
+
+    if(!estado.modalEliminar.evento){
+
+        return;
+
+    }
+
+    eliminarEvento(
+
+        estado.modalEliminar.evento.id
+
+    );
+
+    fecharModalEliminar();
+
+    fecharModalEventos();
+
+    estado.modalEliminar.evento = null;
+
+    atualizarInterface();
+
+    mostrarCalendario();
+
+    mostrarToast("✔ Evento eliminado com sucesso.");
+
+}
+
+
 /* ======================================================
    CONFIGURAÇÃO
 ====================================================== */

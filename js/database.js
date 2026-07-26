@@ -91,7 +91,15 @@ function editarEvento(id, eventoAtualizado){
 
 }
 
-function eliminarEvento(id) {
+function eliminarEvento(id){
+
+    EVENTOS = EVENTOS.filter(
+
+        evento => evento.id !== id
+
+    );
+
+    guardarEventos();
 
 }
 
