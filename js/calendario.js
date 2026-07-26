@@ -211,7 +211,16 @@ function criarMarcadoresDia(dia){
 
     }
 
-    return '<div class="marcadorEvento"></div>';
+    const tipo = obterTipoEvento(eventosDia[0].tipo);
+
+    const cor = tipo ? tipo.cor : "#666";
+
+    return `
+    <div
+        class="marcadorEvento"
+        style="background:${cor};">
+    </div>
+    `;
 
 }
 
