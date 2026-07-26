@@ -12,7 +12,15 @@ const estado = {
 
     modo: MODOS.VISUALIZACAO,
 
-    diasSelecionados: []
+    diasSelecionados: [],
+
+    modal: {
+
+        modo: "novo",
+
+        evento: null
+
+    }
 
 };
 

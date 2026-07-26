@@ -63,6 +63,10 @@ function confirmarDias(){
 
 function novoEvento(){
 
+    estado.modal.modo = "novo";
+
+    estado.modal.evento = null;
+
     estado.modo = MODOS.SELECAO_DIAS;
 
     estado.diasSelecionados = [];
@@ -464,6 +468,30 @@ function atualizarListaEventos(eventos){
         `;
 
     }
+
+    const botoesEditar = document.querySelectorAll(".btnEditar");
+
+    botoesEditar.forEach(botao => {
+
+    botao.addEventListener("click", editarEventoModal);
+
+    });
+
+}
+
+function editarEventoModal(event){
+
+    const id = event.currentTarget.dataset.id;
+
+    const evento = EVENTOS.find(e => e.id === id);
+
+    if(!evento){
+
+        return;
+
+    }
+
+    console.log(evento);
 
 }
 
