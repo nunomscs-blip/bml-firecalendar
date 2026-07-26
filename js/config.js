@@ -101,3 +101,19 @@ const TURNOS = {
     }
 
 };
+
+/* ======================================================
+   ÍCONES DOS EVENTOS
+====================================================== */
+
+const ICONES_EVENTOS = {
+
+    SAUDE: "🚑",
+    ECIN: "🚒",
+    SBA: "🚑",
+    FORMACAO: "🎓",
+    INSTRUCAO: "📚",
+    SERVICO: "🏢",
+    OUTROS: "📌"
+
+};

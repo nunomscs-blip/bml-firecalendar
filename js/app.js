@@ -384,16 +384,69 @@ function atualizarListaEventos(eventos){
 
     listaEventosDia.innerHTML = "";
 
+    if(eventos.length === 0){
+
+        listaEventosDia.innerHTML = `
+            <p>Não existem eventos neste dia.</p>
+        `;
+
+        return;
+    }
+
     for(const evento of eventos){
 
+        const turno = TURNOS[evento.turno];
+
+        const icone = ICONES_EVENTOS[evento.tipo] ?? "📌";
+
         listaEventosDia.innerHTML += `
+
             <div class="itemEvento">
 
-                <strong>${evento.tipo}</strong>
+                <div class="cabecalhoEvento">
 
-                ${evento.turno === "D" ? "Dia" : "Noite"}
+                    <strong>${icone} ${evento.tipo}</strong>
+
+                    </div>
+
+                <div class="detalhesEvento">
+
+                    <div>📅 <strong>Turno:</strong> ${turno.nome}</div>
+
+                    <div>🕒 <strong>Horário:</strong> ${turno.inicio} → ${turno.fim}</div>
+
+                    ${
+                        evento.observacoes
+                        ?
+                        `
+                        <div class="observacoesEvento">
+
+                           📝 <strong>Observações</strong><br>
+
+                            ${evento.observacoes}
+
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+                <div class="acoesEvento">
+
+                    <button class="btnEditar" data-id="${evento.id}">
+                        ✏ Editar
+                    </button>
+
+                    <button class="btnEliminar" data-id="${evento.id}">
+                        🗑 Eliminar
+                    </button>
+
+                </div>
 
             </div>
+
         `;
 
     }
