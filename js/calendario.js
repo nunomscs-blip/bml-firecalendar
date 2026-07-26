@@ -318,6 +318,30 @@ function abrirEventosDia(dia){
 
 }
 
+function abrirModalEliminar(evento){
+
+    estado.modalEliminar.evento = evento;
+
+    document.getElementById("chkConfirmarEliminar").checked = false;
+
+    document.getElementById("btnConfirmarEliminar").disabled = true;
+
+    document.getElementById("modalEliminar")
+        .classList.remove("oculto");
+
+}
+
+function fecharModalEliminar(){
+
+    document.getElementById("modalEliminar")
+        .classList.add("oculto");
+
+    estado.modalEliminar.evento = null;
+
+}
+
+
+
 // =======================================================
 // LONG PRESS
 // =======================================================
