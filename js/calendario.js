@@ -408,4 +408,6 @@ function executarLongPress(elemento){
 
     abrirEventosDia(dia);
 
+    }
+
 }
