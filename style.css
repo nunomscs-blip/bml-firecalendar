@@ -557,23 +557,23 @@ body{
 ====================================================== */
 
 .eventoDia{
-    border-bottom:6px solid #2196f3;
+    background: linear-gradient(
+        to bottom,
+        var(--cor-evento) 50%,
+        #ffffff 50%
+    );
 }
 
 .eventoNoite{
-    border-top:6px solid #0d47a1;
+    background: linear-gradient(
+        to bottom,
+        #ffffff 50%,
+        var(--cor-evento) 50%
+    );
 }
 
 .eventoDiaNoite{
-    background:
-        linear-gradient(
-            to bottom,
-            #0d47a1 0%,
-            #0d47a1 50%,
-            #2196f3 50%,
-            #2196f3 100%
-        );
-    color:#fff;
+    background: var(--cor-evento);
 }
 
 /* ======================================================
