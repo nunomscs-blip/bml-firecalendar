@@ -142,12 +142,11 @@ function mostrarCalendario(){
     const marcador = criarMarcadoresDia(i);
 
     diasMes.innerHTML += `
-        <div class="${classe}" data-dia="${i}">
-        ${i}
+    <div class="${classe}" data-dia="${i}">
+        <span class="numeroDia">${i}</span>
         ${marcador}
-        </div>
-        `;
-    }
+    </div>
+`;
 
         inicializarCalendario();
 
