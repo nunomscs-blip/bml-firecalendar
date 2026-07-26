@@ -21,6 +21,7 @@ const TIPOS_EVENTO = [
     {
         id: "SAUDE",
         nome: "Saúde",
+        icone: "🚑",
         cor: "#1976D2",
         turnos: true
     },
@@ -28,6 +29,7 @@ const TIPOS_EVENTO = [
     {
         id: "ECIN",
         nome: "ECIN",
+        icone: "🚒",
         cor: "#D32F2F",
         turnos: true
     },
@@ -35,6 +37,7 @@ const TIPOS_EVENTO = [
     {
         id: "SBA",
         nome: "SBA",
+        icone: "🚑",
         cor: "#FBC02D",
         turnos: true
     },
@@ -42,6 +45,7 @@ const TIPOS_EVENTO = [
     {
         id: "SERVICO",
         nome: "Serviço",
+        icone: "🏢",
         cor: "#757575",
         turnos: true
     },
@@ -49,6 +53,7 @@ const TIPOS_EVENTO = [
     {
         id: "FORMACAO",
         nome: "Formação",
+        icone: "🎓",
         cor: "#795548",
         turnos: true
     },
@@ -56,6 +61,7 @@ const TIPOS_EVENTO = [
     {
         id: "EXTRA1",
         nome: "Extra 1",
+        icone: "📌",
         cor: "#8E24AA",
         turnos: true
     },
@@ -63,6 +69,7 @@ const TIPOS_EVENTO = [
     {
         id: "EXTRA2",
         nome: "Extra 2",
+        icone: "📌",
         cor: "#009688",
         turnos: true
     }
@@ -157,14 +164,3 @@ const TURNOS = {
    ÍCONES DOS EVENTOS
 ====================================================== */
 
-const ICONES_EVENTOS = {
-
-    SAUDE: "🚑",
-    ECIN: "🚒",
-    SBA: "🚑",
-    FORMACAO: "🎓",
-    INSTRUCAO: "📚",
-    SERVICO: "🏢",
-    OUTROS: "📌"
-
-};

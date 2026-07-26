@@ -529,7 +529,7 @@ function atualizarListaEventos(eventos){
 
         const nomeTipo = tipo ? tipo.nome : evento.tipo;
 
-        const icone = ICONES_EVENTOS[evento.tipo] ?? "📌";
+        const icone = tipo ? tipo.icone : "📌";
 
         listaEventosDia.innerHTML += `
 

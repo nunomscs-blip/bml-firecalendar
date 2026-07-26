@@ -139,14 +139,6 @@ function mostrarCalendario(){
 
     const classe = obterClasseDia(i);
 
-   const eventosDia = EVENTOS.filter(evento =>
-
-    evento.ano === calendarioAtual.ano &&
-    evento.mes === calendarioAtual.mes &&
-    evento.dia === i
-
-);
-
     const marcador = criarMarcadoresDia(i);
 
     diasMes.innerHTML += `
