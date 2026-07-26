@@ -367,6 +367,10 @@ document
     .getElementById("btnCancelarEliminar")
     .addEventListener("click", fecharModalEliminar);
 
+    document
+    .getElementById("btnConfirmarEliminar")
+    .addEventListener("click", confirmarEliminar);
+
 // =======================================================
 // LONG PRESS
 // =======================================================

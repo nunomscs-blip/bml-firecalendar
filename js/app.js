@@ -773,6 +773,30 @@ function iniciarAplicacao() {
 
 }
 
+function mostrarToast(texto){
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = texto;
+
+    toast.classList.remove("oculto");
+
+    toast.classList.add("mostrar");
+
+    setTimeout(() => {
+
+        toast.classList.remove("mostrar");
+
+        setTimeout(() => {
+
+            toast.classList.add("oculto");
+
+        }, 300);
+
+    }, 2500);
+
+}
+
 iniciarAplicacao();
 
 
@@ -800,3 +824,4 @@ function atualizarDiasSelecionados(){
             .join(", ");
 
 }
+
