@@ -239,6 +239,63 @@
 
 </div>
 
+<!-- ==========================
+     MODAL ELIMINAR EVENTO
+========================== -->
+
+<div id="modalEliminar" class="modal oculto">
+
+    <div class="modalConteudo">
+
+        <h2>Eliminar Evento</h2>
+
+        <p class="textoAlerta">
+            Ao continuar, o evento será eliminado definitivamente do sistema.
+        </p>
+
+        <p class="textoAlerta">
+            Esta ação não pode ser anulada.
+        </p>
+
+        <label class="confirmacaoEliminar">
+
+            <input
+                type="checkbox"
+                id="chkConfirmarEliminar">
+
+            Confirmo que pretendo eliminar definitivamente este evento.
+
+        </label>
+
+        <div class="botoesModal">
+
+            <button id="btnCancelarEliminar">
+
+                Cancelar
+
+            </button>
+
+            <button
+                id="btnConfirmarEliminar"
+                class="botaoPerigo"
+                disabled>
+
+                Eliminar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==========================
+     TOAST
+========================== -->
+
+<div id="toast" class="toast oculto"></div>
+
     <script src="js/config.js"></script>
     <script src="js/datas.js"></script>
     <script src="js/calendario.js"></script>
@@ -248,3 +305,4 @@
 </body>
 
 </html>
+
