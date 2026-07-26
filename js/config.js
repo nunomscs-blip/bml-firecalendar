@@ -19,13 +19,54 @@ const APP = {
 const TIPOS_EVENTO = [
 
     {
-        id: 1,
-        nome: "SAÚDE",
-        cor: "#1976d2",
+        id: "SAUDE",
+        nome: "Saúde",
+        cor: "#1976D2",
+        turnos: true
+    },
+
+    {
+        id: "ECIN",
+        nome: "ECIN",
+        cor: "#D32F2F",
+        turnos: true
+    },
+
+    {
+        id: "SBA",
+        nome: "SBA",
+        cor: "#FBC02D",
+        turnos: true
+    },
+
+    {
+        id: "SERVICO",
+        nome: "Serviço",
+        cor: "#757575",
+        turnos: true
+    },
+
+    {
+        id: "FORMACAO",
+        nome: "Formação",
+        cor: "#795548",
+        turnos: true
+    },
+
+    {
+        id: "EXTRA1",
+        nome: "Extra 1",
+        cor: "#8E24AA",
+        turnos: true
+    },
+
+    {
+        id: "EXTRA2",
+        nome: "Extra 2",
+        cor: "#009688",
         turnos: true
     }
 
-    
 ];
 
 /* ======================================================
