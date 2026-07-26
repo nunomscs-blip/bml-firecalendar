@@ -154,6 +154,7 @@ function mostrarCalendario(){
 
 inicializarCalendario();
 
+}
 
 /* ======================================================
    OBTÉM A CLASSE DO DIA
