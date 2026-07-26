@@ -399,7 +399,17 @@ function atualizarListaEventos(eventos){
         console.log(evento.turno);
         console.log(TURNOS);
 
-        const turno = TURNOS[evento.turno];
+        const turno = Object.values(TURNOS).find(
+
+        t => t.id === evento.turno
+
+        );
+
+        if(!turno){
+
+        continue;
+
+        }
 
         const icone = ICONES_EVENTOS[evento.tipo] ?? "📌";
 
