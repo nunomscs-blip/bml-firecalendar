@@ -20,6 +20,12 @@ const estado = {
 
         evento: null
 
+    },
+
+    modalEliminar:{
+
+    evento:null
+
     }
 
 };
