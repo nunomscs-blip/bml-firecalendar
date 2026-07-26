@@ -139,14 +139,13 @@ function mostrarCalendario(){
 
     const classe = obterClasseDia(i);
 
-    const marcador = criarMarcadoresDia(i);
+    const classeEvento = criarMarcadoresDia(i);
 
     diasMes.innerHTML += `
-    <div class="${classe}" data-dia="${i}">
-        <span class="numeroDia">${i}</span>
-        ${marcador}
-    </div>
-`;
+        <div class="${classe} ${classeEvento}" data-dia="${i}">
+            <span class="numeroDia">${i}</span>
+        </div>
+    `;
 
         inicializarCalendario();
 
@@ -188,7 +187,7 @@ function obterClasseDia(dia){
 
 function criarMarcadoresDia(dia){
 
-    const eventosDia = EVENTOS.filter(evento =>
+   const eventosDia = EVENTOS.filter(evento =>
 
     evento.ano === calendarioAtual.ano &&
     evento.mes === calendarioAtual.mes &&
@@ -196,22 +195,37 @@ function criarMarcadoresDia(dia){
 
 );
 
-    if(eventosDia.length === 0){
+if(eventosDia.length === 0){
 
-        return "";
+    return "";
+
+}
+
+const evento = eventosDia[0];
+
+const tipo = obterTipoEvento(evento.tipo);
+
+    if(!tipo){
+
+    return "";
 
     }
 
-    const tipo = obterTipoEvento(eventosDia[0].tipo);
+    switch(evento.turno){
 
-    const cor = tipo ? tipo.cor : "#666";
+    case "D":
 
-    return `
-    <div
-        class="marcadorEvento"
-        style="background:${cor};">
-    </div>
-    `;
+        return "eventoDia";
+
+    case "N":
+
+        return "eventoNoite";
+
+    default:
+
+        return "eventoDiaNoite";
+
+ 
 
 }
 
