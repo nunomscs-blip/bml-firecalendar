@@ -422,4 +422,4 @@ function executarLongPress(elemento){
 
     }
 
-}
+
