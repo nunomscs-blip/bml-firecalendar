@@ -395,6 +395,10 @@ function atualizarListaEventos(eventos){
 
     for(const evento of eventos){
 
+        console.log(evento);
+        console.log(evento.turno);
+        console.log(TURNOS);
+
         const turno = TURNOS[evento.turno];
 
         const icone = ICONES_EVENTOS[evento.tipo] ?? "📌";
