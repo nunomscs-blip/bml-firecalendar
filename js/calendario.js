@@ -225,7 +225,7 @@ const tipo = obterTipoEvento(evento.tipo);
 
         return "eventoDiaNoite";
 
- 
+ }
 
 }
 
