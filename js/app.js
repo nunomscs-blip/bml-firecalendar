@@ -650,6 +650,9 @@ function confirmarEliminar(){
 
 }
 
+document
+    .getElementById("btnConfirmarEliminar")
+    .addEventListener("click", confirmarEliminar);
 
 /* ======================================================
    CONFIGURAÇÃO
