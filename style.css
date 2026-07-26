@@ -649,3 +649,98 @@ body{
 
 }
 
+/* =====================================================
+   MODAL ELIMINAR
+===================================================== */
+
+.textoAlerta{
+
+    margin:12px 0;
+
+    line-height:1.5;
+
+    text-align:left;
+
+}
+
+.confirmacaoEliminar{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    margin:20px 0;
+
+    text-align:left;
+
+}
+
+.confirmacaoEliminar input{
+
+    margin-top:3px;
+
+}
+
+.botaoPerigo{
+
+    background:#c62828;
+
+    color:#fff;
+
+}
+
+.botaoPerigo:hover:not(:disabled){
+
+    background:#b71c1c;
+
+}
+
+.botaoPerigo:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+
+    position:fixed;
+
+    left:50%;
+
+    bottom:30px;
+
+    transform:translateX(-50%);
+
+    background:#2e7d32;
+
+    color:#fff;
+
+    padding:12px 24px;
+
+    border-radius:8px;
+
+    font-weight:600;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.3);
+
+    opacity:0;
+
+    transition:opacity .3s;
+
+    z-index:9999;
+
+}
+
+.toast.mostrar{
+
+    opacity:1;
+
+}
