@@ -288,6 +288,8 @@ btnFecharEventos.addEventListener(
 
 function abrirModalEvento(){
 
+    fecharModalEventos();
+
     const modal = document.getElementById("modalEvento");
 
     if(estado.modal.modo === "editar"){
@@ -354,52 +356,82 @@ btnGuardarEvento.addEventListener(
 
 function guardarEvento(){
 
-   for (const dia of estado.diasSelecionados) {
+    if(estado.modal.modo === "editar"){
 
-    const evento = {
+        guardarEdicao();
 
-    id: crypto.randomUUID(),
-
-    tipo: document.getElementById("tipoEvento").value,
-
-    turno: document.getElementById("turnoEvento").value,
-
-    ano: calendarioAtual.ano,
-
-    mes: calendarioAtual.mes,
-
-    dia: dia,
-
-    observacoes:
-        document.getElementById("observacoesEvento").value.trim()
-
-};
-
-adicionarEvento(evento);
+        return;
 
     }
 
-        // Fecha o modal
-        document
-            .getElementById("modalEvento")
-            .classList.add("oculto");
+    guardarNovoEvento();
 
-        // Volta ao modo normal
-        estado.modo = MODOS.VISUALIZACAO;
+}
 
-        // Limpa a seleção
-        estado.diasSelecionados = [];
+function guardarNovoEvento(){
 
-        // Limpa observações
-        document.getElementById("observacoesEvento").value = "";
+    for (const dia of estado.diasSelecionados){
 
-        // Atualiza a interface
-        atualizarInterface();
+        const evento = {
 
-        // Volta a desenhar o calendário
-        mostrarCalendario();
+            id: crypto.randomUUID(),
 
-        console.log(EVENTOS);
+            tipo: document.getElementById("tipoEvento").value,
+
+            turno: document.getElementById("turnoEvento").value,
+
+            ano: calendarioAtual.ano,
+
+            mes: calendarioAtual.mes,
+
+            dia: dia,
+
+            observacoes:
+                document.getElementById("observacoesEvento").value.trim()
+
+        };
+
+        adicionarEvento(evento);
+
+    }
+
+    finalizarEdicao();
+
+}
+
+function guardarEdicao(){
+
+    console.log("Editar");
+
+}
+
+function finalizarEdicao(){
+
+    // Fecha o modal
+    document
+        .getElementById("modalEvento")
+        .classList.add("oculto");
+
+    // Volta ao modo normal
+    estado.modo = MODOS.VISUALIZACAO;
+
+    // Limpa a seleção
+    estado.diasSelecionados = [];
+
+    // Limpa o estado do modal
+    estado.modal.modo = "novo";
+    estado.modal.evento = null;
+
+    // Limpa observações
+    document.getElementById("observacoesEvento").value = "";
+
+    // Atualiza a interface
+    atualizarInterface();
+
+    // Atualiza o calendário
+    mostrarCalendario();
+
+    console.log(EVENTOS);
 
 }
 
@@ -526,12 +558,17 @@ function editarEventoModal(event){
 
     }
 
+    // Guarda o estado do modal
     estado.modal.modo = "editar";
-
     estado.modal.evento = evento;
 
+    // Dia do evento
     estado.diasSelecionados = [evento.dia];
 
+    // Fecha o modal da lista de eventos
+    fecharModalEventos();
+
+    // Abre o modal de edição
     abrirModalEvento();
 
 }
