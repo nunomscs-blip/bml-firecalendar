@@ -49,9 +49,7 @@ function confirmarDias(){
 
     atualizarInterface();
 
-    document
-        .getElementById("modalEvento")
-        .classList.remove("oculto");
+    abrirModalEvento();
 
 }
 
@@ -288,6 +286,43 @@ btnFecharEventos.addEventListener(
     fecharModalEventos
 );
 
+function abrirModalEvento(){
+
+    const modal = document.getElementById("modalEvento");
+
+    if(estado.modal.modo === "editar"){
+
+        document.getElementById("tituloModal").textContent =
+            "Editar Evento";
+
+        document.getElementById("tipoEvento").value =
+            estado.modal.evento.tipo;
+
+        document.getElementById("turnoEvento").value =
+            estado.modal.evento.turno;
+
+        document.getElementById("observacoesEvento").value =
+            estado.modal.evento.observacoes ?? "";
+
+    }else{
+
+        document.getElementById("tituloModal").textContent =
+            "Novo Evento";
+
+        document.getElementById("tipoEvento").selectedIndex = 0;
+
+        document.getElementById("turnoEvento").selectedIndex = 0;
+
+        document.getElementById("observacoesEvento").value = "";
+
+    }
+
+    atualizarDiasSelecionados();
+
+    modal.classList.remove("oculto");
+
+}
+
 function cancelarEvento(){
 
     estado.modo = MODOS.VISUALIZACAO;
@@ -491,7 +526,13 @@ function editarEventoModal(event){
 
     }
 
-    console.log(evento);
+    estado.modal.modo = "editar";
+
+    estado.modal.evento = evento;
+
+    estado.diasSelecionados = [evento.dia];
+
+    abrirModalEvento();
 
 }
 
