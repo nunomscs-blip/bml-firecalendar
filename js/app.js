@@ -380,6 +380,26 @@ function fecharModalEventos(){
 
 }
 
+function atualizarListaEventos(eventos){
+
+    listaEventosDia.innerHTML = "";
+
+    for(const evento of eventos){
+
+        listaEventosDia.innerHTML += `
+            <div class="itemEvento">
+
+                <strong>${evento.tipo}</strong>
+
+                ${evento.turno === "D" ? "Dia" : "Noite"}
+
+            </div>
+        `;
+
+    }
+
+}
+
 /* ======================================================
    CONFIGURAÇÃO
 ====================================================== */

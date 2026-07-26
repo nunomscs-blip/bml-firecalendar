@@ -298,6 +298,8 @@ function abrirEventosDia(dia){
 
     );
 
+    atualizarListaEventos(eventosDia);
+
     abrirModalEventos();
 
 }
