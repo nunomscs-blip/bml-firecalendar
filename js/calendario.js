@@ -191,49 +191,40 @@ function obterClasseDia(dia){
 
 function criarMarcadoresDia(dia){
 
-   const eventosDia = EVENTOS.filter(evento =>
+    const eventosDia = EVENTOS.filter(evento =>
+        evento.ano === calendarioAtual.ano &&
+        evento.mes === calendarioAtual.mes &&
+        evento.dia === dia
+    );
 
     console.log(dia, eventosDia);
-    
-    evento.ano === calendarioAtual.ano &&
-    evento.mes === calendarioAtual.mes &&
-    evento.dia === dia
 
-);
+    if(eventosDia.length === 0){
+        return "";
+    }
 
-if(eventosDia.length === 0){
+    const evento = eventosDia[0];
 
-    return "";
-
-}
-
-const evento = eventosDia[0];
-
-const tipo = obterTipoEvento(evento.tipo);
+    const tipo = obterTipoEvento(evento.tipo);
 
     if(!tipo){
-
-    return "";
-
+        return "";
     }
 
     switch(evento.turno){
 
-    case "D":
+        case "D":
+            return "eventoDia";
 
-        return "eventoDia";
+        case "N":
+            return "eventoNoite";
 
-    case "N":
-
-        return "eventoNoite";
-
-    default:
-
-        return "eventoDiaNoite";
-
- }
+        default:
+            return "eventoDiaNoite";
+    }
 
 }
+
 
 // =======================================================
 // INICIALIZA O CALENDÁRIO
