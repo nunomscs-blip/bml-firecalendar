@@ -274,9 +274,7 @@ function mesAnterior(){
     // Utilizado apenas durante o desenvolvimento.
     // =======================================================
 
-    console.log(obterNomeMes(8));
-
-    const btnCancelarEvento =
+        const btnCancelarEvento =
     document.getElementById("btnCancelarEvento");
 
     btnCancelarEvento.addEventListener(
@@ -481,7 +479,6 @@ function finalizarEdicao(){
     // Atualiza o calendário
     mostrarCalendario();
 
-    console.log(EVENTOS);
 
 }
 

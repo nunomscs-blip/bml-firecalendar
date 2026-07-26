@@ -49,28 +49,6 @@ function adicionarEvento(evento) {
 
 }
 
-function testarBaseDados() {
-
-    EVENTOS = [];
-
-    EVENTOS.push({
-
-        id: 1,
-
-        tipo: "SAÚDE",
-
-        data: "2026-08-01"
-
-    });
-
-    guardarEventos();
-
-    carregarEventos();
-
-    console.log(EVENTOS);
-
-}
-
 function editarEvento(id, eventoAtualizado){
 
     const indice = EVENTOS.findIndex(

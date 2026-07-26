@@ -349,15 +349,6 @@ function fecharModalEliminar(){
 
 }
 
-function fecharModalEliminar(){
-
-    document.getElementById("modalEliminar")
-        .classList.add("oculto");
-
-    estado.modalEliminar.evento = null;
-
-}
-
 /* ======================================================
    EVENTOS DO MODAL ELIMINAR
 ====================================================== */
