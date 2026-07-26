@@ -256,7 +256,7 @@ body{
     justify-content: center;
 
     align-items: center;
-    
+
     position: relative;
 
 }
@@ -552,22 +552,28 @@ body{
 
 }
 
-.marcadorEvento{
+/* ======================================================
+   MARCAÇÃO DOS EVENTOS
+====================================================== */
 
-    width:18px;
+.eventoDia{
+    border-bottom:6px solid #2196f3;
+}
 
-    height:18px;
+.eventoNoite{
+    border-top:6px solid #0d47a1;
+}
 
-    border-radius:50%;
-
-    background:#1976d2;
-
-    position:absolute;
-
-    top:4px;
-
-    right:4px;
-
+.eventoDiaNoite{
+    background:
+        linear-gradient(
+            to bottom,
+            #0d47a1 0%,
+            #0d47a1 50%,
+            #2196f3 50%,
+            #2196f3 100%
+        );
+    color:#fff;
 }
 
 /* ======================================================
