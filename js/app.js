@@ -147,6 +147,25 @@ function cancelarSelecaoDias(){
 
 }
 
+function preencherTiposEvento(){
+
+    const select = document.getElementById("tipoEvento");
+
+    select.innerHTML = "";
+
+    TIPOS_EVENTO.forEach(tipo => {
+
+        const option = document.createElement("option");
+
+        option.value = tipo.id;
+
+        option.textContent = tipo.nome;
+
+        select.appendChild(option);
+
+    });
+
+}
 
 /* ======================================================
    BOTÃO FLUTUANTE
@@ -509,6 +528,10 @@ function atualizarListaEventos(eventos){
 
         }
 
+        const tipo = obterTipoEvento(evento.tipo);
+
+        const nomeTipo = tipo ? tipo.nome : evento.tipo;
+
         const icone = ICONES_EVENTOS[evento.tipo] ?? "📌";
 
         listaEventosDia.innerHTML += `
@@ -517,7 +540,7 @@ function atualizarListaEventos(eventos){
 
                 <div class="cabecalhoEvento">
 
-                    <strong>${icone} ${evento.tipo}</strong>
+                    <strong>${icone} ${nomeTipo}</strong>
 
                     </div>
 
@@ -769,6 +792,8 @@ function atualizarInterface(){
 function iniciarAplicacao() {
 
     carregarEventos();
+
+    preencherTiposEvento();
 
     atualizarInterface();
 
