@@ -134,20 +134,28 @@ function mostrarCalendario(){
     }
 
     // Dias do mês
-
-    for(let i = 1; i <= diasNoMes; i++){
+for(let i = 1; i <= diasNoMes; i++){
 
     const classe = obterClasseDia(i);
 
     const classeEvento = criarMarcadoresDia(i);
 
+    const evento = EVENTOS.find(e =>
+        e.ano === calendarioAtual.ano &&
+        e.mes === calendarioAtual.mes &&
+        e.dia === i
+    );
+
+    const iconeTurno =
+        evento?.turno === "D" ? "☀️" :
+        evento?.turno === "N" ? "🌙" : "";
+
     diasMes.innerHTML += `
         <div class="${classe} ${classeEvento}" data-dia="${i}">
             <span class="numeroDia">${i}</span>
+            <span class="iconeTurno">${iconeTurno}</span>
         </div>
     `;
-
-        
 
 }
 

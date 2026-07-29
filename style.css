@@ -261,6 +261,47 @@ body{
 
 }
 
+/* =======================================================
+   DIA
+======================================================= */
+
+.dia{
+
+    height:70px;
+
+    background:white;
+
+    border:1px solid #d0d0d0;
+
+    border-radius:6px;
+
+    padding:6px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    position:relative;
+
+}
+
+/* Ícone do turno */
+
+.iconeTurno{
+
+    position:absolute;
+
+    top:4px;
+
+    right:4px;
+
+    font-size:14px;
+
+    pointer-events:none;
+
+}
 
 /* =======================================================
    DIA VAZIO
@@ -756,3 +797,4 @@ body{
     opacity:1;
 
 }
+
