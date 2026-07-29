@@ -289,16 +289,24 @@ body{
 
 /* Ícone do turno */
 
-.iconeTurno{
+.iconeDia{
 
     position:absolute;
-
     top:3px;
-
     right:3px;
-
     font-size:20px;
+    line-height:1;
+    pointer-events:none;
 
+}
+
+.iconeNoite{
+
+    position:absolute;
+    bottom:3px;
+    right:3px;
+    font-size:20px;
+    line-height:1;
     pointer-events:none;
 
 }

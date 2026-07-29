@@ -146,14 +146,15 @@ for(let i = 1; i <= diasNoMes; i++){
         e.dia === i
     );
 
-    const iconeTurno =
-        evento?.turno === "D" ? "☀️" :
-        evento?.turno === "N" ? "🌙" : "";
+    const iconeDia = evento?.turno === "D" || evento?.turno === "DN" ? "☀️" : "";
+
+const iconeNoite = evento?.turno === "N" || evento?.turno === "DN" ? "🌙" : "";
 
     diasMes.innerHTML += `
         <div class="${classe} ${classeEvento}" data-dia="${i}">
             <span class="numeroDia">${i}</span>
-            <span class="iconeTurno">${iconeTurno}</span>
+            <span class="iconeDia">${iconeDia}</span>
+            <span class="iconeNoite">${iconeNoite}</span>
         </div>
     `;
 
