@@ -1,4 +1,4 @@
-alert("guardarNovoEvento");
+
 
 // =======================================================
 // BOTÃO NOVO EVENTO
