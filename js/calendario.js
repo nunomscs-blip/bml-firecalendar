@@ -133,28 +133,30 @@ function mostrarCalendario(){
 
     }
 
-    // Dias do mês
-for(let i = 1; i <= diasNoMes; i++){
+
+// Dias do mês
+
+    for(let i = 1; i <= diasNoMes; i++){
 
     const classe = obterClasseDia(i);
 
     const classeEvento = criarMarcadoresDia(i);
 
-    const evento = EVENTOS.find(e =>
+    const eventos = EVENTOS.filter(e =>
         e.ano === calendarioAtual.ano &&
         e.mes === calendarioAtual.mes &&
         e.dia === i
     );
 
-    const iconeDia = evento?.turno === "D" || evento?.turno === "DN" ? "☀️" : "";
+    const iconeDia = eventos.some(e => e.turno === "D");
 
-const iconeNoite = evento?.turno === "N" || evento?.turno === "DN" ? "🌙" : "";
+    const iconeNoite = eventos.some(e => e.turno === "N");
 
     diasMes.innerHTML += `
         <div class="${classe} ${classeEvento}" data-dia="${i}">
             <span class="numeroDia">${i}</span>
-            <span class="iconeDia">${iconeDia}</span>
-            <span class="iconeNoite">${iconeNoite}</span>
+            <span class="iconeDia">${iconeDia ? "☀️" : ""}</span>
+            <span class="iconeNoite">${iconeNoite ? "🌙" : ""}</span>
         </div>
     `;
 
@@ -212,21 +214,24 @@ function criarMarcadoresDia(dia){
         return "";
     }
 
-    switch(eventosDia[0].turno){
+    const temDia = eventosDia.some(e => e.turno === "D");
+    const temNoite = eventosDia.some(e => e.turno === "N");
 
-        case "D":
-            return "eventoDia";
-
-        case "N":
-            return "eventoNoite";
-
-        default:
-            return "eventoDiaNoite";
-
+    if(temDia && temNoite){
+        return "eventoDiaNoite";
     }
 
-}
+    if(temDia){
+        return "eventoDia";
+    }
 
+    if(temNoite){
+        return "eventoNoite";
+    }
+
+    return "";
+
+}
 
 // =======================================================
 // INICIALIZA O CALENDÁRIO
