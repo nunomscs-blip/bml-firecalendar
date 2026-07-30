@@ -305,7 +305,76 @@ btnFecharEventos.addEventListener(
     fecharModalEventos
 );
 
+/* ======================================================
+   ATUALIZA TURNOS DISPONÍVEIS
+====================================================== */
+
+function atualizarTurnosDisponiveis(){
+
+    const select = document.getElementById("turnoEvento");
+
+    let existeDia = false;
+    let existeNoite = false;
+
+    for(const dia of estado.diasSelecionados){
+
+        const eventos = EVENTOS.filter(e =>
+            e.ano === calendarioAtual.ano &&
+            e.mes === calendarioAtual.mes &&
+            e.dia === dia
+        );
+
+        if(eventos.some(e => e.turno === "D")){
+            existeDia = true;
+        }
+
+        if(eventos.some(e => e.turno === "N")){
+            existeNoite = true;
+        }
+
+    }
+
+    select.innerHTML = "";
+
+    if(!existeDia){
+
+        select.innerHTML += `
+            <option value="D">
+                Dia (07:00 - 19:00)
+            </option>
+        `;
+
+    }
+
+    if(!existeNoite){
+
+        select.innerHTML += `
+            <option value="N">
+                Noite (19:00 - 07:00)
+            </option>
+        `;
+
+    }
+
+    if(select.options.length === 0){
+
+        mostrarToast("Os dias selecionados já têm os dois turnos ocupados.");
+
+        cancelarEvento();
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
 function abrirModalEvento(){
+
+    if(!atualizarTurnosDisponiveis()){
+    return;
+    }
 
     fecharModalEventos();
 
