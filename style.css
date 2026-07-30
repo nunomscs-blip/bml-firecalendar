@@ -243,34 +243,6 @@ body{
 
     height:70px;
 
-    background:white;
-
-    border:1px solid #d0d0d0;
-
-    border-radius:6px;
-
-    padding:6px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    position: relative;
-
-}
-
-/* =======================================================
-   DIA
-======================================================= */
-
-.dia{
-
-    height:70px;
-
-    background:white;
-
     border:1px solid #d0d0d0;
 
     border-radius:6px;
@@ -284,6 +256,15 @@ body{
     align-items:center;
 
     position:relative;
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--cor-dia, white) 0%,
+            var(--cor-dia, white) 50%,
+            var(--cor-noite, white) 50%,
+            var(--cor-noite, white) 100%
+        );
 
 }
 
@@ -605,25 +586,7 @@ body{
    MARCAÇÃO DOS EVENTOS
 ====================================================== */
 
-.eventoDia{
-    background: linear-gradient(
-        to bottom,
-        #1976d2 50%,
-        #ffffff 50%
-    );
-}
 
-.eventoNoite{
-    background: linear-gradient(
-        to bottom,
-        #ffffff 50%,
-        #1976d2 50%
-    );
-}
-
-.eventoDiaNoite{
-    background:#1976d2;
-}
 
 /* ======================================================
    EVENTOS DO DIA
