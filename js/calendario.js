@@ -173,8 +173,8 @@ eventos.forEach(evento => {
         class="${classe}"
         data-dia="${i}"
         style="
-        --cor-dia:${corDia};
-        --cor-noite:${corNoite};
+            --cor-dia:${corDia || "#ffffff"};
+            --cor-noite:${corNoite || "#ffffff"};
         "
         >
             <span class="numeroDia">${i}</span>
