@@ -901,53 +901,5 @@ function atualizarDiasSelecionados(){
 
 }
 
-/* =======================================================
-   LEGENDA DOS EVENTOS
-======================================================= */
 
-#legendaEventos{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:14px;
-
-    align-items:center;
-
-    padding:8px 12px;
-
-    margin:8px 12px;
-
-    background:#ffffff;
-
-    border:1px solid #dcdcdc;
-
-    border-radius:8px;
-
-    font-size:12px;
-
-}
-
-.itemLegenda{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:6px;
-
-}
-
-.corLegenda{
-
-    width:12px;
-
-    height:12px;
-
-    border-radius:3px;
-
-    border:1px solid rgba(0,0,0,.15);
-
-}
 
