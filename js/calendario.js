@@ -151,7 +151,11 @@ let corNoite = "";
 
 eventos.forEach(evento => {
 
+    console.log(evento);
+
     const tipo = obterTipoEvento(evento.tipo);
+
+    console.log(tipo);
 
     if(!tipo){
         return;
