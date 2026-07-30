@@ -418,6 +418,18 @@ function guardarNovoEvento(){
 
         console.log("Vai gravar:", evento);
 
+        const existe = EVENTOS.some(e =>
+            e.ano === evento.ano &&
+            e.mes === evento.mes &&
+            e.dia === evento.dia &&
+            e.turno === evento.turno
+        );
+
+if(existe){
+    mostrarToast("Já existe um evento para este turno.");
+    continue;
+    }
+        
         adicionarEvento(evento);
 
     }
@@ -833,6 +845,8 @@ function iniciarAplicacao() {
 
     mostrarCalendario();
 
+    atualizarLegendaEventos();
+
 }
 
 function mostrarToast(texto){
@@ -884,6 +898,56 @@ function atualizarDiasSelecionados(){
         estado.diasSelecionados
             .sort((a,b)=>a-b)
             .join(", ");
+
+}
+
+/* =======================================================
+   LEGENDA DOS EVENTOS
+======================================================= */
+
+#legendaEventos{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:14px;
+
+    align-items:center;
+
+    padding:8px 12px;
+
+    margin:8px 12px;
+
+    background:#ffffff;
+
+    border:1px solid #dcdcdc;
+
+    border-radius:8px;
+
+    font-size:12px;
+
+}
+
+.itemLegenda{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+}
+
+.corLegenda{
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:3px;
+
+    border:1px solid rgba(0,0,0,.15);
 
 }
 
