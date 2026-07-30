@@ -134,29 +134,52 @@ function mostrarCalendario(){
     }
 
 
-// Dias do mês
+    // Dias do mês
 
     for(let i = 1; i <= diasNoMes; i++){
 
     const classe = obterClasseDia(i);
 
-    const classeEvento = criarMarcadoresDia(i);
-
     const eventos = EVENTOS.filter(e =>
-        e.ano === calendarioAtual.ano &&
-        e.mes === calendarioAtual.mes &&
-        e.dia === i
-    );
+    e.ano === calendarioAtual.ano &&
+    e.mes === calendarioAtual.mes &&
+    e.dia === i
+);
 
-    const iconeDia = eventos.some(e => e.turno === "D");
+let corDia = "";
+let corNoite = "";
 
-    const iconeNoite = eventos.some(e => e.turno === "N");
+eventos.forEach(evento => {
+
+    const tipo = obterTipoEvento(evento.tipo);
+
+    if(!tipo){
+        return;
+    }
+
+    if(evento.turno === "D"){
+        corDia = tipo.cor;
+    }
+
+    if(evento.turno === "N"){
+        corNoite = tipo.cor;
+    }
+
+});
 
     diasMes.innerHTML += `
-        <div class="${classe} ${classeEvento}" data-dia="${i}">
+        
+        <div
+        class="${classe}"
+        data-dia="${i}"
+        style="
+        --cor-dia:${corDia};
+        --cor-noite:${corNoite};
+        "
+        >
             <span class="numeroDia">${i}</span>
-            <span class="iconeDia">${iconeDia ? "☀️" : ""}</span>
-            <span class="iconeNoite">${iconeNoite ? "🌙" : ""}</span>
+            <span class="iconeDia">${corDia ? "☀️" : ""}</span>
+            <span class="iconeNoite">${corNoite ? "🌙" : ""}</span>
         </div>
     `;
 
@@ -195,41 +218,6 @@ function obterClasseDia(dia){
     }
 
     return classe;
-
-}
-
-/* ======================================================
-   CRIA MARCADORES DO DIA
-====================================================== */
-
-function criarMarcadoresDia(dia){
-
-    const eventosDia = EVENTOS.filter(evento =>
-        evento.ano === calendarioAtual.ano &&
-        evento.mes === calendarioAtual.mes &&
-        evento.dia === dia
-    );
-
-    if(eventosDia.length === 0){
-        return "";
-    }
-
-    const temDia = eventosDia.some(e => e.turno === "D");
-    const temNoite = eventosDia.some(e => e.turno === "N");
-
-    if(temDia && temNoite){
-        return "eventoDiaNoite";
-    }
-
-    if(temDia){
-        return "eventoDia";
-    }
-
-    if(temNoite){
-        return "eventoNoite";
-    }
-
-    return "";
 
 }
 
