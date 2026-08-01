@@ -190,6 +190,8 @@ eventos.forEach(evento => {
 
 inicializarCalendario();
 
+atualizarBotaoHoje();
+
 }
 
 
