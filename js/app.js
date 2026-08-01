@@ -817,6 +817,10 @@ btnFecharTiposEvento.addEventListener(
 
 function abrirTiposEvento(){
 
+    fecharConfiguracao();
+
+    atualizarListaTiposEvento();
+
     document
         .getElementById("modalTiposEvento")
         .classList.remove("oculto");
@@ -1000,5 +1004,63 @@ function atualizarLegendaEventos(){
 
 }
 
+
+/* ======================================================
+   TIPOS DE EVENTO
+====================================================== */
+
+function atualizarListaTiposEvento(){
+
+    const lista = document.getElementById("listaTiposEvento");
+
+    lista.innerHTML = "";
+
+    TIPOS_EVENTO.forEach(tipo => {
+
+        lista.innerHTML += `
+            <div class="itemTipoEvento">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        data-tipo="${tipo.id}"
+                        ${tipo.ativo ? "checked" : ""}>
+
+                    <span
+                        class="corLegenda"
+                        style="background:${tipo.cor};">
+                    </span>
+
+                    ${tipo.nome}
+
+                </label>
+
+            </div>
+        `;
+
+    });
+
+    document
+    .querySelectorAll("#listaTiposEvento input")
+    .forEach(chk => {
+
+        chk.addEventListener("change", function(){
+
+            const tipo = TIPOS_EVENTO.find(
+                t => t.id === this.dataset.tipo
+            );
+
+            tipo.ativo = this.checked;
+
+            preencherTiposEvento();
+
+            atualizarLegendaEventos();
+
+        });
+
+    });
+
+}
 
 
