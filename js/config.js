@@ -19,22 +19,100 @@ const APP = {
 const TIPOS_EVENTO = [
 
     {
-        id: "SAUDE",
-        nome: "Saúde",
-        icone: "🚑",
-        cor: "#1976D2",
-        ativo: true,
-        usaTurnos: true
+    id: "SAUDE",
+
+    nome: "Saúde",
+
+    icone: "🚑",
+
+    cor: "#1976D2",
+
+    ativo: true,
+
+    usaTurnos: true,
+
+    turnos:{
+
+        turno1:{
+            nome:"Dia",
+            inicio:"07:00",
+            fim:"19:00"
+        },
+
+        turno2:{
+            nome:"Noite",
+            inicio:"19:00",
+            fim:"07:00"
+        }
+
     },
 
+    campos:[
+
+        {
+            id:"campo1",
+            ativo:false,
+            nome:"Campo 1"
+        },
+
+        {
+            id:"campo2",
+            ativo:false,
+            nome:"Campo 2"
+        }
+
+    ]
+
+},
+
     {
-        id: "ECIN",
-        nome: "ECIN",
-        icone: "🚒",
-        cor: "#D32F2F",
-        ativo: true,
-        usaTurnos: true
+    id:"ECIN",
+
+    nome:"ECINS",
+
+    icone:"🚒",
+
+    cor:"#D32F2F",
+
+    ativo:true,
+
+    usaTurnos:true,
+
+    permiteEditarTurnos:false,
+
+    turnos:{
+
+        turno1:{
+            nome:"Dia",
+            inicio:"07:00",
+            fim:"19:00"
+        },
+
+        turno2:{
+            nome:"Noite",
+            inicio:"19:00",
+            fim:"07:00"
+        }
+
     },
+
+    campos:[
+
+        {
+            id:"campo1",
+            ativo:false,
+            nome:"Campo 1"
+        },
+
+        {
+            id:"campo2",
+            ativo:false,
+            nome:"Campo 2"
+        }
+
+    ]
+
+}
 
     {
         id: "SBA",
