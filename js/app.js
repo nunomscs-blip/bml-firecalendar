@@ -640,17 +640,9 @@ function finalizarEdicao(){
    MODAL EVENTOS DO DIA
 ====================================================== */
 
-function abrirModalEventos(){
+Paineis.abrir("modalEventos");
 
-    modalEventos.classList.remove("oculto");
-
-}
-
-function fecharModalEventos(){
-
-    modalEventos.classList.add("oculto");
-
-}
+Paineis.fechar("modalEventos");
 
 function atualizarListaEventos(eventos){
 
@@ -989,7 +981,7 @@ function iniciarAplicacao() {
 
     atualizarLegendaEventos();
 
-    inicializarPaineis();
+    Paineis.inicializar();
 
 }
 
