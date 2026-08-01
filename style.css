@@ -1019,7 +1019,7 @@ body{
         height .25s ease;
 
 }
-
+ 
 /* Painel aberto */
 
 .painel:not(.oculto) .painelConteudo{
