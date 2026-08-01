@@ -978,6 +978,18 @@ body{
 
 }
 
+.painel.oculto .painelConteudo{
+
+    transform:translateY(100%);
+
+}
+
+.painel:not(.oculto) .painelConteudo{
+
+    transform:translateY(0);
+
+}
+
 /* Corpo */
 
 .painelConteudo{
