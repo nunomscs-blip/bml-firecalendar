@@ -23,6 +23,7 @@ const TIPOS_EVENTO = [
         nome: "Saúde",
         icone: "🚑",
         cor: "#1976D2",
+        ativo: true,
         turnos: true
     },
 
@@ -31,6 +32,7 @@ const TIPOS_EVENTO = [
         nome: "ECIN",
         icone: "🚒",
         cor: "#D32F2F",
+        ativo: true,
         turnos: true
     },
 
@@ -39,6 +41,7 @@ const TIPOS_EVENTO = [
         nome: "SBA",
         icone: "🚑",
         cor: "#FBC02D",
+        ativo: true,
         turnos: true
     },
 
@@ -47,6 +50,7 @@ const TIPOS_EVENTO = [
         nome: "Serviço",
         icone: "🏢",
         cor: "#757575",
+        ativo: true,
         turnos: true
     },
 
@@ -55,6 +59,7 @@ const TIPOS_EVENTO = [
         nome: "Formação",
         icone: "🎓",
         cor: "#795548",
+        ativo: true,
         turnos: true
     },
 
@@ -63,6 +68,7 @@ const TIPOS_EVENTO = [
         nome: "Extra 1",
         icone: "📌",
         cor: "#8E24AA",
+        ativo: false,
         turnos: true
     },
 
@@ -71,6 +77,7 @@ const TIPOS_EVENTO = [
         nome: "Extra 2",
         icone: "📌",
         cor: "#009688",
+        ativo: false,
         turnos: true
     }
 

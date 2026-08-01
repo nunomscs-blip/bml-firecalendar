@@ -155,7 +155,9 @@ function preencherTiposEvento(){
 
     select.innerHTML = "";
 
-    TIPOS_EVENTO.forEach(tipo => {
+    TIPOS_EVENTO
+    .filter(tipo => tipo.ativo)
+    .forEach(tipo => {
 
         const option = document.createElement("option");
 
@@ -982,7 +984,9 @@ function atualizarLegendaEventos(){
 
     legenda.innerHTML = "";
 
-    TIPOS_EVENTO.forEach(tipo => {
+    TIPOS_EVENTO
+    .filter(tipo => tipo.ativo)
+    .forEach(tipo => {
 
         legenda.innerHTML += `
             <div class="itemLegenda">
