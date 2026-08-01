@@ -200,11 +200,35 @@
          MODAL CONFIGURAÇÃO
     ======================================================== -->
 
-    <div id="modalConfiguracao" class="modal oculto">
+    <!-- =======================================================
+     PAINEL CONFIGURAÇÃO
+======================================================= -->
 
-        <div class="modalConteudo">
+<div id="modalConfiguracao" class="painel oculto">
 
-            <h2>Configuração</h2>
+    <div class="painelConteudo">
+
+        <div class="painelCabecalho">
+
+            <div class="barraArrasto"></div>
+
+            <div class="tituloPainel">
+
+                <h2>Configuração</h2>
+
+                <button
+                    id="btnFecharConfiguracao"
+                    class="btnFecharPainel">
+
+                    ✕
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="painelCorpo">
 
             <div class="menuConfiguracao">
 
@@ -222,33 +246,61 @@
 
             </div>
 
-            <div class="botoesModal">
+        </div>
 
-                <button id="btnFecharConfiguracao">
-                    Fechar
-                </button>
+        <div class="painelRodape">
 
-            </div>
+            <button id="btnFecharConfiguracaoRodape">
+
+                Fechar
+
+            </button>
 
         </div>
 
     </div>
+
+</div>
 
     <!-- =======================================================
          MODAL TIPOS DE EVENTO
     ======================================================== -->
 
-    <div id="modalTiposEvento" class="modal oculto">
+    <div id="modalTiposEvento" class="painel oculto">
 
-        <div class="modalConteudo">
+    <div class="painelConteudo">
 
-            <h2>Tipos de Evento</h2>
+        <div class="painelCabecalho">
+
+            <div class="barraArrasto"></div>
+
+            <div class="tituloPainel">
+
+                <h2>Tipos de Evento</h2>
+
+                <button
+                    id="btnFecharTiposEvento"
+                    class="btnFecharPainel">
+
+                    ✕
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="painelCorpo">
 
             <div id="listaTiposEvento"></div>
 
+        </div>
+
+        <div class="painelRodape">
+
             <div class="botoesModal">
 
-                <button id="btnFecharTiposEvento">
+                <button id="btnFecharTiposEventoRodape">
                     Fechar
                 </button>
 
@@ -257,6 +309,8 @@
         </div>
 
     </div>
+
+</div>
 
 <!-- =======================================================
      MODAL EDITAR TIPO DE EVENTO

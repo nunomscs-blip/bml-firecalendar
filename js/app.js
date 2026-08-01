@@ -828,11 +828,9 @@ btnConfiguracao.addEventListener(
 
 function abrirConfiguracao(){
 
-    document
-        .getElementById("modalConfiguracao")
-        .classList.remove("oculto");
+    Paineis.abrir("modalConfiguracao");
 
-}
+};
 
 const btnFecharConfiguracao =
     document.getElementById("btnFecharConfiguracao");
@@ -842,11 +840,17 @@ btnFecharConfiguracao.addEventListener(
     fecharConfiguracao
 );
 
+const btnFecharConfiguracaoRodape =
+    document.getElementById("btnFecharConfiguracaoRodape");
+
+btnFecharConfiguracaoRodape.addEventListener(
+    "click",
+    fecharConfiguracao
+);
+
 function fecharConfiguracao(){
 
-    document
-        .getElementById("modalConfiguracao")
-        .classList.add("oculto");
+    Paineis.fechar("modalConfiguracao");
 
 }
 
@@ -872,17 +876,13 @@ function abrirTiposEvento(){
 
     atualizarListaTiposEvento();
 
-    document
-        .getElementById("modalTiposEvento")
-        .classList.remove("oculto");
+    Paineis.abrir("modalTiposEvento");
 
 }
 
 function fecharTiposEvento(){
 
-    document
-        .getElementById("modalTiposEvento")
-        .classList.add("oculto");
+    Paineis.fechar("modalTiposEvento");
 
 }
 
