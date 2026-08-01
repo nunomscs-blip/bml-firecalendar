@@ -311,6 +311,14 @@ btnFecharEventos.addEventListener(
     fecharModalEventos
 );
 
+const btnFecharPainelEventos =
+    document.getElementById("btnFecharPainelEventos");
+
+btnFecharPainelEventos.addEventListener(
+    "click",
+    fecharModalEventos
+);
+
 /* ======================================================
    ATUALIZA TURNOS DISPONÍVEIS
 ====================================================== */
@@ -981,6 +989,8 @@ function iniciarAplicacao() {
 
     atualizarLegendaEventos();
 
+    inicializarPaineis();
+
 }
 
 function mostrarToast(texto){
@@ -1202,6 +1212,27 @@ function abrirEditarTipoEvento(id){
     document
         .getElementById("modalEditarTipoEvento")
         .classList.remove("oculto");
+
+}
+
+/* ======================================================
+   PAINÉIS
+====================================================== */
+
+function inicializarPaineis(){
+
+    document
+        .querySelectorAll(".btnFecharPainel")
+        .forEach(botao => {
+
+            botao.addEventListener("click", function(){
+
+                this.closest(".painel")
+                    .classList.add("oculto");
+
+            });
+
+        });
 
 }
 

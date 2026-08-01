@@ -1068,4 +1068,70 @@ body{
 
 }
 
+/* =======================================================
+   CABEÇALHO DOS PAINÉIS
+======================================================= */
+
+.barraArrasto{
+
+    width:55px;
+
+    height:5px;
+
+    border-radius:20px;
+
+    background:#cfcfcf;
+
+    margin:10px auto 14px auto;
+
+}
+
+.tituloPainel{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 18px 14px;
+
+    border-bottom:1px solid #ececec;
+
+}
+
+.tituloPainel h2{
+
+    margin:0;
+
+    font-size:20px;
+
+}
+
+.btnFecharPainel{
+
+    width:36px;
+
+    height:36px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#f2f2f2;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:.2s;
+
+}
+
+.btnFecharPainel:hover{
+
+    background:#e4e4e4;
+
+}
+
 
