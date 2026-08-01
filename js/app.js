@@ -55,7 +55,7 @@ function confirmarDias(){
 
     atualizarInterface();
 
-    abrirModalEvento();
+    abrirModalNovoEvento();
 
 }
 
@@ -376,7 +376,7 @@ function atualizarTurnosDisponiveis(){
 
 }
 
-function abrirModalEvento(){
+function abrirModalNovoEvento(){
 
     if(
     estado.modal.modo !== "editar"
@@ -387,7 +387,7 @@ function abrirModalEvento(){
     }
 
     }
-    
+
     fecharModalEventos();
 
     const modal = document.getElementById("modalEvento");
