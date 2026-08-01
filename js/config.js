@@ -112,7 +112,7 @@ const TIPOS_EVENTO = [
 
     ]
 
-}
+},
 
     {
         id: "SBA",
