@@ -114,12 +114,6 @@ body{
 
 }
 
-#btnConfiguracao:hover{
-
-    transform:rotate(25deg);
-
-}
-
 
 /* =======================================================
    ÁREA PRINCIPAL
@@ -808,33 +802,7 @@ body{
 
 }
 
-/* =======================================================
-   LEGENDA DOS EVENTOS
-======================================================= */
 
-#legendaEventos{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:14px;
-
-    align-items:center;
-
-    padding:8px 12px;
-
-    margin:8px 12px;
-
-    background:#ffffff;
-
-    border:1px solid #dcdcdc;
-
-    border-radius:8px;
-
-    font-size:12px;
-
-}
 
 .itemLegenda{
 
@@ -1017,14 +985,6 @@ body{
     transition:
         transform .30s ease,
         height .25s ease;
-
-}
- 
-/* Painel aberto */
-
-.painel:not(.oculto) .painelConteudo{
-
-    transform:translateY(0);
 
 }
 
