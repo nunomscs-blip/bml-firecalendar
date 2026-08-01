@@ -1237,4 +1237,12 @@ function inicializarPaineis(){
 }
 
 
+/* ======================================================
+   ARRASTAR PAINEL
+====================================================== */
 
+let painelAtivo = null;
+
+let inicioY = 0;
+
+let alturaInicial = 0;
