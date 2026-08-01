@@ -97,3 +97,52 @@ function limparBaseDados(){
 
 }
 
+/* ======================================================
+   TIPOS DE EVENTO
+====================================================== */
+
+const CHAVE_TIPOS_EVENTO = "bmlfirecalendar_tipos";
+
+function carregarTiposEvento(){
+
+    const dados = localStorage.getItem(CHAVE_TIPOS_EVENTO);
+
+    if(!dados){
+
+        guardarTiposEvento();
+
+        return;
+
+    }
+
+    const tiposGuardados = JSON.parse(dados);
+
+    TIPOS_EVENTO.forEach(tipo => {
+
+        const guardado = tiposGuardados.find(
+            t => t.id === tipo.id
+        );
+
+        if(guardado){
+
+            tipo.nome = guardado.nome;
+            tipo.cor = guardado.cor;
+            tipo.ativo = guardado.ativo;
+
+        }
+
+    });
+
+}
+
+function guardarTiposEvento(){
+
+    localStorage.setItem(
+
+        CHAVE_TIPOS_EVENTO,
+
+        JSON.stringify(TIPOS_EVENTO)
+
+    );
+
+}

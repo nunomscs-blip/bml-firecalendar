@@ -914,6 +914,8 @@ function iniciarAplicacao() {
 
     carregarEventos();
 
+    carregarTiposEvento();
+
     preencherTiposEvento();
 
     atualizarInterface();
@@ -1053,9 +1055,11 @@ function atualizarListaTiposEvento(){
 
             tipo.ativo = this.checked;
 
-            preencherTiposEvento();
+                guardarTiposEvento();
 
-            atualizarLegendaEventos();
+                preencherTiposEvento();
+
+                atualizarLegendaEventos();
 
         });
 
