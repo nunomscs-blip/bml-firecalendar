@@ -960,6 +960,8 @@ body{
 
     align-items:flex-end;
 
+    padding-top:40px;
+
     z-index:5000;
 
     transition:opacity .25s ease;
@@ -984,23 +986,25 @@ body{
 
     max-width:700px;
 
+    height:70vh;
+
     background:#fff;
 
-    border-radius:18px 18px 0 0;
+    border-radius:22px 22px 0 0;
 
-    box-shadow:0 -8px 25px rgba(0,0,0,.20);
-
-    transform:translateY(100%);
-
-    transition:transform .30s ease;
-
-    max-height:92vh;
+    box-shadow:0 -10px 30px rgba(0,0,0,.20);
 
     display:flex;
 
     flex-direction:column;
 
     overflow:hidden;
+
+    transform:translateY(100%);
+
+    transition:
+        transform .30s ease,
+        height .25s ease;
 
 }
 
@@ -1046,9 +1050,11 @@ body{
 
 .painelCorpo{
 
-    overflow:auto;
+    flex:1;
 
-    padding:18px;
+    overflow-y:auto;
+
+    padding:20px;
 
 }
 
