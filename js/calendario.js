@@ -334,6 +334,8 @@ function selecionarDia(event){
 
 function abrirEventosDia(dia){
 
+    console.log("1 - abrirEventosDia");
+
     const eventosDia = EVENTOS.filter(evento =>
 
         evento.ano === calendarioAtual.ano &&
@@ -342,9 +344,15 @@ function abrirEventosDia(dia){
 
     );
 
+    console.log("2 - eventos:", eventosDia.length);
+
     atualizarListaEventos(eventosDia);
 
+    console.log("3 - lista atualizada");
+
     Paineis.abrir("modalEventos");
+
+    console.log("4 - painel aberto");
 
 }
 
