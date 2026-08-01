@@ -940,3 +940,125 @@ body{
 
 }
 
+/* =======================================================
+   SISTEMA DE PAINÉIS (V4)
+======================================================= */
+
+/* Fundo */
+
+.painel{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-end;
+
+    z-index:5000;
+
+    transition:opacity .25s ease;
+
+}
+
+/* Oculto */
+
+.painel.oculto{
+
+    opacity:0;
+
+    pointer-events:none;
+
+}
+
+/* Corpo */
+
+.painelConteudo{
+
+    width:100%;
+
+    max-width:700px;
+
+    background:#fff;
+
+    border-radius:18px 18px 0 0;
+
+    box-shadow:0 -8px 25px rgba(0,0,0,.20);
+
+    transform:translateY(100%);
+
+    transition:transform .30s ease;
+
+    max-height:92vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+}
+
+/* Painel aberto */
+
+.painel:not(.oculto) .painelConteudo{
+
+    transform:translateY(0);
+
+}
+
+/* Barra para arrastar */
+
+.painelCabecalho{
+
+    display:flex;
+
+    justify-content:center;
+
+    padding:10px 0;
+
+    cursor:grab;
+
+    user-select:none;
+
+}
+
+.painelCabecalho::before{
+
+    content:"";
+
+    width:55px;
+
+    height:5px;
+
+    border-radius:20px;
+
+    background:#c7c7c7;
+
+}
+
+/* Corpo */
+
+.painelCorpo{
+
+    overflow:auto;
+
+    padding:18px;
+
+}
+
+/* Rodapé */
+
+.painelRodape{
+
+    padding:15px;
+
+    border-top:1px solid #ececec;
+
+}
+
