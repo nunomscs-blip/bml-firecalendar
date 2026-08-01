@@ -282,19 +282,19 @@ function inicializarCalendario(){
 // =======================================================
 function selecionarDia(event){
 
-    if (estado.modo === MODOS.SELECAO_DIAS){
+    const dia = Number(event.currentTarget.dataset.dia);
 
-        const dia = Number(event.currentTarget.dataset.dia);
+    if (estado.modo === MODOS.SELECAO_DIAS){
 
         const indice = estado.diasSelecionados.indexOf(dia);
 
-        if (indice === -1){
+        if(indice === -1){
 
             estado.diasSelecionados.push(dia);
 
         }else{
 
-            estado.diasSelecionados.splice(indice, 1);
+            estado.diasSelecionados.splice(indice,1);
 
         }
 
@@ -304,9 +304,29 @@ function selecionarDia(event){
 
         mostrarCalendario();
 
-    }
+        return;
 
     }
+
+    // ==================================================
+    // MODO VISUALIZAÇÃO
+    // ==================================================
+
+    const eventos = EVENTOS.filter(e =>
+
+        e.ano === calendarioAtual.ano &&
+        e.mes === calendarioAtual.mes &&
+        e.dia === dia
+
+    );
+
+    if(eventos.length){
+
+        abrirEventosDia(dia);
+
+    }
+
+}
 
 /* ======================================================
    ABRIR EVENTOS DO DIA
@@ -324,7 +344,7 @@ function abrirEventosDia(dia){
 
     atualizarListaEventos(eventosDia);
 
-    abrirModalEventos();
+    Paineis.abrir("modalEventos");
 
 }
 
@@ -349,6 +369,7 @@ function fecharModalEliminar(){
     estado.modalEliminar.evento = null;
 
 }
+
 
 /* ======================================================
    EVENTOS DO MODAL ELIMINAR
