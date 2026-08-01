@@ -306,18 +306,16 @@ const listaEventosDia =
 const btnFecharEventos =
     document.getElementById("btnFecharEventos");
 
-btnFecharEventos.addEventListener(
-    "click",
-    fecharModalEventos
-);
+   btnFecharEventos.addEventListener("click", () => {
+    Paineis.fechar("modalEventos");
+    });
 
 const btnFecharPainelEventos =
     document.getElementById("btnFecharPainelEventos");
 
-btnFecharPainelEventos.addEventListener(
-    "click",
-    fecharModalEventos
-);
+    btnFecharPainelEventos.addEventListener("click", () => {
+    Paineis.fechar("modalEventos");
+});
 
 /* ======================================================
    ATUALIZA TURNOS DISPONÍVEIS
@@ -396,7 +394,7 @@ function abrirModalNovoEvento(){
 
     }
 
-    fecharModalEventos();
+    Paineis.fechar("modalEventos");
 
     const modal = document.getElementById("modalEvento");
     const btnGuardar = document.getElementById("btnGuardarEvento");
@@ -443,7 +441,7 @@ function abrirModalNovoEvento(){
 
 function abrirModalEditarEvento(){
 
-    fecharModalEventos();
+    Paineis.fechar("modalEventos");
 
     const modal = document.getElementById("modalEvento");
     const btnGuardar = document.getElementById("btnGuardarEvento");
@@ -639,11 +637,6 @@ function finalizarEdicao(){
 /* ======================================================
    MODAL EVENTOS DO DIA
 ====================================================== */
-
-Paineis.abrir("modalEventos");
-
-Paineis.fechar("modalEventos");
-
 function atualizarListaEventos(eventos){
 
     listaEventosDia.innerHTML = "";
@@ -780,11 +773,10 @@ function editarEventoModal(event){
     // Dia do evento
     estado.diasSelecionados = [evento.dia];
 
-    // Fecha o modal da lista de eventos
-    fecharModalEventos();
+        Paineis.fechar("modalEventos");
 
-    // Abre o modal de edição
-    abrirModalEditarEvento();
+        // Abre o modal de edição
+        abrirModalEditarEvento();
 
 }
 
@@ -804,7 +796,7 @@ function confirmarEliminar(){
 
     fecharModalEliminar();
 
-    fecharModalEventos();
+    Paineis.fechar("modalEventos");
 
     estado.modalEliminar.evento = null;
 
@@ -1207,34 +1199,4 @@ function abrirEditarTipoEvento(id){
 
 }
 
-/* ======================================================
-   PAINÉIS
-====================================================== */
 
-function inicializarPaineis(){
-
-    document
-        .querySelectorAll(".btnFecharPainel")
-        .forEach(botao => {
-
-            botao.addEventListener("click", function(){
-
-                this.closest(".painel")
-                    .classList.add("oculto");
-
-            });
-
-        });
-
-}
-
-
-/* ======================================================
-   ARRASTAR PAINEL
-====================================================== */
-
-let painelAtivo = null;
-
-let inicioY = 0;
-
-let alturaInicial = 0;
