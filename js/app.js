@@ -1,4 +1,8 @@
+/* ======================================================
+   EDIÇÃO DE TIPOS DE EVENTO
+====================================================== */
 
+let tipoEventoEditar = null;
 
 // =======================================================
 // BOTÃO NOVO EVENTO
@@ -1020,40 +1024,75 @@ function atualizarListaTiposEvento(){
     TIPOS_EVENTO.forEach(tipo => {
 
         lista.innerHTML += `
-            <div class="itemTipoEvento">
 
-                <label>
+        <div class="cartaoTipoEvento">
+
+            <div class="cabecalhoTipo">
+
+                <div class="infoTipo">
+
+                    <span
+                        class="corTipo"
+                        style="background:${tipo.cor};">
+                    </span>
+
+                    <span class="nomeTipo">
+
+                        ${tipo.nome}
+
+                    </span>
+
+                </div>
+
+                <label class="switchTipo">
 
                     <input
                         type="checkbox"
                         data-tipo="${tipo.id}"
                         ${tipo.ativo ? "checked" : ""}>
 
-                    <span
-                        class="corLegenda"
-                        style="background:${tipo.cor};">
-                    </span>
-
-                    ${tipo.nome}
+                    Ativo
 
                 </label>
 
             </div>
+
+            <div class="detalhesTipo">
+
+                <span>
+
+                    Turnos:
+                    ${tipo.usaTurnos ? "Sim" : "Não"}
+
+                </span>
+
+                <button
+                    class="btnEditarTipo"
+                    data-tipo="${tipo.id}">
+
+                    Editar
+
+                </button>
+
+            </div>
+
+        </div>
+
         `;
 
     });
 
     document
-    .querySelectorAll("#listaTiposEvento input")
-    .forEach(chk => {
+        .querySelectorAll("#listaTiposEvento input")
+        .forEach(chk => {
 
-        chk.addEventListener("change", function(){
+            chk.addEventListener("change", function(){
 
-            const tipo = TIPOS_EVENTO.find(
-                t => t.id === this.dataset.tipo
-            );
+                const tipo = TIPOS_EVENTO.find(
+                    t => t.id === this.dataset.tipo
+                );
 
-            tipo.ativo = this.checked;
+                tipo.ativo = this.checked;
 
                 guardarTiposEvento();
 
@@ -1061,10 +1100,25 @@ function atualizarListaTiposEvento(){
 
                 atualizarLegendaEventos();
 
+            });
+
         });
 
-    });
+    document
+        .querySelectorAll(".btnEditarTipo")
+        .forEach(btn => {
+
+            btn.addEventListener("click", function(){
+
+                abrirEditarTipoEvento(
+                    this.dataset.tipo
+                );
+
+            });
+
+        });
 
 }
+
 
 

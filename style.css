@@ -858,3 +858,85 @@ body{
 
 }
 
+.cartaoTipoEvento{
+
+    background:#fff;
+
+    border:1px solid #dcdcdc;
+
+    border-radius:12px;
+
+    padding:14px;
+
+    margin-bottom:12px;
+
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+
+}
+
+.cabecalhoTipo{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.infoTipo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.corTipo{
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:4px;
+
+}
+
+.nomeTipo{
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+.detalhesTipo{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:14px;
+
+    font-size:14px;
+
+    color:#666;
+
+}
+
+.btnEditarTipo{
+
+    padding:8px 14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+

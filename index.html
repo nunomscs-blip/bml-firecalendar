@@ -234,6 +234,116 @@
 
     </div>
 
+<!-- =======================================================
+     MODAL EDITAR TIPO DE EVENTO
+======================================================= -->
+
+<div id="modalEditarTipoEvento" class="modal oculto">
+
+    <div class="modalConteudo">
+
+        <h2>Editar Tipo de Evento</h2>
+
+        <div class="campo">
+
+            <label>Nome</label>
+
+            <input
+                type="text"
+                id="editarNomeTipo">
+
+        </div>
+
+        <div class="campo">
+
+            <label>Cor</label>
+
+            <input
+                type="color"
+                id="editarCorTipo">
+
+        </div>
+
+        <div class="campo">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="editarTipoAtivo">
+
+                Ativo
+
+            </label>
+
+        </div>
+
+        <div class="campo">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="editarTipoTurnos">
+
+                Possui turnos
+
+            </label>
+
+        </div>
+
+        <div id="zonaTurnosTipo">
+
+            <div class="campo">
+
+                <label>Turno Dia</label>
+
+                <div class="linhaHoras">
+
+                    <input type="time" id="diaInicio">
+
+                    <input type="time" id="diaFim">
+
+                </div>
+
+            </div>
+
+            <div class="campo">
+
+                <label>Turno Noite</label>
+
+                <div class="linhaHoras">
+
+                    <input type="time" id="noiteInicio">
+
+                    <input type="time" id="noiteFim">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="botoesModal">
+
+            <button id="btnCancelarEditarTipo">
+
+                Cancelar
+
+            </button>
+
+            <button id="btnGuardarEditarTipo">
+
+                Guardar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
     <!-- =======================================================
          MODAL ELIMINAR EVENTO
     ======================================================== -->
