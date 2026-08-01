@@ -429,6 +429,53 @@ function abrirModalNovoEvento(){
 
 }
 
+/* ======================================================
+   ABRIR MODAL - EDITAR EVENTO
+====================================================== */
+
+function abrirModalEditarEvento(){
+
+    fecharModalEventos();
+
+    const modal = document.getElementById("modalEvento");
+    const btnGuardar = document.getElementById("btnGuardarEvento");
+
+    document.getElementById("tituloModal").textContent =
+        "Editar Evento";
+
+    btnGuardar.textContent = "Atualizar";
+
+    document.getElementById("tipoEvento").value =
+        estado.modal.evento.tipo;
+
+    document.getElementById("turnoEvento").innerHTML = "";
+
+    const turno = Object.values(TURNOS).find(
+        t => t.id === estado.modal.evento.turno
+    );
+
+    if(turno){
+
+        document.getElementById("turnoEvento").innerHTML += `
+            <option value="${turno.id}">
+                ${turno.nome} (${turno.inicio} - ${turno.fim})
+            </option>
+        `;
+
+    }
+
+    document.getElementById("turnoEvento").value =
+        estado.modal.evento.turno;
+
+    document.getElementById("observacoesEvento").value =
+        estado.modal.evento.observacoes ?? "";
+
+    atualizarDiasSelecionados();
+
+    modal.classList.remove("oculto");
+
+}
+
 function cancelarEvento(){
 
     estado.modo = MODOS.VISUALIZACAO;
@@ -737,7 +784,7 @@ function editarEventoModal(event){
     fecharModalEventos();
 
     // Abre o modal de edição
-    abrirModalEvento();
+    abrirModalEditarEvento();
 
 }
 
