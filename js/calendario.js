@@ -173,19 +173,17 @@ eventos.forEach(evento => {
 
     diasMes.innerHTML += `
         
-        <div
+    <div
         class="${classe}"
         data-dia="${i}"
         style="
             --cor-dia:${corDia || "#ffffff"};
             --cor-noite:${corNoite || "#ffffff"};
         "
-        >
-            <span class="numeroDia">${i}</span>
-            <span class="iconeDia">${corDia ? "☀️" : ""}</span>
-            <span class="iconeNoite">${corNoite ? "🌙" : ""}</span>
-        </div>
-    `;
+    >
+        <span class="numeroDia">${i}</span>
+    </div>
+`;
 
 }
 
