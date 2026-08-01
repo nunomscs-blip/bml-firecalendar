@@ -83,11 +83,11 @@ inicializarArrasto(){
 
         });
 
-},
+    },
 
-};
 
-iniciarArrasto(event){
+
+    iniciarArrasto(event){
 
     this.arrastar = true;
 
@@ -111,21 +111,23 @@ iniciarArrasto(event){
         this.terminarArrasto.bind(this)
     );
 
-},
+    },
 
-arrastarPainel(event){
+    arrastarPainel(event){
 
     if(!this.arrastar) return;
 
     console.log("Mover:", event.clientY);
 
-},
+    },
 
-terminarArrasto(){
+    terminarArrasto(){
 
     this.arrastar = false;
 
     console.log("Fim");
 
 },
+
+}
 
