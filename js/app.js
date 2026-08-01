@@ -378,10 +378,16 @@ function atualizarTurnosDisponiveis(){
 
 function abrirModalEvento(){
 
+    if(
+    estado.modal.modo !== "editar"
+    ){
+
     if(!atualizarTurnosDisponiveis()){
-    return;
+        return;
     }
 
+    }
+    
     fecharModalEventos();
 
     const modal = document.getElementById("modalEvento");
