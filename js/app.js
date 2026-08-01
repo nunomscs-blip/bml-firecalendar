@@ -1120,5 +1120,37 @@ function atualizarListaTiposEvento(){
 
 }
 
+/* ======================================================
+   EDITAR TIPO DE EVENTO
+====================================================== */
+
+function abrirEditarTipoEvento(id){
+
+    tipoEventoEditar = obterTipoEvento(id);
+
+    if(!tipoEventoEditar){
+
+        return;
+
+    }
+
+    document.getElementById("editarNomeTipo").value =
+        tipoEventoEditar.nome;
+
+    document.getElementById("editarCorTipo").value =
+        tipoEventoEditar.cor;
+
+    document.getElementById("editarTipoAtivo").checked =
+        tipoEventoEditar.ativo;
+
+    document.getElementById("editarTipoTurnos").checked =
+        tipoEventoEditar.usaTurnos;
+
+    document
+        .getElementById("modalEditarTipoEvento")
+        .classList.remove("oculto");
+
+}
+
 
 

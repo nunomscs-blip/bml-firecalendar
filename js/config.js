@@ -24,7 +24,7 @@ const TIPOS_EVENTO = [
         icone: "🚑",
         cor: "#1976D2",
         ativo: true,
-        turnos: true
+        usaTurnos: true
     },
 
     {
@@ -33,7 +33,7 @@ const TIPOS_EVENTO = [
         icone: "🚒",
         cor: "#D32F2F",
         ativo: true,
-        turnos: true
+        usaTurnos: true
     },
 
     {
@@ -42,7 +42,7 @@ const TIPOS_EVENTO = [
         icone: "🚑",
         cor: "#FBC02D",
         ativo: true,
-        turnos: true
+        usaTurnos: true
     },
 
     {
@@ -51,7 +51,7 @@ const TIPOS_EVENTO = [
         icone: "🏢",
         cor: "#757575",
         ativo: true,
-        turnos: true
+        usaTurnos: true
     },
 
     {
@@ -60,7 +60,7 @@ const TIPOS_EVENTO = [
         icone: "🎓",
         cor: "#795548",
         ativo: true,
-        turnos: true
+        usaTurnos: true
     },
 
     {
@@ -69,7 +69,7 @@ const TIPOS_EVENTO = [
         icone: "📌",
         cor: "#8E24AA",
         ativo: false,
-        turnos: true
+        usaTurnos: true
     },
 
     {
@@ -78,7 +78,7 @@ const TIPOS_EVENTO = [
         icone: "📌",
         cor: "#009688",
         ativo: false,
-        turnos: true
+        usaTurnos: true
     }
 
 ];
