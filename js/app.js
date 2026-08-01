@@ -756,6 +756,8 @@ function atualizarListaEventos(eventos){
 
 function editarEventoModal(event){
 
+    console.log("EDITAR", event.currentTarget.dataset.id);
+
     const id = event.currentTarget.dataset.id;
 
     const evento = EVENTOS.find(e => e.id === id);
