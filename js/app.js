@@ -946,32 +946,6 @@ iniciarAplicacao();
 
 
 /* ======================================================
-   LEGENDA DOS EVENTOS
-====================================================== */
-
-function atualizarLegendaEventos(){
-
-    const legenda = document.getElementById("legendaEventos");
-
-    if(!legenda) return;
-
-    legenda.innerHTML = "";
-
-    TIPOS_EVENTO.forEach(tipo => {
-
-        legenda.innerHTML += `
-            <div class="itemLegenda">
-                <span class="corLegenda"
-                      style="background:${tipo.cor};"></span>
-                <span>${tipo.nome}</span>
-            </div>
-        `;
-
-    });
-
-}
-
-/* ======================================================
    ATUALIZA TEXTO DOS DIAS SELECIONADOS
 ====================================================== */
 
@@ -1014,7 +988,7 @@ function atualizarLegendaEventos(){
             <div class="itemLegenda">
                 <span class="corLegenda"
                       style="background:${tipo.cor};"></span>
-                <span>${tipo.icone} ${tipo.nome}</span>
+                <span>${tipo.nome}</span>
             </div>
         `;
 
