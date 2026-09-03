@@ -886,6 +886,44 @@ function fecharTiposEvento(){
 
 }
 
+/* ======================================================
+   BACKUP / RESTAURO
+====================================================== */
+
+const btnFazerBackup =
+
+    document.getElementById("btnFazerBackup");
+
+
+const btnRestaurarBackup =
+
+    document.getElementById("btnRestaurarBackup");
+
+
+btnFazerBackup.addEventListener(
+
+    "click",
+
+    function () {
+
+        criarBackup();
+
+    }
+
+);
+
+
+btnRestaurarBackup.addEventListener(
+
+    "click",
+
+    function () {
+
+        selecionarBackup();
+
+    }
+
+);
 
 /* ======================================================
    DADOS DA APLICAÇÃO
