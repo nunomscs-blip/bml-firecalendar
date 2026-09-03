@@ -460,11 +460,11 @@ body{
    DIA DE HOJE
 ======================================================= */
 
-.hoje{
+.dia.hoje{
 
-    border:3px solid #000000;
+    border:3px solid #000000 !important;
 
-    box-shadow:none;
+    box-shadow:none !important;
 
 }
 
