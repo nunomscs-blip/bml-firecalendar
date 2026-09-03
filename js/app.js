@@ -746,7 +746,7 @@ function atualizarListaEventos(eventos){
 
         }
 
-        // Fecha primeiro o painel dos eventos
+        // Fecha o painel "Eventos do dia"
         Paineis.fechar("modalEventos");
 
         // Abre a confirmação de eliminação
