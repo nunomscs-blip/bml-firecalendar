@@ -1,12 +1,40 @@
 // =======================================================
 // CALENDÁRIO ATUAL
-// Começa automaticamente no mês e ano actuais.
+// Abre automaticamente no mês e ano actuais.
 // =======================================================
+
 const hojeInicial = new Date();
 
 const calendarioAtual = {
     mes: hojeInicial.getMonth() + 1,
     ano: hojeInicial.getFullYear()
+};
+
+
+// =======================================================
+// ESTADO DA APLICAÇÃO
+// =======================================================
+
+const estado = {
+
+    modo: MODOS.VISUALIZACAO,
+
+    diasSelecionados: [],
+
+    modal: {
+
+        modo: "novo",
+
+        evento: null
+
+    },
+
+    modalEliminar: {
+
+        evento: null
+
+    }
+
 };
 
 let temporizadorLongPress = null;
