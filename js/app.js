@@ -732,7 +732,7 @@ function atualizarListaEventos(eventos){
 
     const botoesEliminar = document.querySelectorAll(".btnEliminar");
 
-    botoesEliminar.forEach(botao => {
+   botoesEliminar.forEach(botao => {
 
     botao.addEventListener("click", function(event){
 
@@ -746,11 +746,15 @@ function atualizarListaEventos(eventos){
 
         }
 
+        // Fecha primeiro o painel dos eventos
+        Paineis.fechar("modalEventos");
+
+        // Abre a confirmação de eliminação
         abrirModalEliminar(evento);
 
-        });
-
     });
+
+});
 
 }
 
@@ -790,18 +794,21 @@ function confirmarEliminar(){
 
     }
 
-    eliminarEvento(
+    const idEvento = estado.modalEliminar.evento.id;
 
-        estado.modalEliminar.evento.id
+    // Elimina o evento
+    eliminarEvento(idEvento);
 
-    );
-
+    // Fecha a confirmação
     fecharModalEliminar();
 
+    // Garante que o painel de eventos também fica fechado
     Paineis.fechar("modalEventos");
 
+    // Limpa o estado
     estado.modalEliminar.evento = null;
 
+    // Actualiza o calendário
     atualizarInterface();
 
     mostrarCalendario();
