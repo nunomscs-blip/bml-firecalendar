@@ -3,9 +3,18 @@
 // Define o mês e o ano apresentados no calendário.
 // =======================================================
 
+const hojeInicial = new Date();
+
+// =======================================================
+// CALENDÁRIO ATUAL
+// Começa automaticamente no mês e ano actuais.
+// =======================================================
+
+const hojeInicial = new Date();
+
 const calendarioAtual = {
-    mes: 8,
-    ano: 2026
+    mes: hojeInicial.getMonth() + 1,
+    ano: hojeInicial.getFullYear()
 };
 
 const estado = {

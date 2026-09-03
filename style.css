@@ -462,9 +462,9 @@ body{
 
 .hoje{
 
-    border:3px solid #d32f2f;
+    border:3px solid #000000;
 
-    box-shadow:0 0 0 2px rgba(211,47,47,.15);
+    box-shadow:none;
 
 }
 
