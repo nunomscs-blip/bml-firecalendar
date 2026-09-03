@@ -146,3 +146,317 @@ function guardarTiposEvento(){
     );
 
 }
+
+/* ======================================================
+   BACKUP / RESTAURO
+====================================================== */
+
+const VERSAO_BACKUP = "1.0";
+
+
+function criarBackup() {
+
+    const backup = {
+
+        aplicacao: "BML FireCalendar",
+
+        versaoBackup: VERSAO_BACKUP,
+
+        dataBackup: new Date().toISOString(),
+
+        eventos: EVENTOS,
+
+        tiposEvento: TIPOS_EVENTO
+
+    };
+
+
+    const conteudo = JSON.stringify(
+
+        backup,
+
+        null,
+
+        2
+
+    );
+
+
+    const blob = new Blob(
+
+        [conteudo],
+
+        { type: "application/json" }
+
+    );
+
+
+    const url = URL.createObjectURL(blob);
+
+
+    const link = document.createElement("a");
+
+    link.href = url;
+
+
+    const data = new Date();
+
+    const nomeData =
+
+        data.getFullYear() +
+
+        "-" +
+
+        String(data.getMonth() + 1).padStart(2, "0") +
+
+        "-" +
+
+        String(data.getDate()).padStart(2, "0");
+
+
+    link.download =
+
+        "BML-FireCalendar-Backup-" +
+
+        nomeData +
+
+        ".json";
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+function selecionarBackup() {
+
+    const input = document.createElement("input");
+
+    input.type = "file";
+
+    input.accept = ".json,application/json";
+
+
+    input.addEventListener(
+
+        "change",
+
+        function () {
+
+            const ficheiro = input.files[0];
+
+            if (!ficheiro) {
+
+                return;
+
+            }
+
+            restaurarBackup(ficheiro);
+
+        }
+
+    );
+
+
+    input.click();
+
+}
+
+
+function restaurarBackup(ficheiro) {
+
+    const leitor = new FileReader();
+
+
+    leitor.onload = function (evento) {
+
+        try {
+
+            const backup = JSON.parse(
+
+                evento.target.result
+
+            );
+
+
+            /* ------------------------------------------
+               VALIDAR BACKUP
+            ------------------------------------------ */
+
+            if (!backup) {
+
+                throw new Error(
+
+                    "Ficheiro inválido."
+
+                );
+
+            }
+
+
+            if (backup.aplicacao !== "BML FireCalendar") {
+
+                throw new Error(
+
+                    "Este ficheiro não pertence ao BML FireCalendar."
+
+                );
+
+            }
+
+
+            if (!Array.isArray(backup.eventos)) {
+
+                throw new Error(
+
+                    "O backup não contém os eventos correctamente."
+
+                );
+
+            }
+
+
+            if (!Array.isArray(backup.tiposEvento)) {
+
+                throw new Error(
+
+                    "O backup não contém os tipos de evento correctamente."
+
+                );
+
+            }
+
+
+            /* ------------------------------------------
+               CONFIRMAÇÃO
+            ------------------------------------------ */
+
+            const confirmar = confirm(
+
+                "ATENÇÃO\n\n" +
+
+                "O restauro irá substituir os dados actuais " +
+
+                "pelos dados existentes neste backup.\n\n" +
+
+                "Eventos no backup: " +
+
+                backup.eventos.length +
+
+                "\n\n" +
+
+                "Pretendes continuar?"
+
+            );
+
+
+            if (!confirmar) {
+
+                return;
+
+            }
+
+
+            /* ------------------------------------------
+               RESTAURAR EVENTOS
+            ------------------------------------------ */
+
+            EVENTOS = backup.eventos;
+
+
+            localStorage.setItem(
+
+                DATABASE.EVENTOS,
+
+                JSON.stringify(EVENTOS)
+
+            );
+
+
+            /* ------------------------------------------
+               RESTAURAR TIPOS DE EVENTO
+            ------------------------------------------ */
+
+            TIPOS_EVENTO.forEach(tipo => {
+
+                const tipoBackup =
+
+                    backup.tiposEvento.find(
+
+                        t => t.id === tipo.id
+
+                    );
+
+
+                if (tipoBackup) {
+
+                    tipo.nome = tipoBackup.nome;
+
+                    tipo.cor = tipoBackup.cor;
+
+                    tipo.ativo = tipoBackup.ativo;
+
+                }
+
+            });
+
+
+            guardarTiposEvento();
+
+
+            /* ------------------------------------------
+               ACTUALIZAR INTERFACE
+            ------------------------------------------ */
+
+            atualizarInterface();
+
+            mostrarCalendario();
+
+
+            alert(
+
+                "Backup restaurado com sucesso.\n\n" +
+
+                "Eventos restaurados: " +
+
+                EVENTOS.length
+
+            );
+
+
+        }
+
+        catch (erro) {
+
+            console.error(
+
+                "Erro ao restaurar backup:",
+
+                erro
+
+            );
+
+
+            alert(
+
+                "Não foi possível restaurar o backup.\n\n" +
+
+                erro.message
+
+            );
+
+        }
+
+    };
+
+
+    leitor.readAsText(ficheiro);
+
+}
