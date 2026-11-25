@@ -276,20 +276,24 @@ function mesAnterior(){
 
     mostrarCalendario();
 
-}
+    }
 
     // =======================================================
     // TESTES
     // Utilizado apenas durante o desenvolvimento.
     // =======================================================
 
-        const btnCancelarEvento =
+    const btnCancelarEvento =
     document.getElementById("btnCancelarEvento");
 
+    if(btnCancelarEvento){
+
     btnCancelarEvento.addEventListener(
-    "click",
-    cancelarEvento
+        "click",
+        cancelarEvento
     );
+
+    }
 
 /* ======================================================
    MODAL EVENTOS DO DIA
@@ -1662,4 +1666,4 @@ document
     .getElementById("btnAdicionarSobreposicao")
     .addEventListener("click", adicionarSobreposicao);
 
-    
+
