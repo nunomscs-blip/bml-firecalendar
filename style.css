@@ -366,9 +366,16 @@ body{
 
 }
 
+
 .modalConteudo{
 
     width:min(420px,90vw);
+
+    max-height:85vh;
+
+    overflow-y:auto;
+
+    box-sizing:border-box;
 
     background:white;
 
@@ -378,7 +385,10 @@ body{
 
     box-shadow:0 10px 30px rgba(0,0,0,.30);
 
+    -webkit-overflow-scrolling:touch;
+
 }
+
 
 .botoesModal{
 
