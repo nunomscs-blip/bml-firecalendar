@@ -3,6 +3,7 @@
 ====================================================== */
 
 let tipoEventoEditar = null;
+let sobreposicoesTemporarias = [];
 
 // =======================================================
 // BOTÃO NOVO EVENTO
@@ -1283,6 +1284,9 @@ function abrirEditarTipoEvento(id){
         !tipoEventoEditar.usaTurnos
     );
 
+    // Inicializar configuração de sobreposições
+    inicializarConfiguracaoSobreposicoes();
+
     document
         .getElementById("modalEditarTipoEvento")
         .classList.remove("oculto");
@@ -1398,3 +1402,264 @@ document
     });
 
 
+/* ======================================================
+   CONFIGURAÇÃO DE SOBREPOSIÇÕES
+====================================================== */
+
+// Inicializar a configuração ao abrir o modal
+
+function inicializarConfiguracaoSobreposicoes(){
+
+    const checkbox = document.getElementById(
+        "editarPermiteSobreposicao"
+    );
+
+    const zona = document.getElementById(
+        "zonaSobreposicoes"
+    );
+
+    // Criar cópia temporária das regras existentes
+    sobreposicoesTemporarias = Array.isArray(
+        tipoEventoEditar.sobreposicoes
+    )
+        ? JSON.parse(JSON.stringify(tipoEventoEditar.sobreposicoes))
+        : [];
+
+    // Activar a opção se já existirem regras
+    checkbox.checked = sobreposicoesTemporarias.length > 0;
+
+    // Mostrar ou esconder a configuração
+    zona.classList.toggle("oculto", !checkbox.checked);
+
+    // Preencher tipos compatíveis
+    preencherTiposSobreposicao();
+
+    // Mostrar regras existentes
+    atualizarListaSobreposicoes();
+
+}
+
+
+// Preencher a lista de tipos compatíveis
+
+function preencherTiposSobreposicao(){
+
+    const select = document.getElementById(
+        "novoTipoSobreposicao"
+    );
+
+    select.innerHTML = `
+        <option value="">Seleccionar tipo de evento</option>
+    `;
+
+    TIPOS_EVENTO
+        .filter(tipo =>
+            tipo.ativo &&
+            tipo.id !== tipoEventoEditar.id
+        )
+        .forEach(tipo => {
+
+            const option = document.createElement("option");
+
+            option.value = tipo.id;
+            option.textContent = tipo.nome;
+
+            select.appendChild(option);
+
+        });
+
+}
+
+
+// Mostrar regras de sobreposição
+
+function atualizarListaSobreposicoes(){
+
+    const lista = document.getElementById(
+        "listaSobreposicoes"
+    );
+
+    lista.innerHTML = "";
+
+    if(sobreposicoesTemporarias.length === 0){
+
+        lista.innerHTML = `
+            <p>Ainda não existem regras configuradas.</p>
+        `;
+
+        return;
+
+    }
+
+    sobreposicoesTemporarias.forEach((regra, indice) => {
+
+        const tipo = obterTipoEvento(regra.tipo);
+
+        const nomeTipo = tipo
+            ? tipo.nome
+            : regra.tipo;
+
+        let posicao = "Ambos";
+
+        if(
+            regra.quando.length === 1 &&
+            regra.quando[0] === "inicio"
+        ){
+            posicao = "Início";
+        }
+
+        if(
+            regra.quando.length === 1 &&
+            regra.quando[0] === "fim"
+        ){
+            posicao = "Fim";
+        }
+
+        const item = document.createElement("div");
+
+        item.className = "itemSobreposicao";
+
+        item.innerHTML = `
+            <div>
+                <strong>${nomeTipo}</strong>
+                <div>Máximo: ${regra.maxMinutos} minutos</div>
+                <div>Posição: ${posicao}</div>
+            </div>
+
+            <button
+                type="button"
+                class="btnRemoverSobreposicao"
+                data-indice="${indice}">
+                Remover
+            </button>
+        `;
+
+        lista.appendChild(item);
+
+    });
+
+    // Associar botões de remoção
+
+    lista
+        .querySelectorAll(".btnRemoverSobreposicao")
+        .forEach(botao => {
+
+            botao.addEventListener("click", function(){
+
+                const indice = Number(this.dataset.indice);
+
+                sobreposicoesTemporarias.splice(indice, 1);
+
+                atualizarListaSobreposicoes();
+
+            });
+
+        });
+
+}
+
+
+// Adicionar uma nova regra
+
+function adicionarSobreposicao(){
+
+    const tipoId = document.getElementById(
+        "novoTipoSobreposicao"
+    ).value;
+
+    const maxMinutos = Number(
+        document.getElementById("novoMaxMinutos").value
+    );
+
+    const quando = document.getElementById(
+        "novoQuandoSobreposicao"
+    ).value;
+
+    if(!tipoId){
+
+        alert("Selecciona um tipo de evento compatível.");
+
+        return;
+
+    }
+
+    if(
+        !Number.isInteger(maxMinutos) ||
+        maxMinutos <= 0
+    ){
+
+        alert("Indica um tempo máximo válido, em minutos.");
+
+        return;
+
+    }
+
+    // Impedir regras duplicadas
+
+    const duplicada = sobreposicoesTemporarias.some(
+        regra => regra.tipo === tipoId
+    );
+
+    if(duplicada){
+
+        alert("Já existe uma regra para este tipo de evento.");
+
+        return;
+
+    }
+
+    // Criar regra
+
+    sobreposicoesTemporarias.push({
+
+        tipo: tipoId,
+
+        maxMinutos: maxMinutos,
+
+        quando: quando === "ambos"
+            ? ["inicio", "fim"]
+            : [quando]
+
+    });
+
+    // Actualizar lista
+
+    atualizarListaSobreposicoes();
+
+    // Limpar campos
+
+    document.getElementById(
+        "novoTipoSobreposicao"
+    ).value = "";
+
+    document.getElementById(
+        "novoMaxMinutos"
+    ).value = "";
+
+    document.getElementById(
+        "novoQuandoSobreposicao"
+    ).value = "inicio";
+
+}
+
+
+// Mostrar ou esconder a configuração
+
+document
+    .getElementById("editarPermiteSobreposicao")
+    .addEventListener("change", function(){
+
+        document
+            .getElementById("zonaSobreposicoes")
+            .classList.toggle("oculto", !this.checked);
+
+    });
+
+
+// Associar botão Adicionar regra
+
+document
+    .getElementById("btnAdicionarSobreposicao")
+    .addEventListener("click", adicionarSobreposicao);
+
+    

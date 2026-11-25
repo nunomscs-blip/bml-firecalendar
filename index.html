@@ -130,17 +130,7 @@
 
             </div>
 
-            <div class="botoesModal">
-
-                <button id="btnCancelarEvento">
-                    Cancelar
-                </button>
-
-                <button id="btnGuardarEvento">
-                    Guardar
-                </button>
-
-            </div>
+            
 
         </div>
 
@@ -304,13 +294,6 @@
 
         <div class="painelRodape">
 
-            <div class="botoesModal">
-
-                <button id="btnFecharTiposEventoRodape">
-                    Fechar
-                </button>
-
-            </div>
 
         </div>
 
@@ -408,6 +391,93 @@
 
         </div>
 
+
+<!-- =======================================================
+     CONFIGURAÇÃO DE SOBREPOSIÇÕES
+======================================================= -->
+
+<div class="campo">
+
+    <label>
+        <input
+            type="checkbox"
+            id="editarPermiteSobreposicao">
+
+        Permitir sobreposição com outros tipos de evento
+    </label>
+
+</div>
+
+<div id="zonaSobreposicoes" class="oculto">
+
+    <hr>
+
+    <h3>Regras de sobreposição</h3>
+
+    <p>
+        Define quais os tipos de evento que podem coincidir
+        com este tipo.
+    </p>
+
+    <div id="listaSobreposicoes"></div>
+
+    <div class="campo">
+
+        <label for="novoTipoSobreposicao">
+            Tipo de evento compatível
+        </label>
+
+        <select id="novoTipoSobreposicao">
+
+            <option value="">Seleccionar tipo de evento</option>
+
+        </select>
+
+    </div>
+
+    <div class="campo">
+
+        <label for="novoMaxMinutos">
+            Tempo máximo de sobreposição (minutos)
+        </label>
+
+        <input
+            type="number"
+            id="novoMaxMinutos"
+            min="1"
+            step="1"
+            placeholder="Ex.: 60">
+    </div>
+
+    <div class="campo">
+
+        <label for="novoQuandoSobreposicao">
+            Posição da sobreposição
+        </label>
+
+        <select id="novoQuandoSobreposicao">
+
+            <option value="inicio">Início</option>
+
+            <option value="fim">Fim</option>
+
+            <option value="ambos">Início e fim</option>
+
+        </select>
+
+    </div>
+
+    <button
+        type="button"
+        id="btnAdicionarSobreposicao">
+
+        + Adicionar regra
+
+    </button>
+
+    </div>
+
+
         <div class="botoesModal">
 
             <button id="btnCancelarEditarTipo">
@@ -426,7 +496,7 @@
 
     </div>
 
-</div>
+    </div>
 
     <!-- =======================================================
          MODAL ELIMINAR EVENTO

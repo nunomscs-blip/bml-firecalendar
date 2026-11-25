@@ -166,33 +166,7 @@ const TIPOS_EVENTO = [
 
         },
 
-        sobreposicoes: [
-
-            {
-                tipo: "ECIN",
-                maxMinutos: 60,
-                quando: ["inicio", "fim"]
-            },
-
-            {
-                tipo: "SBA",
-                maxMinutos: 60,
-                quando: ["inicio", "fim"]
-            },
-
-            {
-                tipo: "ELAC",
-                maxMinutos: 60,
-                quando: ["inicio", "fim"]
-            },
-
-            {
-                tipo: "SAUDE",
-                maxMinutos: 60,
-                quando: ["inicio", "fim"]
-            }
-
-        ]
+        sobreposicoes: []
 
     },
 
