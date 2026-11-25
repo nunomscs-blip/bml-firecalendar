@@ -114,6 +114,43 @@ const TIPOS_EVENTO = [
 
 },
 
+
+    {
+        id: "OPTEL",
+
+        nome: "OPTEL",
+
+        icone: "🏢",
+
+        cor: "#F57C00",
+
+        ativo: true,
+
+        usaTurnos: true,
+
+        permiteEditarTurnos: false,
+
+        turnos: {
+
+            turno1: {
+                id: "D",
+                nome: "Dia",
+                inicio: "08:00",
+                fim: "20:00"
+            },
+
+            turno2: {
+                id: "N",
+                nome: "Noite",
+                inicio: "20:00",
+                fim: "08:00"
+            }
+
+        }
+
+    },
+
+
     {
         id: "SBA",
         nome: "SBA",
