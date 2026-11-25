@@ -321,60 +321,68 @@ const btnFecharPainelEventos =
    ATUALIZA TURNOS DISPONÍVEIS
 ====================================================== */
 
+
 function atualizarTurnosDisponiveis(){
 
-    const select = document.getElementById("turnoEvento");
+    const selectTipo = document.getElementById("tipoEvento");
+    const selectTurno = document.getElementById("turnoEvento");
 
-    let existeDia = false;
-    let existeNoite = false;
+    const tipo = obterTipoEvento(selectTipo.value);
 
-    for(const dia of estado.diasSelecionados){
+    if(!tipo || !tipo.usaTurnos || !tipo.turnos){
+        selectTurno.innerHTML = "";
+        return false;
+    }
 
-        const eventos = EVENTOS.filter(e =>
-            e.ano === calendarioAtual.ano &&
-            e.mes === calendarioAtual.mes &&
-            e.dia === dia
+    const turnoSelecionado = selectTurno.value;
+
+    const turnos = Object.values(tipo.turnos);
+
+    selectTurno.innerHTML = "";
+
+    for(const turno of turnos){
+
+        const ocupado = estado.diasSelecionados.some(dia =>
+
+            EVENTOS.some(evento =>
+                evento.ano === calendarioAtual.ano &&
+                evento.mes === calendarioAtual.mes &&
+                evento.dia === dia &&
+                evento.turno === turno.id
+            )
+
         );
 
-        if(eventos.some(e => e.turno === "D")){
-            existeDia = true;
+        if(ocupado){
+            continue;
         }
 
-        if(eventos.some(e => e.turno === "N")){
-            existeNoite = true;
-        }
+        const opcao = document.createElement("option");
+
+        opcao.value = turno.id;
+
+        opcao.textContent =
+            `${turno.nome} (${turno.inicio} - ${turno.fim})`;
+
+        selectTurno.appendChild(opcao);
 
     }
 
-    select.innerHTML = "";
+    if(selectTurno.options.length === 0){
 
-    if(!existeDia){
-
-        select.innerHTML += `
-            <option value="D">
-                Dia (07:00 - 19:00)
-            </option>
-        `;
-
-    }
-
-    if(!existeNoite){
-
-        select.innerHTML += `
-            <option value="N">
-                Noite (19:00 - 07:00)
-            </option>
-        `;
-
-    }
-
-    if(select.options.length === 0){
-
-        mostrarToast("Os dias selecionados já têm os dois turnos ocupados.");
-
-        cancelarEvento();
+        mostrarToast("Os dias selecionados já têm os turnos ocupados.");
 
         return false;
+
+    }
+
+    if(
+        [...selectTurno.options].some(opcao =>
+            opcao.value === turnoSelecionado
+        )
+    ){
+
+        selectTurno.value = turnoSelecionado;
 
     }
 
@@ -382,17 +390,14 @@ function atualizarTurnosDisponiveis(){
 
 }
 
+
+document
+    .getElementById("tipoEvento")
+    .addEventListener("change", atualizarTurnosDisponiveis);
+
+
 function abrirModalNovoEvento(){
 
-    if(
-    estado.modal.modo !== "editar"
-    ){
-
-    if(!atualizarTurnosDisponiveis()){
-        return;
-    }
-
-    }
 
     Paineis.fechar("modalEventos");
 
@@ -423,6 +428,10 @@ function abrirModalNovoEvento(){
 
         document.getElementById("tipoEvento").selectedIndex = 0;
 
+            if(!atualizarTurnosDisponiveis()){
+        return;
+        }
+
         document.getElementById("turnoEvento").selectedIndex = 0;
 
         document.getElementById("observacoesEvento").value = "";
@@ -439,6 +448,7 @@ function abrirModalNovoEvento(){
    ABRIR MODAL - EDITAR EVENTO
 ====================================================== */
 
+
 function abrirModalEditarEvento(){
 
     Paineis.fechar("modalEventos");
@@ -451,36 +461,47 @@ function abrirModalEditarEvento(){
 
     btnGuardar.textContent = "Atualizar";
 
-    document.getElementById("tipoEvento").value =
-        estado.modal.evento.tipo;
+    const evento = estado.modal.evento;
 
-    document.getElementById("turnoEvento").innerHTML = "";
+    const selectTipo = document.getElementById("tipoEvento");
+    const selectTurno = document.getElementById("turnoEvento");
 
-    const turno = Object.values(TURNOS).find(
-        t => t.id === estado.modal.evento.turno
-    );
+    selectTipo.value = evento.tipo;
 
-    if(turno){
+    const tipo = obterTipoEvento(evento.tipo);
 
-        document.getElementById("turnoEvento").innerHTML += `
-            <option value="${turno.id}">
-                ${turno.nome} (${turno.inicio} - ${turno.fim})
-            </option>
-        `;
+    selectTurno.innerHTML = "";
+
+    if(tipo && tipo.turnos){
+
+        const turno = Object.values(tipo.turnos).find(
+            t => t.id === evento.turno
+        );
+
+        if(turno){
+
+            const opcao = document.createElement("option");
+
+            opcao.value = turno.id;
+
+            opcao.textContent =
+                `${turno.nome} (${turno.inicio} - ${turno.fim})`;
+
+            selectTurno.appendChild(opcao);
+
+        }
 
     }
 
-    document.getElementById("turnoEvento").value =
-        estado.modal.evento.turno;
-
     document.getElementById("observacoesEvento").value =
-        estado.modal.evento.observacoes ?? "";
+        evento.observacoes ?? "";
 
     atualizarDiasSelecionados();
 
     modal.classList.remove("oculto");
 
 }
+
 
 function cancelarEvento(){
 
@@ -652,17 +673,17 @@ function atualizarListaEventos(eventos){
 
     for(const evento of eventos){
 
-        const turno = Object.values(TURNOS).find(
+        const tipoEvento = obterTipoEvento(evento.tipo);
 
-        t => t.id === evento.turno
-
-        );
+        const turno = tipoEvento && tipoEvento.turnos
+            ? Object.values(tipoEvento.turnos).find(
+                t => t.id === evento.turno
+            )
+            : null;
 
         if(!turno){
-
-        continue;
-
-        }
+            continue;
+}
 
         const tipo = obterTipoEvento(evento.tipo);
 
@@ -1218,14 +1239,13 @@ function atualizarListaTiposEvento(){
    EDITAR TIPO DE EVENTO
 ====================================================== */
 
+
 function abrirEditarTipoEvento(id){
 
     tipoEventoEditar = obterTipoEvento(id);
 
     if(!tipoEventoEditar){
-
         return;
-
     }
 
     document.getElementById("editarNomeTipo").value =
@@ -1240,10 +1260,141 @@ function abrirEditarTipoEvento(id){
     document.getElementById("editarTipoTurnos").checked =
         tipoEventoEditar.usaTurnos;
 
+    // Obter os horários configurados para o tipo
+    const turnoDia = tipoEventoEditar.turnos?.turno1;
+    const turnoNoite = tipoEventoEditar.turnos?.turno2;
+
+    // Preencher os campos horários
+    document.getElementById("diaInicio").value =
+        turnoDia?.inicio || "";
+
+    document.getElementById("diaFim").value =
+        turnoDia?.fim || "";
+
+    document.getElementById("noiteInicio").value =
+        turnoNoite?.inicio || "";
+
+    document.getElementById("noiteFim").value =
+        turnoNoite?.fim || "";
+
+    // Mostrar ou ocultar a zona dos turnos
+    document.getElementById("zonaTurnosTipo").classList.toggle(
+        "oculto",
+        !tipoEventoEditar.usaTurnos
+    );
+
     document
         .getElementById("modalEditarTipoEvento")
         .classList.remove("oculto");
 
 }
+
+
+function guardarEdicaoTipoEvento(){
+
+    if(!tipoEventoEditar){
+        return;
+    }
+
+    const usaTurnos =
+        document.getElementById("editarTipoTurnos").checked;
+
+    // Validar os horários, caso o tipo utilize turnos
+    if(usaTurnos){
+
+        const diaInicio = document.getElementById("diaInicio").value;
+        const diaFim = document.getElementById("diaFim").value;
+        const noiteInicio = document.getElementById("noiteInicio").value;
+        const noiteFim = document.getElementById("noiteFim").value;
+
+        if(!diaInicio || !diaFim || !noiteInicio || !noiteFim){
+
+            alert("Preenche todos os horários dos turnos.");
+            return;
+
+        }
+
+        // Garantir que a estrutura dos turnos existe
+        tipoEventoEditar.turnos =
+            tipoEventoEditar.turnos || {};
+
+        tipoEventoEditar.turnos.turno1 = {
+            ...tipoEventoEditar.turnos.turno1,
+            id: tipoEventoEditar.turnos.turno1?.id || "D",
+            nome: tipoEventoEditar.turnos.turno1?.nome || "Dia",
+            inicio: diaInicio,
+            fim: diaFim
+        };
+
+        tipoEventoEditar.turnos.turno2 = {
+            ...tipoEventoEditar.turnos.turno2,
+            id: tipoEventoEditar.turnos.turno2?.id || "N",
+            nome: tipoEventoEditar.turnos.turno2?.nome || "Noite",
+            inicio: noiteInicio,
+            fim: noiteFim
+        };
+
+    }
+
+    // Guardar restantes propriedades
+    tipoEventoEditar.nome =
+        document.getElementById("editarNomeTipo").value.trim();
+
+    tipoEventoEditar.cor =
+        document.getElementById("editarCorTipo").value;
+
+    tipoEventoEditar.ativo =
+        document.getElementById("editarTipoAtivo").checked;
+
+    tipoEventoEditar.usaTurnos = usaTurnos;
+
+    // Persistir configurações
+    guardarTiposEvento();
+
+    // Atualizar interface
+    document
+        .getElementById("modalEditarTipoEvento")
+        .classList.add("oculto");
+
+    atualizarListaTiposEvento();
+    preencherTiposEvento();
+    atualizarLegendaEventos();
+
+    tipoEventoEditar = null;
+
+    mostrarToast("Tipo de evento atualizado com sucesso.");
+
+}
+
+
+// Associar botões
+document
+    .getElementById("btnGuardarEditarTipo")
+    .addEventListener("click", guardarEdicaoTipoEvento);
+
+
+document
+    .getElementById("btnCancelarEditarTipo")
+    .addEventListener("click", function(){
+
+        document
+            .getElementById("modalEditarTipoEvento")
+            .classList.add("oculto");
+
+        tipoEventoEditar = null;
+
+    });
+
+
+// Mostrar ou ocultar horários ao alterar a opção de turnos
+document
+    .getElementById("editarTipoTurnos")
+    .addEventListener("change", function(){
+
+        document
+            .getElementById("zonaTurnosTipo")
+            .classList.toggle("oculto", !this.checked);
+
+    });
 
 

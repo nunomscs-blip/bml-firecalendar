@@ -103,6 +103,53 @@ function limparBaseDados(){
 
 const CHAVE_TIPOS_EVENTO = "bmlfirecalendar_tipos";
 
+
+function fundirTipoEvento(tipoBase, tipoGuardado){
+
+    const tipoAtualizado = {
+
+        ...tipoBase,
+
+        ...tipoGuardado
+
+    };
+
+    // Recuperar os turnos sem perder propriedades
+    tipoAtualizado.turnos = {};
+
+    const turnosBase = tipoBase.turnos || {};
+    const turnosGuardados = tipoGuardado.turnos || {};
+
+    for(const chave of Object.keys(turnosBase)){
+
+        tipoAtualizado.turnos[chave] = {
+
+            ...turnosBase[chave],
+
+            ...(turnosGuardados[chave] || {})
+
+        };
+
+    }
+
+    // Recuperar sobreposições
+    tipoAtualizado.sobreposicoes =
+        Array.isArray(tipoGuardado.sobreposicoes)
+        ? tipoGuardado.sobreposicoes
+        : (tipoBase.sobreposicoes || []);
+
+    // Recuperar campos adicionais
+    tipoAtualizado.campos =
+        Array.isArray(tipoGuardado.campos)
+        ? tipoGuardado.campos
+        : (tipoBase.campos || []);
+
+    return tipoAtualizado;
+
+}
+
+
+
 function carregarTiposEvento(){
 
     const dados = localStorage.getItem(CHAVE_TIPOS_EVENTO);
@@ -125,13 +172,18 @@ function carregarTiposEvento(){
 
         if(guardado){
 
-            tipo.nome = guardado.nome;
-            tipo.cor = guardado.cor;
-            tipo.ativo = guardado.ativo;
+            const tipoAtualizado = fundirTipoEvento(
+                tipo,
+                guardado
+            );
+
+            Object.assign(tipo, tipoAtualizado);
 
         }
 
     });
+
+    guardarTiposEvento();
 
 }
 
@@ -384,28 +436,28 @@ function restaurarBackup(ficheiro) {
                RESTAURAR TIPOS DE EVENTO
             ------------------------------------------ */
 
+            
+
             TIPOS_EVENTO.forEach(tipo => {
 
-                const tipoBackup =
+                const tipoBackup = backup.tiposEvento.find(
+                    t => t.id === tipo.id
+                );
 
-                    backup.tiposEvento.find(
+                if(tipoBackup){
 
-                        t => t.id === tipo.id
-
+                    const tipoAtualizado = fundirTipoEvento(
+                        tipo,
+                        tipoBackup
                     );
 
-
-                if (tipoBackup) {
-
-                    tipo.nome = tipoBackup.nome;
-
-                    tipo.cor = tipoBackup.cor;
-
-                    tipo.ativo = tipoBackup.ativo;
+                    Object.assign(tipo, tipoAtualizado);
 
                 }
 
             });
+
+
 
 
             guardarTiposEvento();
