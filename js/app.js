@@ -1356,8 +1356,21 @@ function guardarEdicaoTipoEvento(){
 
     tipoEventoEditar.usaTurnos = usaTurnos;
 
+    
+    tipoEventoEditar.usaTurnos = usaTurnos;
+
+    // Guardar regras de sobreposição
+    const permiteSobreposicao = document.getElementById(
+        "editarPermiteSobreposicao"
+    ).checked;
+
+    tipoEventoEditar.sobreposicoes = permiteSobreposicao
+        ? JSON.parse(JSON.stringify(sobreposicoesTemporarias))
+        : [];
+
     // Persistir configurações
     guardarTiposEvento();
+
 
     // Atualizar interface
     document
