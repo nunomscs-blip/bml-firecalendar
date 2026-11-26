@@ -902,39 +902,32 @@ if(resultado.autorizada){
 
         // A posição é sempre calculada relativamente
         // ao serviço que está a ser sobreposto
-        const intervaloServico = obterIntervaloEvento(
-            eventoServico
-        );
+                
+{
+    const registo = registosSobreposicao.get(
+        eventoServico.id
+    ) || {
+        inicio: false,
+        fim: false,
+        optelId: eventoOPTEL.id
+    };
 
-        const posicaoServico = obterPosicaoSobreposicao(
-            intervaloServico,
-            sobreposicao
-        );
+    // Serviço de Dia: marcação na zona superior
+    if(eventoServico.turno === "D"){
+        registo.inicio = true;
+    }
 
-        if(posicaoServico){
+    // Serviço de Noite: marcação na zona inferior
+    if(eventoServico.turno === "N"){
+        registo.fim = true;
+    }
 
-            const registo = registosSobreposicao.get(
-                eventoServico.id
-            ) || {
-                inicio: false,
-                fim: false,
-                optelId: eventoOPTEL.id
-            };
+    registosSobreposicao.set(
+        eventoServico.id,
+        registo
+    );
+}
 
-            if(posicaoServico === "inicio"){
-                registo.inicio = true;
-            }
-
-            if(posicaoServico === "fim"){
-                registo.fim = true;
-            }
-
-            registosSobreposicao.set(
-                eventoServico.id,
-                registo
-            );
-
-        }
 
     }
 
