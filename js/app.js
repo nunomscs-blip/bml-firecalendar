@@ -753,6 +753,97 @@ function validarSobreposicaoEntreEventos(eventoA, eventoB){
 
 }
 
+
+/* ======================================================
+   VERIFICAÇÃO DE CONSISTÊNCIA DOS EVENTOS
+   Analisa sobreposições sem alterar os registos.
+====================================================== */
+
+function verificarConsistenciaEventos(){
+
+    const sobreposicoesAutorizadas = [];
+    const sobreposicoesBloqueadas = [];
+
+    // Comparar cada evento com os seguintes,
+    // evitando analisar o mesmo par duas vezes.
+    for(let i = 0; i < EVENTOS.length; i++){
+
+        const eventoA = EVENTOS[i];
+
+        for(let j = i + 1; j < EVENTOS.length; j++){
+
+            const eventoB = EVENTOS[j];
+
+            const resultado = validarSobreposicaoEntreEventos(
+                eventoA,
+                eventoB
+            );
+
+            if(!resultado.existe){
+                continue;
+            }
+
+            const tipoA = obterTipoEvento(eventoA.tipo);
+            const tipoB = obterTipoEvento(eventoB.tipo);
+
+            const detalhe = {
+                eventoA: eventoA.id,
+                eventoB: eventoB.id,
+                tipoA: tipoA ? tipoA.nome : eventoA.tipo,
+                tipoB: tipoB ? tipoB.nome : eventoB.tipo,
+                minutos: resultado.minutos
+            };
+
+            if(resultado.autorizada){
+
+                sobreposicoesAutorizadas.push(detalhe);
+
+            }else{
+
+                sobreposicoesBloqueadas.push(detalhe);
+
+            }
+
+        }
+
+    }
+
+    const resultadoFinal = {
+        totalEventos: EVENTOS.length,
+        sobreposicoesAutorizadas,
+        sobreposicoesBloqueadas
+    };
+
+    console.group("Verificação de consistência do calendário");
+
+    console.log("Eventos analisados:", EVENTOS.length);
+
+    console.log(
+        "Sobreposições autorizadas:",
+        sobreposicoesAutorizadas.length
+    );
+
+    console.log(
+        "Sobreposições não autorizadas:",
+        sobreposicoesBloqueadas.length
+    );
+
+    if(sobreposicoesBloqueadas.length > 0){
+
+        console.warn(
+            "Foram encontradas sobreposições não autorizadas:",
+            sobreposicoesBloqueadas
+        );
+
+    }
+
+    console.groupEnd();
+
+    return resultadoFinal;
+
+}
+
+
 function guardarEvento(){
 
     if(estado.modal.modo === "editar"){
@@ -1492,6 +1583,9 @@ function iniciarAplicacao() {
     carregarEventos();
 
     carregarTiposEvento();
+
+    // Verificar consistência dos eventos carregados
+    verificarConsistenciaEventos();
 
     preencherTiposEvento();
 
