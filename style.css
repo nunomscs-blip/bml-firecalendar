@@ -1149,3 +1149,25 @@ body{
 
 }
 
+
+
+/* MARCAÇÃO DE SOBREPOSIÇÕES OPTEL */
+
+.marcadorOPTEL{
+    position:absolute;
+    left:0;
+    width:100%;
+    height:5px;
+    background:#F57C00;
+    z-index:3;
+    pointer-events:none;
+}
+
+.marcadorOPTELInicio{
+    top:0;
+}
+
+.marcadorOPTELFim{
+    bottom:0;
+}
+
