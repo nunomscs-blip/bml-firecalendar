@@ -155,19 +155,15 @@ function mostrarCalendario(){
 
 
     
-let corDia = "";
-let corNoite = "";
+    let corDia = "";
+    let corNoite = "";
 
-let tiraInicio = false;
-let tiraFim = false;
+    let tiraInicio = false;
+    let tiraFim = false;
 
-eventos.forEach(evento => {
-
+    eventos.forEach(evento => {
     const tipo = obterTipoEvento(evento.tipo);
-
-    if(!tipo){
-        return;
-    }
+    if(!tipo) return;
 
     if(evento.turno === "D"){
         corDia = tipo.cor;
@@ -187,18 +183,16 @@ eventos.forEach(evento => {
             optel.tipo === "OPTEL"
         )
     ){
-
-        if(sobreposicao.inicio === true){
+        // A tira acompanha o turno do serviço afectado
+        if(evento.turno === "D"){
             tiraInicio = true;
         }
 
-        if(sobreposicao.fim === true){
+        if(evento.turno === "N"){
             tiraFim = true;
         }
-
     }
-
-});
+    });
 
 
     const marcadorInicio = tiraInicio
