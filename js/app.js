@@ -995,13 +995,65 @@ if(resultado.autorizada){
     }
 
 
-    // Só depois de todas as validações
-    // são gravados os eventos
+    
+    // Persistir os registos de sobreposição OPTEL
+    for(const [eventoId, registo] of registosSobreposicao){
+
+        // Verificar se o evento sobreposto é um dos novos
+        const eventoNovo = eventosNovos.find(
+            evento => evento.id === eventoId
+        );
+
+        if(eventoNovo){
+
+            const anterior = eventoNovo.sobreposicaoOPTEL || {};
+
+            eventoNovo.sobreposicaoOPTEL = {
+                inicio: anterior.inicio === true || registo.inicio,
+                fim: anterior.fim === true || registo.fim,
+                optelId: registo.optelId
+            };
+
+            continue;
+
+        }
+
+        // Se não for novo, actualizar o evento já existente
+        const eventoExistente = EVENTOS.find(
+            evento => evento.id === eventoId
+        );
+
+        if(eventoExistente){
+
+            const anterior = eventoExistente.sobreposicaoOPTEL || {};
+
+            const eventoAtualizado = {
+                ...eventoExistente,
+
+                sobreposicaoOPTEL: {
+                    inicio: anterior.inicio === true || registo.inicio,
+                    fim: anterior.fim === true || registo.fim,
+                    optelId: registo.optelId
+                }
+            };
+
+            editarEvento(
+                eventoId,
+                eventoAtualizado
+            );
+
+        }
+
+    }
+
+
+    // Gravar os novos eventos
     for(const evento of eventosNovos){
 
         adicionarEvento(evento);
 
     }
+
 
 
     finalizarEdicao();
