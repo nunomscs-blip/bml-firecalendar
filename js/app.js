@@ -347,21 +347,6 @@ function atualizarTurnosDisponiveis(){
 
     for(const turno of turnos){
 
-        const ocupado = estado.diasSelecionados.some(dia =>
-
-            EVENTOS.some(evento =>
-                evento.ano === calendarioAtual.ano &&
-                evento.mes === calendarioAtual.mes &&
-                evento.dia === dia &&
-                evento.turno === turno.id
-            )
-
-        );
-
-        if(ocupado){
-            continue;
-        }
-
         const opcao = document.createElement("option");
 
         opcao.value = turno.id;
@@ -370,14 +355,6 @@ function atualizarTurnosDisponiveis(){
             `${turno.nome} (${turno.inicio} - ${turno.fim})`;
 
         selectTurno.appendChild(opcao);
-
-    }
-
-    if(selectTurno.options.length === 0){
-
-        mostrarToast("Os dias selecionados já têm os turnos ocupados.");
-
-        return false;
 
     }
 
@@ -537,6 +514,244 @@ btnGuardarEvento.addEventListener(
     guardarEvento
 );
 
+/* ======================================================
+   VALIDAÇÃO DE SOBREPOSIÇÕES ENTRE EVENTOS
+====================================================== */
+
+// Converte um horário HH:MM em minutos
+function converterHorarioEmMinutos(horario){
+
+    if(!horario || !/^\d{2}:\d{2}$/.test(horario)){
+        return null;
+    }
+
+    const [horas, minutos] = horario.split(":").map(Number);
+
+    if(horas > 23 || minutos > 59){
+        return null;
+    }
+
+    return horas * 60 + minutos;
+
+}
+
+
+// Obtém o intervalo do evento dentro do próprio dia
+function obterIntervaloEvento(evento){
+
+    const tipo = obterTipoEvento(evento.tipo);
+
+    if(!tipo || !tipo.turnos){
+        return null;
+    }
+
+    const turno = Object.values(tipo.turnos).find(
+        t => t.id === evento.turno
+    );
+
+    if(!turno){
+        return null;
+    }
+
+    const inicio = converterHorarioEmMinutos(turno.inicio);
+    let fim = converterHorarioEmMinutos(turno.fim);
+
+    if(inicio === null || fim === null){
+        return null;
+    }
+
+    // Os turnos que passam da meia-noite são limitados
+    // ao final do dia para efeitos desta validação.
+    if(fim <= inicio){
+        fim = 1440;
+    }
+
+    return {
+        inicio,
+        fim,
+        tipo: evento.tipo
+    };
+
+}
+
+
+// Calcula a sobreposição entre dois eventos
+function calcularSobreposicao(eventoA, eventoB){
+
+    const intervaloA = obterIntervaloEvento(eventoA);
+    const intervaloB = obterIntervaloEvento(eventoB);
+
+    if(!intervaloA || !intervaloB){
+        return null;
+    }
+
+    const inicio = Math.max(
+        intervaloA.inicio,
+        intervaloB.inicio
+    );
+
+    const fim = Math.min(
+        intervaloA.fim,
+        intervaloB.fim
+    );
+
+    if(fim <= inicio){
+        return null;
+    }
+
+    return {
+        inicio,
+        fim,
+        minutos: fim - inicio,
+        intervaloA,
+        intervaloB
+    };
+
+}
+
+
+function obterPosicaoSobreposicao(intervalo, sobreposicao){
+
+    const outroIntervalo =
+        intervalo === sobreposicao.intervaloA
+            ? sobreposicao.intervaloB
+            : sobreposicao.intervaloA;
+
+
+    // Sobreposição no início deste turno
+    // e no fim do outro turno
+    const coincideInicio =
+        sobreposicao.inicio === intervalo.inicio &&
+        sobreposicao.fim === outroIntervalo.fim;
+
+    if(coincideInicio){
+        return "inicio";
+    }
+
+
+    // Sobreposição no fim deste turno
+    // e no início do outro turno
+    const coincideFim =
+        sobreposicao.fim === intervalo.fim &&
+        sobreposicao.inicio === outroIntervalo.inicio;
+
+    if(coincideFim){
+        return "fim";
+    }
+
+
+    // Qualquer outra sobreposição ocorre
+    // fora dos extremos dos dois turnos
+    return null;
+
+}
+
+
+// Procura uma regra de autorização entre dois tipos
+function obterRegraSobreposicao(tipoEvento, tipoCompativel){
+
+    const tipo = obterTipoEvento(tipoEvento);
+
+    if(!tipo || !Array.isArray(tipo.sobreposicoes)){
+        return null;
+    }
+
+    return tipo.sobreposicoes.find(
+        regra => regra.tipo === tipoCompativel
+    ) || null;
+
+}
+
+
+// Valida a sobreposição entre dois eventos
+function validarSobreposicaoEntreEventos(eventoA, eventoB){
+
+    const sobreposicao = calcularSobreposicao(
+        eventoA,
+        eventoB
+    );
+
+    if(!sobreposicao){
+        return {
+            existe: false,
+            autorizada: false
+        };
+    }
+
+    // Verificar uma regra configurada no tipo A
+    const regraA = obterRegraSobreposicao(
+        eventoA.tipo,
+        eventoB.tipo
+    );
+
+    if(regraA){
+
+        const posicaoA = obterPosicaoSobreposicao(
+            sobreposicao.intervaloA,
+            sobreposicao
+        );
+
+        if(
+            posicaoA &&
+            regraA.quando.includes(posicaoA) &&
+            sobreposicao.minutos <= regraA.maxMinutos
+        ){
+
+            return {
+                existe: true,
+                autorizada: true,
+                minutos: sobreposicao.minutos,
+                posicao: posicaoA,
+                tipoRegra: eventoA.tipo
+            };
+
+        }
+
+    }
+
+
+    // Verificar uma regra configurada no tipo B
+    const regraB = obterRegraSobreposicao(
+        eventoB.tipo,
+        eventoA.tipo
+    );
+
+    if(regraB){
+
+        const posicaoB = obterPosicaoSobreposicao(
+            sobreposicao.intervaloB,
+            sobreposicao
+        );
+
+        if(
+            posicaoB &&
+            regraB.quando.includes(posicaoB) &&
+            sobreposicao.minutos <= regraB.maxMinutos
+        ){
+
+            return {
+                existe: true,
+                autorizada: true,
+                minutos: sobreposicao.minutos,
+                posicao: posicaoB,
+                tipoRegra: eventoB.tipo
+            };
+
+        }
+
+    }
+
+
+    // Existe sobreposição, mas não há autorização válida
+    return {
+        existe: true,
+        autorizada: false,
+        minutos: sobreposicao.minutos,
+        posicao: null
+    };
+
+}
+
 function guardarEvento(){
 
     if(estado.modal.modo === "editar"){
@@ -553,46 +768,149 @@ function guardarEvento(){
 
 function guardarNovoEvento(){
 
-    console.log("Calendário atual:", calendarioAtual);
+    const tipoId = document.getElementById("tipoEvento").value;
+    const turnoId = document.getElementById("turnoEvento").value;
 
-    for (const dia of estado.diasSelecionados){
+    const observacoes =
+        document.getElementById("observacoesEvento").value.trim();
 
-        const evento = {
+    // Preparar todos os eventos antes de gravar
+    const eventosNovos = estado.diasSelecionados.map(dia => ({
 
-            id: crypto.randomUUID(),
+        id: crypto.randomUUID(),
 
-            tipo: document.getElementById("tipoEvento").value,
+        tipo: tipoId,
+        turno: turnoId,
 
-            turno: document.getElementById("turnoEvento").value,
+        ano: calendarioAtual.ano,
+        mes: calendarioAtual.mes,
+        dia: dia,
 
-            ano: calendarioAtual.ano,
+        observacoes: observacoes
 
-            mes: calendarioAtual.mes,
+    }));
 
-            dia: dia,
 
-            observacoes:
-                document.getElementById("observacoesEvento").value.trim()
+    const sobreposicoesAutorizadas = [];
+    const sobreposicoesBloqueadas = [];
 
-        };
 
-        console.log("Vai gravar:", evento);
+    // Analisar todos os eventos seleccionados
+    for(const eventoNovo of eventosNovos){
 
-        const existe = EVENTOS.some(e =>
-            e.ano === evento.ano &&
-            e.mes === evento.mes &&
-            e.dia === evento.dia &&
-            e.turno === evento.turno
+        const eventosExistentes = EVENTOS.filter(evento =>
+
+            evento.ano === eventoNovo.ano &&
+            evento.mes === eventoNovo.mes &&
+            evento.dia === eventoNovo.dia
+
         );
 
-if(existe){
-    mostrarToast("Já existe um evento para este turno.");
-    continue;
+
+        for(const eventoExistente of eventosExistentes){
+
+            const resultado = validarSobreposicaoEntreEventos(
+                eventoNovo,
+                eventoExistente
+            );
+
+            if(!resultado.existe){
+                continue;
+            }
+
+
+            const tipoNovo = obterTipoEvento(eventoNovo.tipo);
+            const tipoExistente = obterTipoEvento(eventoExistente.tipo);
+
+            const nomeNovo = tipoNovo
+                ? tipoNovo.nome
+                : eventoNovo.tipo;
+
+            const nomeExistente = tipoExistente
+                ? tipoExistente.nome
+                : eventoExistente.tipo;
+
+
+            const detalhe = {
+
+                dia: eventoNovo.dia,
+                nomeNovo: nomeNovo,
+                nomeExistente: nomeExistente,
+                minutos: resultado.minutos,
+                posicao: resultado.posicao
+
+            };
+
+
+            if(resultado.autorizada){
+
+                sobreposicoesAutorizadas.push(detalhe);
+
+            }else{
+
+                sobreposicoesBloqueadas.push(detalhe);
+
+            }
+
+        }
+
     }
-        
+
+
+    // Bloquear toda a operação se existir
+    // pelo menos uma sobreposição não autorizada
+    if(sobreposicoesBloqueadas.length > 0){
+
+        const mensagem = sobreposicoesBloqueadas.map(item =>
+
+            `Dia ${item.dia}: ${item.nomeNovo} / ${item.nomeExistente} - ${item.minutos} minutos`
+
+        ).join("\n");
+
+        alert(
+            "Não é possível guardar os eventos.\n\n" +
+            "Foram detectadas sobreposições não autorizadas:\n\n" +
+            mensagem
+        );
+
+        return;
+
+    }
+
+
+    // Pedir confirmação das sobreposições autorizadas
+    if(sobreposicoesAutorizadas.length > 0){
+
+        const mensagem = sobreposicoesAutorizadas.map(item =>
+
+            `Dia ${item.dia}: ${item.nomeNovo} / ${item.nomeExistente}\n` +
+            `Sobreposição: ${item.minutos} minutos (${item.posicao})`
+
+        ).join("\n\n");
+
+        const confirmar = confirm(
+
+            "Foram detectadas sobreposições autorizadas:\n\n" +
+            mensagem +
+            "\n\nPretendes confirmar e guardar os eventos?"
+
+        );
+
+        if(!confirmar){
+            return;
+        }
+
+    }
+
+
+    // Só depois de todas as validações
+    // são gravados os eventos
+    for(const evento of eventosNovos){
+
         adicionarEvento(evento);
 
     }
+
 
     finalizarEdicao();
 
