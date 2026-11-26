@@ -151,18 +151,18 @@ function mostrarCalendario(){
     e.ano === calendarioAtual.ano &&
     e.mes === calendarioAtual.mes &&
     e.dia === i
-);
+    );
 
-let corDia = "";
-let corNoite = "";
 
-eventos.forEach(evento => {
+    let corDia = "";
+    let corNoite = "";
 
-    console.log(evento);
+    let tiraInicio = false;
+    let tiraFim = false;
+
+    eventos.forEach(evento => {
 
     const tipo = obterTipoEvento(evento.tipo);
-
-    console.log(tipo);
 
     if(!tipo){
         return;
@@ -176,9 +176,71 @@ eventos.forEach(evento => {
         corNoite = tipo.cor;
     }
 
-});
+    // Verificar se existe uma sobreposição OPTEL autorizada
+    const sobreposicao = evento.sobreposicaoOPTEL;
+
+    if(
+        sobreposicao &&
+        sobreposicao.optelId &&
+        EVENTOS.some(optel =>
+            optel.id === sobreposicao.optelId &&
+            optel.tipo === "OPTEL"
+        )
+    ){
+
+        if(sobreposicao.inicio === true){
+            tiraInicio = true;
+        }
+
+        if(sobreposicao.fim === true){
+            tiraFim = true;
+        }
+
+    }
+
+    });
 
     diasMes.innerHTML += `
+    <div
+        class="${classe}"
+        data-dia="${i}"
+        style="
+            --cor-dia:${corDia || "#ffffff"};
+            --cor-noite:${corNoite || "#ffffff"};
+        "
+    >
+
+        ${tiraInicio ? `
+            <span style="
+                position:absolute;
+                top:0;
+                left:0;
+                width:100%;
+                height:5px;
+                background:#F57C00;
+                z-index:3;
+                pointer-events:none;
+            "></span>
+        ` : ""}
+
+        ${tiraFim ? `
+            <span style="
+                position:absolute;
+                bottom:0;
+                left:0;
+                width:100%;
+                height:5px;
+                background:#F57C00;
+                z-index:3;
+                pointer-events:none;
+            "></span>
+        ` : ""}
+
+        <span class="numeroDia">${i}</span>
+
+    </div>
+    `;
+
         
     <div
         class="${classe}"
