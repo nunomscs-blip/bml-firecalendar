@@ -537,6 +537,8 @@ function converterHorarioEmMinutos(horario){
 
 
 // Obtém o intervalo do evento dentro do próprio dia
+// Obtém o intervalo real do evento,
+// considerando a data e a passagem da meia-noite.
 function obterIntervaloEvento(evento){
 
     const tipo = obterTipoEvento(evento.tipo);
@@ -553,29 +555,43 @@ function obterIntervaloEvento(evento){
         return null;
     }
 
-    const inicio = converterHorarioEmMinutos(turno.inicio);
-    let fim = converterHorarioEmMinutos(turno.fim);
+    const inicioMinutos = converterHorarioEmMinutos(turno.inicio);
+    const fimMinutos = converterHorarioEmMinutos(turno.fim);
 
-    if(inicio === null || fim === null){
+    if(inicioMinutos === null || fimMinutos === null){
         return null;
     }
 
-    // Os turnos que passam da meia-noite são limitados
-    // ao final do dia para efeitos desta validação.
+    const inicio = new Date(
+        evento.ano,
+        evento.mes - 1,
+        evento.dia,
+        Math.floor(inicioMinutos / 60),
+        inicioMinutos % 60
+    );
+
+    const fim = new Date(
+        evento.ano,
+        evento.mes - 1,
+        evento.dia,
+        Math.floor(fimMinutos / 60),
+        fimMinutos % 60
+    );
+
+    // Se o turno termina no dia seguinte
     if(fim <= inicio){
-        fim = 1440;
+        fim.setDate(fim.getDate() + 1);
     }
 
     return {
-        inicio,
-        fim,
+        inicio: inicio.getTime(),
+        fim: fim.getTime(),
         tipo: evento.tipo
     };
 
 }
 
-
-// Calcula a sobreposição entre dois eventos
+// Calcula a sobreposição real entre dois eventos
 function calcularSobreposicao(eventoA, eventoB){
 
     const intervaloA = obterIntervaloEvento(eventoA);
@@ -602,7 +618,7 @@ function calcularSobreposicao(eventoA, eventoB){
     return {
         inicio,
         fim,
-        minutos: fim - inicio,
+        minutos: (fim - inicio) / 60000,
         intervaloA,
         intervaloB
     };
@@ -610,6 +626,8 @@ function calcularSobreposicao(eventoA, eventoB){
 }
 
 
+// Identifica se a sobreposição ocorre
+// num extremo dos dois turnos
 function obterPosicaoSobreposicao(intervalo, sobreposicao){
 
     const outroIntervalo =
@@ -618,30 +636,24 @@ function obterPosicaoSobreposicao(intervalo, sobreposicao){
             : sobreposicao.intervaloA;
 
 
-    // Sobreposição no início deste turno
-    // e no fim do outro turno
-    const coincideInicio =
+    // Início deste turno e fim do outro
+    if(
         sobreposicao.inicio === intervalo.inicio &&
-        sobreposicao.fim === outroIntervalo.fim;
-
-    if(coincideInicio){
+        sobreposicao.fim === outroIntervalo.fim
+    ){
         return "inicio";
     }
 
 
-    // Sobreposição no fim deste turno
-    // e no início do outro turno
-    const coincideFim =
+    // Fim deste turno e início do outro
+    if(
         sobreposicao.fim === intervalo.fim &&
-        sobreposicao.inicio === outroIntervalo.inicio;
-
-    if(coincideFim){
+        sobreposicao.inicio === outroIntervalo.inicio
+    ){
         return "fim";
     }
 
 
-    // Qualquer outra sobreposição ocorre
-    // fora dos extremos dos dois turnos
     return null;
 
 }
@@ -798,13 +810,44 @@ function guardarNovoEvento(){
     // Analisar todos os eventos seleccionados
     for(const eventoNovo of eventosNovos){
 
-        const eventosExistentes = EVENTOS.filter(evento =>
+        // Criar as datas de referência
+    const dataEventoNovo = new Date(
+    eventoNovo.ano,
+    eventoNovo.mes - 1,
+    eventoNovo.dia
+    );
 
-            evento.ano === eventoNovo.ano &&
-            evento.mes === eventoNovo.mes &&
-            evento.dia === eventoNovo.dia
+    // Dia anterior
+    const dataAnterior = new Date(dataEventoNovo);
+    dataAnterior.setDate(dataAnterior.getDate() - 1);
 
-        );
+    // Dia seguinte
+    const dataSeguinte = new Date(dataEventoNovo);
+    dataSeguinte.setDate(dataSeguinte.getDate() + 1);
+
+    // Datas a considerar na pesquisa
+    const datasAComparar = new Set([
+
+        dataAnterior.toDateString(),
+        dataEventoNovo.toDateString(),
+        dataSeguinte.toDateString()
+
+    ]);
+
+    // Procurar eventos nos três dias
+    const eventosExistentes = EVENTOS.filter(evento => {
+
+    const dataExistente = new Date(
+        evento.ano,
+        evento.mes - 1,
+        evento.dia
+    );
+
+    return datasAComparar.has(
+        dataExistente.toDateString()
+    );
+
+    });
 
 
         for(const eventoExistente of eventosExistentes){
