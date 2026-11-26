@@ -630,32 +630,21 @@ function calcularSobreposicao(eventoA, eventoB){
 // num extremo dos dois turnos
 function obterPosicaoSobreposicao(intervalo, sobreposicao){
 
-    const outroIntervalo =
-        intervalo === sobreposicao.intervaloA
-            ? sobreposicao.intervaloB
-            : sobreposicao.intervaloA;
+    if(!intervalo || !sobreposicao){
+        return null;
+    }
 
-
-    // Início deste turno e fim do outro
-    if(
-        sobreposicao.inicio === intervalo.inicio &&
-        sobreposicao.fim === outroIntervalo.fim
-    ){
+    // Sobreposição no início do serviço
+    if(sobreposicao.inicio === intervalo.inicio){
         return "inicio";
     }
 
-
-    // Fim deste turno e início do outro
-    if(
-        sobreposicao.fim === intervalo.fim &&
-        sobreposicao.inicio === outroIntervalo.inicio
-    ){
+    // Sobreposição no fim do serviço
+    if(sobreposicao.fim === intervalo.fim){
         return "fim";
     }
 
-
     return null;
-
 }
 
 
@@ -805,6 +794,7 @@ function guardarNovoEvento(){
 
     const sobreposicoesAutorizadas = [];
     const sobreposicoesBloqueadas = [];
+    const registosSobreposicao = new Map();
 
 
     // Analisar todos os eventos seleccionados
@@ -876,24 +866,83 @@ function guardarNovoEvento(){
 
             const detalhe = {
 
-                dia: eventoNovo.dia,
-                nomeNovo: nomeNovo,
-                nomeExistente: nomeExistente,
-                minutos: resultado.minutos,
-                posicao: resultado.posicao
+    dia: eventoNovo.dia,
+    nomeNovo: nomeNovo,
+    nomeExistente: nomeExistente,
+    minutos: resultado.minutos,
+    posicao: resultado.posicao
 
+};
+
+
+if(resultado.autorizada){
+
+    sobreposicoesAutorizadas.push(detalhe);
+
+    // Só registar a marcação visual quando existe OPTEL
+    if(
+        eventoNovo.tipo === "OPTEL" ||
+        eventoExistente.tipo === "OPTEL"
+    ){
+
+        // Identificar os dois eventos
+        const eventoOPTEL = eventoNovo.tipo === "OPTEL"
+            ? eventoNovo
+            : eventoExistente;
+
+        const eventoServico = eventoNovo.tipo === "OPTEL"
+            ? eventoExistente
+            : eventoNovo;
+
+        // Calcular a sobreposição real
+        const sobreposicao = calcularSobreposicao(
+            eventoNovo,
+            eventoExistente
+        );
+
+        // A posição é sempre calculada relativamente
+        // ao serviço que está a ser sobreposto
+        const intervaloServico = obterIntervaloEvento(
+            eventoServico
+        );
+
+        const posicaoServico = obterPosicaoSobreposicao(
+            intervaloServico,
+            sobreposicao
+        );
+
+        if(posicaoServico){
+
+            const registo = registosSobreposicao.get(
+                eventoServico.id
+            ) || {
+                inicio: false,
+                fim: false,
+                optelId: eventoOPTEL.id
             };
 
-
-            if(resultado.autorizada){
-
-                sobreposicoesAutorizadas.push(detalhe);
-
-            }else{
-
-                sobreposicoesBloqueadas.push(detalhe);
-
+            if(posicaoServico === "inicio"){
+                registo.inicio = true;
             }
+
+            if(posicaoServico === "fim"){
+                registo.fim = true;
+            }
+
+            registosSobreposicao.set(
+                eventoServico.id,
+                registo
+            );
+
+        }
+
+    }
+
+    }else{
+
+    sobreposicoesBloqueadas.push(detalhe);
+
+    }
 
         }
 
