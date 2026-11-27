@@ -252,6 +252,10 @@
                 🔔 Alarmes
             </button>
 
+            <button id="btnLigarGoogleCalendar">
+            📅 Ligar Google Calendar
+            </button>
+
             <button id="btnFazerBackup">
                 💾 Fazer Backup
             </button>
@@ -629,12 +633,18 @@
          5 - Aplicação
     ======================================================== -->
 
-    <script src="js/config.js"></script>
-    <script src="js/datas.js"></script>
-    <script src="js/calendario.js"></script>
-    <script src="js/database.js"></script>
-    <script src="js/paineis.js"></script>
+   <script src="js/paineis.js"></script>
     <script src="js/app.js"></script>
+
+    <!-- Google Identity Services -->
+    <script
+        src="https://accounts.google.com/gsi/client"
+        async
+        defer>
+    </script>
+
+    <!-- Integração Google Calendar -->
+    <script src="js/google-calendar.js"></script>
 
 </body>
 
