@@ -2219,7 +2219,7 @@ function editarEventoModal(event){
 
 }
 
-function confirmarEliminar(){
+async function confirmarEliminar(){
 
     if(!estado.modalEliminar.evento){
         return;
@@ -2240,24 +2240,72 @@ function confirmarEliminar(){
 
     const idEvento = evento.id;
 
-    // Elimina o evento
+    // ======================================================
+    // ELIMINAR DO GOOGLE CALENDAR
+    // ======================================================
+
+    if(evento.googleEventId){
+
+        // Exigir ligação ao Google
+        if(!window.bmlGoogleCalendarLigado){
+
+            alert(
+                "Este serviço também está associado ao Google Calendar.\n\n" +
+                "Liga primeiro o Google Calendar nas Configurações " +
+                "e volta a tentar eliminar."
+            );
+
+            return;
+        }
+
+        try{
+
+            await eliminarEventoGoogleCalendar(
+                evento.googleEventId
+            );
+
+        }catch(erro){
+
+            console.error(
+                "Erro ao eliminar evento do Google Calendar:",
+                erro
+            );
+
+            alert(
+                "Não foi possível eliminar o evento do Google Calendar.\n\n" +
+                "O registo foi mantido na aplicação BML."
+            );
+
+            return;
+        }
+
+    }
+
+    // ======================================================
+    // ELIMINAR DA APLICAÇÃO BML
+    // ======================================================
+
     eliminarEvento(idEvento);
 
-    // Fecha a confirmação
+    // Fechar confirmação
     fecharModalEliminar();
 
-    // Garante que o painel de eventos também fica fechado
+    // Fechar painel de eventos
     Paineis.fechar("modalEventos");
 
-    // Limpa o estado
+    // Limpar estado
     estado.modalEliminar.evento = null;
 
-    // Actualiza o calendário
+    // Actualizar calendário
     atualizarInterface();
 
     mostrarCalendario();
 
-    mostrarToast("✔ Evento eliminado com sucesso.");
+    mostrarToast(
+        evento.googleEventId
+            ? "Evento eliminado da BML e Google Calendar."
+            : "Evento eliminado com sucesso."
+    );
 
 }
 
