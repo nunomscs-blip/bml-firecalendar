@@ -1234,6 +1234,206 @@ function guardarEvento(){
 
 }
 
+
+/* ======================================================
+   GERAÇÃO DE FICHEIROS ICS
+   Um ficheiro por serviço, com alarme às 10:00
+   do dia anterior.
+====================================================== */
+
+function escaparTextoICS(texto){
+
+    return String(texto ?? "")
+        .replace(/\\/g, "\\\\")
+        .replace(/\r\n|\r|\n/g, "\\n")
+        .replace(/,/g, "\\,")
+        .replace(/;/g, "\\;");
+
+}
+
+
+function formatarDataICSUTC(data){
+
+    return data
+        .toISOString()
+        .replace(/[-:]/g, "")
+        .replace(/\.\d{3}/, "");
+
+}
+
+
+function gerarConteudoICS(evento){
+
+    const dias = obterDiasEvento(evento);
+
+    if(dias.length !== 1){
+
+        throw new Error(
+            "O serviço deve corresponder a um único dia."
+        );
+
+    }
+
+    const dia = dias[0];
+
+    const tipo = obterTipoEvento(evento.tipo);
+
+    if(!tipo || !tipo.turnos){
+
+        throw new Error(
+            "Não foi possível identificar o tipo de serviço."
+        );
+
+    }
+
+    const turno = Object.values(tipo.turnos).find(
+        t => t.id === evento.turno
+    );
+
+    if(!turno){
+
+        throw new Error(
+            "Não foi possível identificar o horário do turno."
+        );
+
+    }
+
+    const intervalo = obterIntervaloEvento(
+        evento,
+        dia
+    );
+
+    if(!intervalo){
+
+        throw new Error(
+            "Não foi possível calcular o horário do serviço."
+        );
+
+    }
+
+    // Horário real de início e fim do serviço
+    const inicio = new Date(intervalo.inicio);
+    const fim = new Date(intervalo.fim);
+
+    // Alarme: dia anterior às 10:00 locais
+    const alarme = new Date(
+        evento.ano,
+        evento.mes - 1,
+        dia - 1,
+        10,
+        0,
+        0
+    );
+
+    const nomeServico = tipo.nome || evento.tipo;
+
+    const uid =
+        evento.icsUID ||
+        `${evento.id}@bml-firecalendar`;
+
+    const sequencia =
+        Number.isInteger(evento.icsSequence)
+        ? evento.icsSequence
+        : 0;
+
+    const mensagemAlarme =
+        `Amanhã tens serviço ${nomeServico}, ` +
+        `das ${turno.inicio} às ${turno.fim}.`;
+
+    const descricao =
+        `Serviço: ${nomeServico}\n` +
+        `Turno: ${turno.nome}\n` +
+        `Horário: ${turno.inicio} às ${turno.fim}`;
+
+    const linhas = [
+
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//BML//FireCalendar//PT",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+
+        "BEGIN:VEVENT",
+
+        `UID:${uid}`,
+        `SEQUENCE:${sequencia}`,
+        `DTSTAMP:${formatarDataICSUTC(new Date())}`,
+
+        `DTSTART:${formatarDataICSUTC(inicio)}`,
+        `DTEND:${formatarDataICSUTC(fim)}`,
+
+        `SUMMARY:${escaparTextoICS(
+            `Serviço ${nomeServico}`
+        )}`,
+
+        `DESCRIPTION:${escaparTextoICS(descricao)}`,
+
+        "STATUS:CONFIRMED",
+
+        "BEGIN:VALARM",
+        "ACTION:DISPLAY",
+
+        `TRIGGER;VALUE=DATE-TIME:${formatarDataICSUTC(alarme)}`,
+
+        `DESCRIPTION:${escaparTextoICS(mensagemAlarme)}`,
+
+        "END:VALARM",
+
+        "END:VEVENT",
+        "END:VCALENDAR"
+
+    ];
+
+    return linhas.join("\r\n");
+
+}
+
+
+function descarregarICS(evento){
+
+    const conteudo = gerarConteudoICS(evento);
+
+    const ficheiro = new Blob(
+        [conteudo],
+        { type: "text/calendar;charset=utf-8" }
+    );
+
+    const url = URL.createObjectURL(ficheiro);
+
+    const tipo = obterTipoEvento(evento.tipo);
+
+    const nomeServico = (
+        tipo ? tipo.nome : evento.tipo
+    )
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9_-]/g, "-");
+
+    const data =
+        `${evento.ano}-` +
+        `${String(evento.mes).padStart(2, "0")}-` +
+        `${String(evento.dia).padStart(2, "0")}`;
+
+    const link = document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+        `BML-${nomeServico}-${data}.ics`;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    setTimeout(() => {
+        URL.revokeObjectURL(url);
+    }, 1000);
+
+}
+
+
 function guardarNovoEvento(){
 
     const tipoId = document.getElementById("tipoEvento").value;
