@@ -1771,22 +1771,30 @@ function editarEventoModal(event){
     const evento = EVENTOS.find(e => e.id === id);
 
     if(!evento){
+        return;
+    }
+
+    // Impede a edição de eventos cujo turno já terminou
+    if(eventoEstaBloqueado(evento)){
+
+        alert(
+            "Este evento já terminou e encontra-se bloqueado para edição."
+        );
 
         return;
-
     }
 
     // Guarda o estado do modal
     estado.modal.modo = "editar";
     estado.modal.evento = evento;
 
-    // Dia do evento
+    // Guarda os dias do evento
     estado.diasSelecionados = obterDiasEvento(evento);
 
-        Paineis.fechar("modalEventos");
+    Paineis.fechar("modalEventos");
 
-        // Abre o modal de edição
-        abrirModalEditarEvento();
+    // Abre o modal de edição
+    abrirModalEditarEvento();
 
 }
 
