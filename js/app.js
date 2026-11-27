@@ -1409,19 +1409,15 @@ if(resultado.autorizada){
 
 function guardarEdicao(){
 
+    const eventoOriginal = estado.modal.evento;
+
     const evento = {
 
-        id: estado.modal.evento.id,
+        ...eventoOriginal,
 
         tipo: document.getElementById("tipoEvento").value,
 
         turno: document.getElementById("turnoEvento").value,
-
-        ano: estado.modal.evento.ano,
-
-        mes: estado.modal.evento.mes,
-
-        dia: estado.modal.evento.dia,
 
         observacoes:
             document.getElementById("observacoesEvento").value.trim()
@@ -1429,11 +1425,8 @@ function guardarEdicao(){
     };
 
     editarEvento(
-
         evento.id,
-
         evento
-
     );
 
     finalizarEdicao();
@@ -1612,7 +1605,7 @@ function editarEventoModal(event){
     estado.modal.evento = evento;
 
     // Dia do evento
-    estado.diasSelecionados = [evento.dia];
+    estado.diasSelecionados = obterDiasEvento(evento);
 
         Paineis.fechar("modalEventos");
 
