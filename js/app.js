@@ -1801,12 +1801,22 @@ function editarEventoModal(event){
 function confirmarEliminar(){
 
     if(!estado.modalEliminar.evento){
-
         return;
-
     }
 
-    const idEvento = estado.modalEliminar.evento.id;
+    const evento = estado.modalEliminar.evento;
+
+    // Impede a eliminação de eventos cujo turno já terminou
+    if(eventoEstaBloqueado(evento)){
+
+        alert(
+            "Este evento já terminou e encontra-se bloqueado para eliminação."
+        );
+
+        return;
+    }
+
+    const idEvento = evento.id;
 
     // Elimina o evento
     eliminarEvento(idEvento);
