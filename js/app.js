@@ -1713,12 +1713,39 @@ if(resultado.autorizada){
     }
 
 
-    // Gravar os novos eventos
+    
+    // Gravar os novos eventos e associar o ICS
     for(const evento of eventosNovos){
+
+        evento.icsUID =
+            `${evento.id}@bml-firecalendar`;
+
+        evento.icsSequence = 0;
 
         adicionarEvento(evento);
 
     }
+
+
+    // Gerar automaticamente um ICS por serviço
+    for(const evento of eventosNovos){
+
+        try{
+
+            descarregarICS(evento);
+
+        }catch(erro){
+
+            console.error(
+                "Erro ao gerar o ficheiro ICS:",
+                evento.id,
+                erro
+            );
+
+        }
+
+    }
+
 
 
 
