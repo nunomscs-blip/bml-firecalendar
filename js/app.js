@@ -557,6 +557,95 @@ function obterDiasEvento(evento){
     return [];
 }
 
+/* ======================================================
+   VERIFICA SE UM EVENTO ESTÁ BLOQUEADO POR DATA/HORA
+   Protege serviços cujo turno já terminou.
+====================================================== */
+
+function eventoEstaBloqueado(evento, agora = new Date()){
+
+    const tipo = obterTipoEvento(evento.tipo);
+
+    const dias = obterDiasEvento(evento);
+
+    // Sem informação suficiente, bloquear por segurança
+    if(!tipo || dias.length === 0){
+        return true;
+    }
+
+    // Eventos sem turnos: considerar o fim do dia civil
+    if(!tipo.usaTurnos){
+
+        return dias.some(dia => {
+
+            const fimDia = new Date(
+                evento.ano,
+                evento.mes - 1,
+                dia,
+                23,
+                59,
+                59,
+                999
+            );
+
+            return fimDia <= agora;
+
+        });
+
+    }
+
+    if(!tipo.turnos){
+        return true;
+    }
+
+    const turno = Object.values(tipo.turnos).find(
+        t => t.id === evento.turno
+    );
+
+    if(!turno){
+        return true;
+    }
+
+    const inicioMinutos =
+        converterHorarioEmMinutos(turno.inicio);
+
+    const fimMinutos =
+        converterHorarioEmMinutos(turno.fim);
+
+    if(inicioMinutos === null || fimMinutos === null){
+        return true;
+    }
+
+    // Se pelo menos um serviço já terminou,
+    // proteger o registo completo.
+    return dias.some(dia => {
+
+        const inicio = new Date(
+            evento.ano,
+            evento.mes - 1,
+            dia,
+            Math.floor(inicioMinutos / 60),
+            inicioMinutos % 60
+        );
+
+        const fim = new Date(
+            evento.ano,
+            evento.mes - 1,
+            dia,
+            Math.floor(fimMinutos / 60),
+            fimMinutos % 60
+        );
+
+        // Turnos que passam da meia-noite
+        if(fim <= inicio){
+            fim.setDate(fim.getDate() + 1);
+        }
+
+        return fim <= agora;
+
+    });
+
+}
 
 /* ======================================================
    OBTÉM O INTERVALO REAL DE UM EVENTO
