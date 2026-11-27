@@ -321,6 +321,99 @@ async function inserirEventoGoogleCalendar(evento, teste = false){
 }
 
 
+/* ======================================================
+   ATUALIZAR EVENTO NA GOOGLE CALENDAR
+====================================================== */
+
+async function atualizarEventoGoogleCalendar(
+    googleEventId,
+    evento
+){
+
+    if(!googleEventId){
+        throw new Error("Identificador Google não encontrado.");
+    }
+
+    const token = await obterTokenGoogleCalendar();
+
+    const dadosEvento = construirEventoGoogleCalendar(
+        evento,
+        false
+    );
+
+    const resposta = await fetch(
+        "https://www.googleapis.com/calendar/v3/calendars/" +
+        encodeURIComponent(GOOGLE_CALENDAR_CONFIG.CALENDARIO) +
+        "/events/" +
+        encodeURIComponent(googleEventId),
+        {
+            method: "PATCH",
+
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(dadosEvento)
+        }
+    );
+
+    const dados = await resposta.json();
+
+    if(!resposta.ok){
+        throw new Error(
+            dados.error?.message ||
+            "Não foi possível atualizar o evento Google."
+        );
+    }
+
+    return dados;
+
+}
+
+
+// ======================================================
+// ELIMINAR EVENTO NA GOOGLE CALENDAR
+// ======================================================
+
+async function eliminarEventoGoogleCalendar(googleEventId){
+
+    if(!googleEventId){
+        throw new Error("Identificador Google não encontrado.");
+    }
+
+    const token = await obterTokenGoogleCalendar();
+
+    const resposta = await fetch(
+        "https://www.googleapis.com/calendar/v3/calendars/" +
+        encodeURIComponent(GOOGLE_CALENDAR_CONFIG.CALENDARIO) +
+        "/events/" +
+        encodeURIComponent(googleEventId),
+        {
+            method: "DELETE",
+
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+
+    if(!resposta.ok && resposta.status !== 204){
+
+        const dados = await resposta.json();
+
+        throw new Error(
+            dados.error?.message ||
+            "Não foi possível eliminar o evento Google."
+        );
+
+    }
+
+    return true;
+
+}
+
+
 // ======================================================
 // CRIAR EVENTO DE TESTE
 // Não altera os registos da BML
