@@ -1820,7 +1820,7 @@ async function guardarNovoEvento(){
 
 }
 
-function guardarEdicao(){
+async function guardarEdicao(){
 
     const eventoOriginal = estado.modal.evento;
 
@@ -1923,13 +1923,109 @@ function guardarEdicao(){
 
     }
 
-    // Gravar alterações
+    
+    // ======================================================
+    // GRAVAR ALTERAÇÕES LOCALMENTE
+    // ======================================================
+
     editarEvento(
         evento.id,
         evento
     );
 
+    // ======================================================
+// SINCRONIZAR ALTERAÇÕES COM GOOGLE CALENDAR
+// ======================================================
+
+if(window.bmlGoogleCalendarLigado){
+
+    // Só sincronizar eventos associados ou pendentes
+    if(
+        evento.googleEventId ||
+        evento.googleSyncStatus === "pendente"
+    ){
+
+        try{
+
+            // Evento já associado ao Google
+            if(evento.googleEventId){
+
+                await atualizarEventoGoogleCalendar(
+                    evento.googleEventId,
+                    evento
+                );
+
+            }
+
+            // Evento novo que estava pendente
+            else{
+
+                const resultadoGoogle =
+                    await inserirEventoGoogleCalendar(evento, false);
+
+                evento.googleEventId = resultadoGoogle.id;
+
+                evento.googleEventLink =
+                    resultadoGoogle.htmlLink || "";
+
+            }
+
+            evento.googleSyncStatus = "sincronizado";
+
+            editarEvento(
+                evento.id,
+                evento
+            );
+
+            mostrarToast(
+                "Serviço actualizado no Google Calendar."
+            );
+
+        }catch(erro){
+
+            evento.googleSyncStatus = "pendente";
+
+            editarEvento(
+                evento.id,
+                evento
+            );
+
+            console.error(
+                "Erro ao actualizar serviço no Google Calendar:",
+                erro
+            );
+
+            mostrarToast(
+                "Alteração guardada localmente. Sincronização pendente."
+            );
+
+        }
+
+    }else{
+
+        // Evento antigo sem associação ao Google
+        mostrarToast(
+            "Alteração guardada localmente. Evento não associado ao Google Calendar."
+        );
+
+    }
+
+    }else if(
+        evento.googleEventId ||
+        evento.googleSyncStatus === "pendente"
+    ){
+
+        evento.googleSyncStatus = "pendente";
+
+        editarEvento(
+            evento.id,
+            evento
+        );
+
+    }
+
     finalizarEdicao();
+
 
 }
 
