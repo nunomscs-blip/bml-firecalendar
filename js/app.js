@@ -1424,6 +1424,93 @@ function guardarEdicao(){
 
     };
 
+    const sobreposicoesBloqueadas = [];
+    const sobreposicoesAutorizadas = [];
+
+    // Analisar todos os eventos, excepto o próprio evento
+    for(const existente of EVENTOS){
+
+        if(existente.id === evento.id){
+            continue;
+        }
+
+        const resultado = validarSobreposicaoEntreEventos(
+            evento,
+            existente
+        );
+
+        if(!resultado.existe){
+            continue;
+        }
+
+        const tipoNovo = obterTipoEvento(evento.tipo);
+        const tipoExistente = obterTipoEvento(existente.tipo);
+
+        const nomeNovo = tipoNovo
+            ? tipoNovo.nome
+            : evento.tipo;
+
+        const nomeExistente = tipoExistente
+            ? tipoExistente.nome
+            : existente.tipo;
+
+        const detalhe = {
+            nomeNovo,
+            nomeExistente,
+            minutos: resultado.minutos,
+            eventoExistente: existente
+        };
+
+        if(resultado.autorizada){
+
+            sobreposicoesAutorizadas.push(detalhe);
+
+        }else{
+
+            sobreposicoesBloqueadas.push(detalhe);
+
+        }
+
+    }
+
+    // Bloquear sobreposições não autorizadas
+    if(sobreposicoesBloqueadas.length > 0){
+
+        const mensagem = sobreposicoesBloqueadas.map(item =>
+            `${item.nomeNovo} / ${item.nomeExistente} - ${item.minutos} minutos`
+        ).join("\n");
+
+        alert(
+            "Não é possível atualizar o evento.\n\n" +
+            "Foram detectadas sobreposições não autorizadas:\n\n" +
+            mensagem
+        );
+
+        return;
+
+    }
+
+    // Confirmar sobreposições autorizadas
+    if(sobreposicoesAutorizadas.length > 0){
+
+        const mensagem = sobreposicoesAutorizadas.map(item =>
+            `${item.nomeNovo} / ${item.nomeExistente}\n` +
+            `Sobreposição: ${item.minutos} minutos`
+        ).join("\n\n");
+
+        const confirmar = confirm(
+            "Foram detectadas sobreposições autorizadas:\n\n" +
+            mensagem +
+            "\n\nPretendes confirmar a atualização?"
+        );
+
+        if(!confirmar){
+            return;
+        }
+
+    }
+
+    // Gravar alterações
     editarEvento(
         evento.id,
         evento
