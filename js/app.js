@@ -844,6 +844,221 @@ function verificarConsistenciaEventos(){
 }
 
 
+/* ======================================================
+   VERIFICAÇÃO DOS METADADOS DE SOBREPOSIÇÃO OPTEL
+   Analisa as associações visuais sem alterar os registos.
+====================================================== */
+
+function verificarConsistenciaMetadadosOPTEL(){
+
+    const problemas = {
+        optelInexistente: [],
+        sobreposicaoNaoAutorizada: [],
+        semMarcacaoVisual: [],
+        multiplosOPTEL: [],
+        marcacaoIncorreta: [],
+        metadadosNoEventoErrado: []
+    };
+
+    // Registar todas as sobreposições OPTEL autorizadas
+    const associacoesEsperadas = new Map();
+
+    for(let i = 0; i < EVENTOS.length; i++){
+
+        const eventoA = EVENTOS[i];
+
+        for(let j = i + 1; j < EVENTOS.length; j++){
+
+            const eventoB = EVENTOS[j];
+
+            if(
+                eventoA.tipo !== "OPTEL" &&
+                eventoB.tipo !== "OPTEL"
+            ){
+                continue;
+            }
+
+            const resultado = validarSobreposicaoEntreEventos(
+                eventoA,
+                eventoB
+            );
+
+            if(!resultado.existe || !resultado.autorizada){
+                continue;
+            }
+
+            const eventoOPTEL = eventoA.tipo === "OPTEL"
+                ? eventoA
+                : eventoB;
+
+            const eventoServico = eventoA.tipo === "OPTEL"
+                ? eventoB
+                : eventoA;
+
+            if(!associacoesEsperadas.has(eventoServico.id)){
+                associacoesEsperadas.set(eventoServico.id, []);
+            }
+
+            associacoesEsperadas.get(eventoServico.id).push({
+                optelId: eventoOPTEL.id,
+                minutos: resultado.minutos
+            });
+
+        }
+    }
+
+    // Verificar as associações esperadas
+    for(const [eventoId, associacoes] of associacoesEsperadas){
+
+        const eventoServico = EVENTOS.find(
+            evento => evento.id === eventoId
+        );
+
+        const metadados = eventoServico.sobreposicaoOPTEL;
+
+        if(!metadados){
+
+            problemas.semMarcacaoVisual.push({
+                eventoId,
+                tipo: eventoServico.tipo,
+                turno: eventoServico.turno,
+                optelIds: associacoes.map(item => item.optelId)
+            });
+
+            continue;
+        }
+
+        if(associacoes.length > 1){
+
+            problemas.multiplosOPTEL.push({
+                eventoId,
+                tipo: eventoServico.tipo,
+                optelIds: associacoes.map(item => item.optelId),
+                optelIdRegistado: metadados.optelId
+            });
+
+        }
+
+        const associacaoRegistada = associacoes.some(
+            item => item.optelId === metadados.optelId
+        );
+
+        if(!associacaoRegistada){
+
+            problemas.sobreposicaoNaoAutorizada.push({
+                eventoId,
+                optelIdRegistado: metadados.optelId,
+                optelIdsEsperados: associacoes.map(item => item.optelId)
+            });
+
+        }
+
+        const inicioEsperado = eventoServico.turno === "D";
+        const fimEsperado = eventoServico.turno === "N";
+
+        if(
+            (inicioEsperado && metadados.inicio !== true) ||
+            (fimEsperado && metadados.fim !== true) ||
+            (inicioEsperado && metadados.fim === true) ||
+            (fimEsperado && metadados.inicio === true)
+        ){
+
+            problemas.marcacaoIncorreta.push({
+                eventoId,
+                turno: eventoServico.turno,
+                metadados
+            });
+
+        }
+
+    }
+
+    // Verificar todos os metadados actualmente guardados
+    for(const evento of EVENTOS){
+
+        const metadados = evento.sobreposicaoOPTEL;
+
+        if(!metadados){
+            continue;
+        }
+
+        if(evento.tipo === "OPTEL"){
+
+            problemas.metadadosNoEventoErrado.push({
+                eventoId: evento.id,
+                tipo: evento.tipo
+            });
+
+            continue;
+        }
+
+        const eventoOPTEL = EVENTOS.find(
+            item => item.id === metadados.optelId
+        );
+
+        if(!eventoOPTEL || eventoOPTEL.tipo !== "OPTEL"){
+
+            problemas.optelInexistente.push({
+                eventoId: evento.id,
+                optelId: metadados.optelId
+            });
+
+            continue;
+        }
+
+        const resultado = validarSobreposicaoEntreEventos(
+            evento,
+            eventoOPTEL
+        );
+
+        if(!resultado.existe || !resultado.autorizada){
+
+            problemas.sobreposicaoNaoAutorizada.push({
+                eventoId: evento.id,
+                optelId: eventoOPTEL.id,
+                existeSobreposicao: resultado.existe,
+                autorizada: resultado.autorizada
+            });
+
+        }
+
+    }
+
+    const totalProblemas = Object.values(problemas)
+        .reduce((total, lista) => total + lista.length, 0);
+
+    console.group("Verificação dos metadados OPTEL");
+
+    console.log("Eventos analisados:", EVENTOS.length);
+
+    console.log("Total de problemas:", totalProblemas);
+
+    for(const [categoria, lista] of Object.entries(problemas)){
+
+        console.log(
+            `${categoria}: ${lista.length}`,
+            lista
+        );
+
+    }
+
+    if(totalProblemas === 0){
+
+        console.log("Não foram detectadas inconsistências nos metadados OPTEL.");
+
+    }else{
+
+        console.warn("Foram detectadas inconsistências nos metadados OPTEL.");
+
+    }
+
+    console.groupEnd();
+
+    return problemas;
+
+}
+
+
 function guardarEvento(){
 
     if(estado.modal.modo === "editar"){
@@ -1586,6 +1801,9 @@ function iniciarAplicacao() {
 
     // Verificar consistência dos eventos carregados
     verificarConsistenciaEventos();
+
+    // Verificar consistência dos metadados OPTEL
+    verificarConsistenciaMetadadosOPTEL();
 
     preencherTiposEvento();
 
