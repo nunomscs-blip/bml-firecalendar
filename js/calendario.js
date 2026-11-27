@@ -68,6 +68,35 @@ function obterNomeMes(mes){
 }
 
 
+/* ======================================================
+   VERIFICA SE UM EVENTO OCORRE NUM DETERMINADO DIA
+   Compatível com eventos individuais e eventos antigos
+   com vários dias.
+====================================================== */
+
+function eventoOcorreNoDia(evento, ano, mes, dia){
+
+    if(
+        evento.ano !== ano ||
+        evento.mes !== mes
+    ){
+        return false;
+    }
+
+    // Formato individual
+    if(Number.isInteger(evento.dia)){
+        return evento.dia === dia;
+    }
+
+    // Formato antigo com vários dias
+    if(Array.isArray(evento.dias)){
+        return evento.dias.includes(dia);
+    }
+
+    return false;
+}
+
+
 // =======================================================
 // DESENHA O CALENDÁRIO
 // =======================================================
@@ -147,10 +176,13 @@ function mostrarCalendario(){
 
     const classe = obterClasseDia(i);
 
-    const eventos = EVENTOS.filter(e =>
-    e.ano === calendarioAtual.ano &&
-    e.mes === calendarioAtual.mes &&
-    e.dia === i
+   const eventos = EVENTOS.filter(evento =>
+    eventoOcorreNoDia(
+        evento,
+        calendarioAtual.ano,
+        calendarioAtual.mes,
+        i
+    )
     );
 
 
@@ -346,11 +378,13 @@ function selecionarDia(event){
     // MODO VISUALIZAÇÃO
     // ==================================================
 
-    const eventos = EVENTOS.filter(e =>
-
-        e.ano === calendarioAtual.ano &&
-        e.mes === calendarioAtual.mes &&
-        e.dia === dia
+   const eventos = EVENTOS.filter(evento =>
+    eventoOcorreNoDia(
+        evento,
+        calendarioAtual.ano,
+        calendarioAtual.mes,
+        dia
+    )
 
     );
 
@@ -371,10 +405,12 @@ function abrirEventosDia(dia){
     console.log("1 - abrirEventosDia");
 
     const eventosDia = EVENTOS.filter(evento =>
-
-        evento.ano === calendarioAtual.ano &&
-        evento.mes === calendarioAtual.mes &&
-        evento.dia === dia
+    eventoOcorreNoDia(
+        evento,
+        calendarioAtual.ano,
+        calendarioAtual.mes,
+        dia
+    )
 
     );
 
@@ -465,11 +501,13 @@ function executarLongPress(elemento){
 
     const dia = Number(elemento.dataset.dia);
 
-    const eventosDia = EVENTOS.filter(evento =>
-
-        evento.ano === calendarioAtual.ano &&
-        evento.mes === calendarioAtual.mes &&
-        evento.dia === dia
+   const eventosDia = EVENTOS.filter(evento =>
+    eventoOcorreNoDia(
+        evento,
+        calendarioAtual.ano,
+        calendarioAtual.mes,
+        dia
+    )
 
     );
 
