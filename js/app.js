@@ -536,10 +536,34 @@ function converterHorarioEmMinutos(horario){
 }
 
 
-// Obtém o intervalo do evento dentro do próprio dia
-// Obtém o intervalo real do evento,
-// considerando a data e a passagem da meia-noite.
-function obterIntervaloEvento(evento){
+
+/* ======================================================
+   OBTÉM OS DIAS DE UM EVENTO
+   Compatível com eventos individuais e antigos.
+====================================================== */
+
+function obterDiasEvento(evento){
+
+    if(Number.isInteger(evento.dia)){
+        return [evento.dia];
+    }
+
+    if(Array.isArray(evento.dias)){
+        return evento.dias.filter(dia =>
+            Number.isInteger(dia)
+        );
+    }
+
+    return [];
+}
+
+
+/* ======================================================
+   OBTÉM O INTERVALO REAL DE UM EVENTO
+   Considera a passagem da meia-noite.
+====================================================== */
+
+function obterIntervaloEvento(evento, diaEvento){
 
     const tipo = obterTipoEvento(evento.tipo);
 
@@ -565,7 +589,7 @@ function obterIntervaloEvento(evento){
     const inicio = new Date(
         evento.ano,
         evento.mes - 1,
-        evento.dia,
+        diaEvento,
         Math.floor(inicioMinutos / 60),
         inicioMinutos % 60
     );
@@ -573,12 +597,11 @@ function obterIntervaloEvento(evento){
     const fim = new Date(
         evento.ano,
         evento.mes - 1,
-        evento.dia,
+        diaEvento,
         Math.floor(fimMinutos / 60),
         fimMinutos % 60
     );
 
-    // Se o turno termina no dia seguinte
     if(fim <= inicio){
         fim.setDate(fim.getDate() + 1);
     }
@@ -588,42 +611,61 @@ function obterIntervaloEvento(evento){
         fim: fim.getTime(),
         tipo: evento.tipo
     };
-
 }
 
-// Calcula a sobreposição real entre dois eventos
+
+/* ======================================================
+   CALCULA A SOBREPOSIÇÃO REAL ENTRE DOIS EVENTOS
+   Analisa todos os dias associados a cada evento.
+====================================================== */
+
 function calcularSobreposicao(eventoA, eventoB){
 
-    const intervaloA = obterIntervaloEvento(eventoA);
-    const intervaloB = obterIntervaloEvento(eventoB);
+    const diasA = obterDiasEvento(eventoA);
+    const diasB = obterDiasEvento(eventoB);
 
-    if(!intervaloA || !intervaloB){
-        return null;
+    for(const diaA of diasA){
+
+        const intervaloA = obterIntervaloEvento(eventoA, diaA);
+
+        if(!intervaloA){
+            continue;
+        }
+
+        for(const diaB of diasB){
+
+            const intervaloB = obterIntervaloEvento(eventoB, diaB);
+
+            if(!intervaloB){
+                continue;
+            }
+
+            const inicio = Math.max(
+                intervaloA.inicio,
+                intervaloB.inicio
+            );
+
+            const fim = Math.min(
+                intervaloA.fim,
+                intervaloB.fim
+            );
+
+            if(fim > inicio){
+
+                return {
+                    inicio,
+                    fim,
+                    minutos: (fim - inicio) / 60000,
+                    intervaloA,
+                    intervaloB
+                };
+            }
+        }
     }
 
-    const inicio = Math.max(
-        intervaloA.inicio,
-        intervaloB.inicio
-    );
-
-    const fim = Math.min(
-        intervaloA.fim,
-        intervaloB.fim
-    );
-
-    if(fim <= inicio){
-        return null;
-    }
-
-    return {
-        inicio,
-        fim,
-        minutos: (fim - inicio) / 60000,
-        intervaloA,
-        intervaloB
-    };
-
+    return null;
 }
+
 
 
 // Identifica se a sobreposição ocorre
@@ -1133,17 +1175,23 @@ function guardarNovoEvento(){
     // Procurar eventos nos três dias
     const eventosExistentes = EVENTOS.filter(evento => {
 
-    const dataExistente = new Date(
-        evento.ano,
-        evento.mes - 1,
-        evento.dia
-    );
+        const diasExistentes = obterDiasEvento(evento);
 
-    return datasAComparar.has(
-        dataExistente.toDateString()
-    );
+            return diasExistentes.some(diaExistente => {
 
-    });
+                const dataExistente = new Date(
+                    evento.ano,
+                    evento.mes - 1,
+                    diaExistente
+                );
+
+                return datasAComparar.has(
+                    dataExistente.toDateString()
+                );
+
+            });
+
+        });
 
 
         for(const eventoExistente of eventosExistentes){
