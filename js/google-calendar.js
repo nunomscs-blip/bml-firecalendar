@@ -506,6 +506,88 @@ async function eliminarEventoTesteGoogleCalendar(){
 
 }
 
+// ======================================================
+// SINCRONIZAR SERVIÇOS PENDENTES
+// ======================================================
+
+async function sincronizarEventosPendentesGoogleCalendar(){
+
+    const eventosPendentes = EVENTOS.filter(
+        evento => evento.googleSyncStatus === "pendente"
+    );
+
+    const resultado = {
+        total: eventosPendentes.length,
+        sincronizados: 0,
+        falhados: 0
+    };
+
+    for(const evento of eventosPendentes){
+
+        try{
+
+            let resultadoGoogle;
+
+            // Evento já associado ao Google: actualizar
+            if(evento.googleEventId){
+
+                resultadoGoogle =
+                    await atualizarEventoGoogleCalendar(
+                        evento.googleEventId,
+                        evento
+                    );
+
+            }else{
+
+                // Evento ainda sem associação: criar
+                resultadoGoogle =
+                    await inserirEventoGoogleCalendar(
+                        evento,
+                        false
+                    );
+
+                evento.googleEventId = resultadoGoogle.id;
+
+            }
+
+            // Actualizar os dados locais
+            evento.googleEventLink =
+                resultadoGoogle.htmlLink ||
+                evento.googleEventLink ||
+                "";
+
+            evento.googleSyncStatus = "sincronizado";
+
+            editarEvento(
+                evento.id,
+                evento
+            );
+
+            resultado.sincronizados++;
+
+            console.log(
+                "Serviço pendente sincronizado:",
+                evento.id,
+                evento.googleEventId
+            );
+
+        }catch(erro){
+
+            resultado.falhados++;
+
+            console.error(
+                "Falha na sincronização do serviço:",
+                evento.id,
+                erro
+            );
+
+        }
+
+    }
+
+    return resultado;
+
+}
 
 // ======================================================
 // LIGAR GOOGLE CALENDAR
@@ -522,7 +604,6 @@ async function ligarGoogleCalendar(){
         if(botao){
 
             botao.disabled = true;
-
             botao.textContent = "A ligar...";
 
         }
@@ -546,11 +627,6 @@ async function ligarGoogleCalendar(){
             dados.summary
         );
 
-        console.log(
-            "Eventos consultados:",
-            dados.items?.length ?? 0
-        );
-
         window.bmlGoogleCalendarLigado = true;
 
         if(botao){
@@ -559,9 +635,34 @@ async function ligarGoogleCalendar(){
 
         }
 
-        mostrarToast(
-            "Google Calendar ligado com sucesso."
+        // Sincronizar serviços pendentes
+        const resultado =
+            await sincronizarEventosPendentesGoogleCalendar();
+
+        console.log(
+            "Resultado da sincronização:",
+            resultado
         );
+
+        if(resultado.total === 0){
+
+            mostrarToast(
+                "Google Calendar ligado. Não existem serviços pendentes."
+            );
+
+        }else if(resultado.falhados === 0){
+
+            mostrarToast(
+                `${resultado.sincronizados} serviço(s) pendente(s) sincronizado(s).`
+            );
+
+        }else{
+
+            mostrarToast(
+                `${resultado.sincronizados} sincronizado(s). ${resultado.falhados} continuam pendentes.`
+            );
+
+        }
 
         return true;
 
