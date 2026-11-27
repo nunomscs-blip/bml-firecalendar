@@ -1837,14 +1837,15 @@ function confirmarEliminar(){
 
     const evento = estado.modalEliminar.evento;
 
-    // Impede a eliminação de eventos cujo turno já terminou
+    // Solicitar autorização para eliminar eventos bloqueados
     if(eventoEstaBloqueado(evento)){
 
-        alert(
-            "Este evento já terminou e encontra-se bloqueado para eliminação."
-        );
+        const autorizado =
+            solicitarAutorizacaoEventoBloqueado("eliminação");
 
-        return;
+        if(!autorizado){
+            return;
+        }
     }
 
     const idEvento = evento.id;
