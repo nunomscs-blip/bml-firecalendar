@@ -648,6 +648,36 @@ function eventoEstaBloqueado(evento, agora = new Date()){
 }
 
 /* ======================================================
+   AUTORIZAÇÃO EXCECIONAL DE EVENTOS BLOQUEADOS
+====================================================== */
+
+const PIN_AUTORIZACAO_EVENTOS = "1234";
+
+function solicitarAutorizacaoEventoBloqueado(acao){
+
+    const pin = prompt(
+        `Este evento está bloqueado.\n\n` +
+        `Introduz o PIN para autorizar a ${acao}:`
+    );
+
+    // O utilizador cancelou
+    if(pin === null){
+        return false;
+    }
+
+    // Validar PIN
+    if(pin !== PIN_AUTORIZACAO_EVENTOS){
+
+        alert("PIN incorreto. Operação não autorizada.");
+
+        return false;
+    }
+
+    return true;
+
+}
+
+/* ======================================================
    OBTÉM O INTERVALO REAL DE UM EVENTO
    Considera a passagem da meia-noite.
 ====================================================== */
@@ -1774,14 +1804,15 @@ function editarEventoModal(event){
         return;
     }
 
-    // Impede a edição de eventos cujo turno já terminou
+    // Solicitar autorização para eventos bloqueados
     if(eventoEstaBloqueado(evento)){
 
-        alert(
-            "Este evento já terminou e encontra-se bloqueado para edição."
-        );
+        const autorizado =
+            solicitarAutorizacaoEventoBloqueado("edição");
 
-        return;
+        if(!autorizado){
+            return;
+        }
     }
 
     // Guarda o estado do modal
