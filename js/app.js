@@ -1445,16 +1445,19 @@ async function guardarNovoEvento(){
     // Preparar todos os eventos antes de gravar
     const eventosNovos = estado.diasSelecionados.map(dia => ({
 
-        id: crypto.randomUUID(),
+    id: crypto.randomUUID(),
 
-        tipo: tipoId,
-        turno: turnoId,
+    tipo: tipoId,
+    turno: turnoId,
 
-        ano: calendarioAtual.ano,
-        mes: calendarioAtual.mes,
-        dia: dia,
+    ano: calendarioAtual.ano,
+    mes: calendarioAtual.mes,
+    dia: dia,
 
-        observacoes: observacoes
+    observacoes: observacoes,
+
+    // Criar sempre com estado pendente
+    googleSyncStatus: "pendente"
 
     }));
 
