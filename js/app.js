@@ -1948,6 +1948,153 @@ function fecharTiposEvento(){
 }
 
 /* ======================================================
+   PAINEL TURNOS
+   Consulta dos horários e serviços associados.
+====================================================== */
+
+const btnTurnos =
+    document.getElementById("btnTurnos");
+
+btnTurnos.addEventListener(
+    "click",
+    abrirTurnos
+);
+
+const btnFecharTurnos =
+    document.getElementById("btnFecharTurnos");
+
+btnFecharTurnos.addEventListener(
+    "click",
+    fecharTurnos
+);
+
+const btnFecharTurnosRodape =
+    document.getElementById("btnFecharTurnosRodape");
+
+btnFecharTurnosRodape.addEventListener(
+    "click",
+    fecharTurnos
+);
+
+
+function abrirTurnos(){
+
+    fecharConfiguracao();
+
+    atualizarListaTurnosServicos();
+
+    Paineis.abrir("modalTurnos");
+
+}
+
+
+function fecharTurnos(){
+
+    Paineis.fechar("modalTurnos");
+
+}
+
+
+function atualizarListaTurnosServicos(){
+
+    const lista = document.getElementById(
+        "listaTurnosServicos"
+    );
+
+    lista.innerHTML = "";
+
+    const turnosAgrupados = new Map();
+
+    // Obter os turnos dos serviços activos
+    TIPOS_EVENTO
+        .filter(tipo =>
+            tipo.ativo &&
+            tipo.usaTurnos &&
+            tipo.turnos
+        )
+        .forEach(tipo => {
+
+            Object.values(tipo.turnos).forEach(turno => {
+
+                if(
+                    !turno ||
+                    !turno.nome ||
+                    !turno.inicio ||
+                    !turno.fim
+                ){
+                    return;
+                }
+
+                const chave =
+                    `${turno.nome}|${turno.inicio}|${turno.fim}`;
+
+                if(!turnosAgrupados.has(chave)){
+
+                    turnosAgrupados.set(chave, {
+                        nome: turno.nome,
+                        inicio: turno.inicio,
+                        fim: turno.fim,
+                        servicos: []
+                    });
+
+                }
+
+                turnosAgrupados
+                    .get(chave)
+                    .servicos
+                    .push(tipo.nome);
+
+            });
+
+        });
+
+    // Ordenar pelos horários de início
+    const turnos = [...turnosAgrupados.values()]
+        .sort((a, b) =>
+            a.inicio.localeCompare(b.inicio)
+        );
+
+    if(turnos.length === 0){
+
+        lista.textContent =
+            "Não existem turnos configurados.";
+
+        return;
+
+    }
+
+    // Apresentar os turnos
+    turnos.forEach(turno => {
+
+        const cartao = document.createElement("div");
+
+        cartao.className = "cartaoTipoEvento";
+
+        const titulo = document.createElement("div");
+
+        titulo.className = "nomeTipo";
+
+        titulo.textContent =
+            `${turno.nome} (${turno.inicio} - ${turno.fim})`;
+
+        const servicos = document.createElement("div");
+
+        servicos.className = "detalhesTipo";
+
+        servicos.textContent =
+            `Serviços: ${turno.servicos.join(", ")}`;
+
+        cartao.appendChild(titulo);
+
+        cartao.appendChild(servicos);
+
+        lista.appendChild(cartao);
+
+    });
+
+}
+
+/* ======================================================
    BACKUP / RESTAURO
 ====================================================== */
 
