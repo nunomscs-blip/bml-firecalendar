@@ -1434,7 +1434,7 @@ function descarregarICS(evento){
 }
 
 
-function guardarNovoEvento(){
+async function guardarNovoEvento(){
 
     const tipoId = document.getElementById("tipoEvento").value;
     const turnoId = document.getElementById("turnoEvento").value;
@@ -1545,10 +1545,10 @@ function guardarNovoEvento(){
     minutos: resultado.minutos,
     posicao: resultado.posicao
 
-};
+    };
 
 
-if(resultado.autorizada){
+    if(resultado.autorizada){
 
     sobreposicoesAutorizadas.push(detalhe);
 
@@ -1576,7 +1576,7 @@ if(resultado.autorizada){
         // A posição é sempre calculada relativamente
         // ao serviço que está a ser sobreposto
                 
-{
+    {
     const registo = registosSobreposicao.get(
         eventoServico.id
     ) || {
@@ -1599,7 +1599,7 @@ if(resultado.autorizada){
         eventoServico.id,
         registo
     );
-}
+    }
 
 
     }
@@ -1727,17 +1727,69 @@ if(resultado.autorizada){
     }
 
 
-    // Gerar automaticamente um ICS por serviço
+    // ======================================================
+    // SINCRONIZAR NOVOS SERVIÇOS COM GOOGLE CALENDAR
+    // ======================================================
+
+    let totalSincronizados = 0;
+    let totalPendentes = 0;
+
     for(const evento of eventosNovos){
+
+        // Sem ligação Google, manter o serviço local
+        if(!window.bmlGoogleCalendarLigado){
+
+            evento.googleSyncStatus = "pendente";
+
+            editarEvento(evento.id, evento);
+
+            totalPendentes++;
+
+            continue;
+
+        }
 
         try{
 
-            descarregarICS(evento);
+            // Criar o evento no Google Calendar
+            const resultadoGoogle =
+                await inserirEventoGoogleCalendar(evento, false);
+
+            // Guardar a associação no registo local
+            evento.googleEventId = resultadoGoogle.id;
+
+            evento.googleEventLink =
+                resultadoGoogle.htmlLink || "";
+
+            evento.googleSyncStatus = "sincronizado";
+
+            editarEvento(
+                evento.id,
+                evento
+            );
+
+            totalSincronizados++;
+
+            console.log(
+                "Serviço sincronizado:",
+                evento.id,
+                resultadoGoogle.id
+            );
 
         }catch(erro){
 
+            // O serviço permanece guardado localmente
+            evento.googleSyncStatus = "pendente";
+
+            editarEvento(
+                evento.id,
+                evento
+            );
+
+            totalPendentes++;
+
             console.error(
-                "Erro ao gerar o ficheiro ICS:",
+                "Erro ao sincronizar serviço:",
                 evento.id,
                 erro
             );
@@ -1746,6 +1798,21 @@ if(resultado.autorizada){
 
     }
 
+    if(totalSincronizados > 0){
+
+        mostrarToast(
+            `${totalSincronizados} serviço(s) sincronizado(s) com Google Calendar.`
+        );
+
+    }
+
+    if(totalPendentes > 0){
+
+        mostrarToast(
+            `${totalPendentes} serviço(s) guardado(s) localmente, pendente(s) de sincronização.`
+        );
+
+    }
 
 
 
